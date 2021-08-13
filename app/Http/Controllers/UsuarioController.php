@@ -150,7 +150,7 @@ class UsuarioController extends Controller
         $usuario = User::select('*')->where('id_persona', '=', $persona->id_persona)->first();
 
         if($persona == null || $usuario == null) return redirect()->route('listar_usuarios')->withErrors('No se encontro la persona');
-        // HASTA ACA LLEGUE EL DIA DE HOY
+        
         try {
             DB::beginTransaction();
 

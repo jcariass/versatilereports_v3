@@ -15,13 +15,13 @@
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="content-header-left col-md-6 col-12 mb-2">
-                <h3 class="content-header-title mb-0">Gestión de usuarios</h3>
+                <h3 class="content-header-title mb-0">Gestión de formularios</h3>
                 <div class="row breadcrumbs-top">
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item active">Lista de usuarios
+                            <li class="breadcrumb-item active">Lista de formularios
                             </li>
                         </ol>
                     </div>
@@ -34,12 +34,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Lista de usuarios</h4>
+                            <h4 class="card-title">Lista de formularios</h4>
                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">
                                     <li>
-                                        <a href="{{ route('crear_usuario') }}" class="btn btn-versatile_reports">
+                                        <a href="{{ route('crear_formularios') }}" class="btn btn-versatile_reports">
                                             <i class="ft-plus-square"></i> Nuevo
                                         </a>
                                     </li>
@@ -62,14 +62,11 @@
                                     </div>
                                 @endif
                                 <div class="table-responsive">
-                                    <table id="usuarios" style="width: 100%;" class="table table-bordered table-hover">
+                                    <table id="formulario" style="width: 100%;" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Tipo documento</th>
-                                                <th>Documento</th>
-                                                <th>Correo</th>
-                                                <th>Rol</th>
-                                                <th>Estado</th>
+                                                <th>#</th>
+                                                <th>Nombre</th>
                                                 <th>Opciones</th>
                                             </tr>
                                         </thead>
@@ -92,16 +89,13 @@
         //     alert("id: "+id+"\nestado: "+estado);
         // }
 
-        $('#usuarios').DataTable({
+        $('#formulario').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/usuarios/listar',
+            ajax: '/formularios/listar',
             columns: [
-                {data: 'tipo_documento', name: 'tipo_documento'},
-                {data: 'documento', name: 'documento'},
-                {data: 'email', name: 'email'},
-                {data: 'nombre_rol', name: 'nombre_rol'},
-                {data: 'estado', name: 'estado'},
+                {data: 'id_formulario', name: 'id_formulario'},
+                {data: 'nombre', name: 'nombre'},
                 {data: 'Opciones', name: 'Opciones'}
             ],
             language : {

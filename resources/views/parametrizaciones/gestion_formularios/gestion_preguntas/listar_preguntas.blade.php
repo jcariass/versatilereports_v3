@@ -15,13 +15,13 @@
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="content-header-left col-md-6 col-12 mb-2">
-                <h3 class="content-header-title mb-0">Gestión de usuarios</h3>
+                <h3 class="content-header-title mb-0">Gestión de formularios - Gestión de preguntas</h3>
                 <div class="row breadcrumbs-top">
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item active">Lista de usuarios
+                            <li class="breadcrumb-item active">Lista de preguntas
                             </li>
                         </ol>
                     </div>
@@ -34,13 +34,13 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Lista de usuarios</h4>
+                            <h4 class="card-title">{{ $formulario->nombre }} - Lista de preguntas</h4>
                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">
                                     <li>
-                                        <a href="{{ route('crear_usuario') }}" class="btn btn-versatile_reports">
-                                            <i class="ft-plus-square"></i> Nuevo
+                                        <a href="{{ route('añadir_preguntas', ['id' => $formulario->id_formulario]) }}" class="btn btn-versatile_reports">
+                                            <i class="ft-plus-square"></i> Añadir preguntas
                                         </a>
                                     </li>
                                     <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
@@ -62,14 +62,12 @@
                                     </div>
                                 @endif
                                 <div class="table-responsive">
-                                    <table id="usuarios" style="width: 100%;" class="table table-bordered table-hover">
+                                    <table id="preguntas" style="width: 100%;" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Tipo documento</th>
-                                                <th>Documento</th>
-                                                <th>Correo</th>
-                                                <th>Rol</th>
-                                                <th>Estado</th>
+                                                <th>#</th>
+                                                <th>Pregunta actividad</th>
+                                                <th>Pregunta evidencia</th>
                                                 <th>Opciones</th>
                                             </tr>
                                         </thead>
@@ -91,17 +89,15 @@
         // function cambiar_estado(id, estado){
         //     alert("id: "+id+"\nestado: "+estado);
         // }
-
-        $('#usuarios').DataTable({
+        let id_formulario = {{ $formulario->id_formulario }}
+        $('#preguntas').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/usuarios/listar',
+            ajax: '/formularios/listar/preguntas/'+id_formulario,
             columns: [
-                {data: 'tipo_documento', name: 'tipo_documento'},
-                {data: 'documento', name: 'documento'},
-                {data: 'email', name: 'email'},
-                {data: 'nombre_rol', name: 'nombre_rol'},
-                {data: 'estado', name: 'estado'},
+                {data: 'id_pregunta', name: 'id_pregunta'},
+                {data: 'pregunta_actividad', name: 'pregunta_actividad'},
+                {data: 'pregunta_evidencia', name: 'pregunta_evidencia'},
                 {data: 'Opciones', name: 'Opciones'}
             ],
             language : {

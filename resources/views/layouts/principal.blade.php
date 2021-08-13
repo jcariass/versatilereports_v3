@@ -53,6 +53,8 @@
     {{-- <link rel="stylesheet" href="{{ asset('datatable/css/bootstrap.min.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('datatable/css/datatables.min.css') }}">
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     @yield('style') {{-- Incluir estilos especiales de alguna pagina --}}
 
 </head>
@@ -68,15 +70,8 @@
 
     <!-- BEGIN: Main Menu-->
 
-    @if (Auth::check())
-        @if(Auth::user()->id_rol == 1) 
-            @include('layouts.plantilla.sidebar_administrador')
-        @elseif(Auth::user()->id_rol == 2) 
-            @include('layouts.plantilla.sidebar_supervisor')
-        @elseif(Auth::user()->id_rol == 3)
-            @include('layouts.plantilla.sidebar_contratista')
-        @endif
-    @endif
+    @include('layouts.plantilla.sidebar')
+
     <!-- END: Main Menu-->
 
     <!-- BEGIN: Content-->
@@ -109,9 +104,26 @@
 
     <script src="{{ asset('jquery_validate/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('jquery_validate/additional-methods.min.js') }}"></script>
-
+    
     @yield('javascript') {{-- Incluir javascript especiales de alguna pagina --}}
+    
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            $('select').select2({    
+                language: {
+                    noResults: function() {
+                        return "No hay resultados";        
+                    },
+                    searching: function() {
+                        return "Buscando..";
+                    }
+                }
+            });
+
+        });
+    </script>
 </body>
 <!-- END: Body-->
 
