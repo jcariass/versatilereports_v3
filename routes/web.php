@@ -61,6 +61,9 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::get('/formularios/preguntas/{id}', [PreguntaController::class, 'view_list'])->name('preguntas_formulario');
     Route::get('/formularios/listar/preguntas/{id}', [PreguntaController::class, 'list']);
     Route::get('/formularios/crear/preguntas/{id}', [PreguntaController::class, 'view_store'])->name('añadir_preguntas');
+    Route::get('/formularios/editar/pregunta/{id}', [PreguntaController::class,'view_edit'])->name('editar_pregunta');
+    Route::put('/formularios/actualizar/pregunta', [PreguntaController::class, 'update'])->name('actualizar_pregunta');
+    Route::get('/formularios/eliminar/pregunta/{id_pregunta}/{id_formulario}', [PreguntaController::class,'state_update'])->name('eliminar_pregunta');
     Route::post('/formularios/registrar/preguntas', [PreguntaController::class, 'save'])->name('registrar_preguntas');
     /* Fin rutas gestión de formularios */
 

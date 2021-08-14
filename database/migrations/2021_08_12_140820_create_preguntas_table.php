@@ -18,6 +18,7 @@ class CreatePreguntasTable extends Migration
             $table->id('id_pregunta');
             $table->string('pregunta_actividad', 200);
             $table->string('pregunta_evidencia', 200);
+            $table->boolean('estado')->default(1);
             $table->timestamps();
         });
 

@@ -61,6 +61,9 @@ class CreatePermisosTable extends Migration
             [   'nombre' => 'Listar preguntas de un formulario',   'url' => '/formularios/listar/preguntas/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Ver formulario de crear preguntas de un formulario',   'url' => '/formularios/crear/preguntas/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Crear preguntas a un formulario',   'url' => '/formularios/registrar/preguntas', 'method' => 'POST',  'url_identica' => 1],
+            [   'nombre' => 'Ver formulario de editar preguntas a un formulario',   'url' => '/formularios/editar/pregunta/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Actualizar preguntas a un formulario',   'url' => '/formularios/actualizar/pregunta', 'method' => 'PUT',  'url_identica' => 1],
+            [   'nombre' => 'Eliminar preguntas a un formulario',   'url' => '/formularios/eliminar/pregunta/', 'method' => 'GET',  'url_identica' => 0],
             //Fin rutas gestión de formularios
         ]);
     }

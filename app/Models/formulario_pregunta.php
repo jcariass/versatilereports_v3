@@ -13,7 +13,7 @@ class formulario_pregunta extends Model
     
     protected $primaryKey = "id_formulario_pregunta";
 
-    protected $fillable = [ 'id_pregunta', 'id_formulario' ];
+    protected $fillable = [ 'id_obligacion', 'id_pregunta', 'id_formulario' ];
 
     public $timestamps = false;
     

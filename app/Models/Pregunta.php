@@ -11,6 +11,6 @@ class Pregunta extends Model
 
     protected $primaryKey = "id_pregunta";
 
-    protected $fillable = [ 'pregunta_evidencia', 'pregunta_actividad' ];
+    protected $fillable = [ 'pregunta_evidencia', 'pregunta_actividad', 'estado' ];
     
 }

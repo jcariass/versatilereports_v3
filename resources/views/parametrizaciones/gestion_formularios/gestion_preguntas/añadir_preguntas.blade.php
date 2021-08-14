@@ -83,7 +83,8 @@
                                     <table style="width: 100%;" class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Id obligacion</th>
+                                                {{-- <th>Id obligacion</th> --}}
+                                                <th>#</th>
                                                 <th>Pregunta actividad</th>
                                                 <th>Pregunta evidencia</th>
                                                 <th>Opción</th>
@@ -118,18 +119,19 @@
 @section('javascript')
     <script>
         let contador = 0;
-        let informacion = []
+        let informacion = [];
         function agregar_pregunta(){
             let id_obligacion = $('#id_obligacion option:selected').val();
             let pregunta_actividad = $('#pregunta_actividad').val();
             let pregunta_evidencia = $('#pregunta_evidencia').val();
-            informacion.push([id_obligacion, pregunta_actividad, pregunta_evidencia]);
+            informacion.push([id_obligacion + ',/,.-_-,,-#p?' + pregunta_actividad + ',/,.-_-,,-#p?' + pregunta_evidencia]);
             contador = contador + 1;
 
+            // <td>${id_obligacion}</td>
             $('#preguntas_ingresadas').append(`
-                <tr id="tr-${contador}">
-                    <input type="hidden" name="informacion[]" value="${informacion[contador-1]}">
-                    <td>${id_obligacion}</td>
+            <tr id="tr-${contador}">
+                <input type="hidden" name="informacion[]" value="${informacion[contador-1]}">
+                    <td>${contador}</td>
                     <td>${pregunta_actividad}</td>
                     <td>${pregunta_evidencia}</td>
                     <td>
@@ -145,7 +147,6 @@
         function eliminar_pregunta(contador){
             informacion.splice(contador-1, 1);
             $('#tr-'+contador).remove();
-            console.log(informacion);
         }
     </script>
 @endsection
