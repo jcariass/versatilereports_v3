@@ -31,13 +31,13 @@ class CreateMenuTable extends Migration
             [   'nombre' => 'Gestión de Requerimientos', 'icono' => 'la la-database', 'url' => '#' ,'padre' => 'No'    ],
             [   'nombre' => 'Parametrizaciones', 'icono' => 'mbri-extension', 'url' => '#' ,'padre' => 'Si'    ],
             [   'nombre' => 'Gestión de Roles', 'icono' => 'la la-cogs', 'url' => '/roles' ,'padre' => '6'    ],
-            [   'nombre' => 'Objetos de Contrato', 'icono' => 'la la-cogs', 'url' => '#' ,'padre' => '6'    ],
-            [   'nombre' => 'Gestión de Proceso', 'icono' => 'la la-cogs', 'url' => '#' ,'padre' => '6'    ],
-            [   'nombre' => 'Gestión de Obligaciones', 'icono' => 'la la-cogs', 'url' => '#' ,'padre' => '6'    ],
+            [   'nombre' => 'Gestión de Objetos de Contrato', 'icono' => 'la la-cogs', 'url' => '/objetos/contratos' ,'padre' => '6'    ],
+            [   'nombre' => 'Gestión de Proceso', 'icono' => 'la la-cogs', 'url' => '/procesos' ,'padre' => '6'    ],
+            [   'nombre' => 'Gestión de Obligaciones', 'icono' => 'la la-cogs', 'url' => '/obligaciones' ,'padre' => '6'    ],
             [   'nombre' => 'Gestión de Formularios', 'icono' => 'la la-cogs', 'url' => '/formularios' ,'padre' => '6'    ],
-            [   'nombre' => 'Gestión de Centros', 'icono' => 'la la-cogs', 'url' => '#' ,'padre' => '6'    ],
-            [   'nombre' => 'Gestión de supervisores', 'icono' => 'la la-cogs', 'url' => '#' ,'padre' => '6'    ],
-            [   'nombre' => 'Gestión de plantillas y parrafos', 'icono' => 'la la-cogs', 'url' => '#' ,'padre' => '6'    ],
+            [   'nombre' => 'Gestión de Centros', 'icono' => 'la la-cogs', 'url' => '/centros' ,'padre' => '6'    ],
+            [   'nombre' => 'Gestión de Supervisores', 'icono' => 'la la-cogs', 'url' => '/supervisores' ,'padre' => '6'    ],
+            [   'nombre' => 'Gestión de plantillas y parrafos', 'icono' => 'la la-cogs', 'url' => '/plantillas' ,'padre' => '6'    ],
         ]);
     }
 

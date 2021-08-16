@@ -53,7 +53,7 @@
     {{-- <link rel="stylesheet" href="{{ asset('datatable/css/bootstrap.min.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('datatable/css/datatables.min.css') }}">
 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="{{ asset('select2/select2.min.css') }}" rel="stylesheet" />
 
     @yield('style') {{-- Incluir estilos especiales de alguna pagina --}}
 
@@ -102,12 +102,12 @@
 
     <script src="{{ asset('datatable/js/datatables.min.js') }}"></script>
 
-    <script src="{{ asset('jquery_validate/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('jquery_validate/additional-methods.min.js') }}"></script>
+    {{-- <script src="{{ asset('jquery_validate/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('jquery_validate/additional-methods.min.js') }}"></script> --}}
     
     @yield('javascript') {{-- Incluir javascript especiales de alguna pagina --}}
     
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('select2/select2.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {

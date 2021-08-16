@@ -35,7 +35,6 @@ class CreateMenuRolTable extends Migration
             [   'id_menu' => 12, 'id_rol' => 1   ],
             [   'id_menu' => 13, 'id_rol' => 1   ],
             [   'id_menu' => 14, 'id_rol' => 1   ],
-            [   'id_menu' => 1, 'id_rol' => 3   ],
         ]);
     }
 

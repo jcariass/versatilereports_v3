@@ -15,13 +15,15 @@
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="content-header-left col-md-6 col-12 mb-2">
-                <h3 class="content-header-title mb-0">Gestión de supervisores</h3>
+                <h3 class="content-header-title mb-0">Gestión de plantillas y párrafos</h3>
                 <div class="row breadcrumbs-top">
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item active">Lista de supervisores
+                            <li class="breadcrumb-item"><a href="{{ route('listar_plantillas') }}">Lista de plantillas</a>
+                            </li>
+                            <li class="breadcrumb-item active">Lista de parrafos
                             </li>
                         </ol>
                     </div>
@@ -34,10 +36,15 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Lista de supervisores</h4>
+                            <h4 class="card-title">Lista de parrafos</h4>
                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">
+                                    <li>
+                                        <a href="{{route('añadir_parrafos', ['id' => $plantilla->id_plantilla ]) }}" class="btn btn-versatile_reports">
+                                            <i class="ft-plus-square"></i> Añadir parrafos
+                                        </a>
+                                    </li>
                                     <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
                                 </ul>
                             </div>
@@ -57,14 +64,11 @@
                                     </div>
                                 @endif
                                 <div class="table-responsive">
-                                    <table id="supervisores" style="width: 100%;" class="table table-bordered table-hover">
+                                    <table id="parrafos" style="width: 100%;" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th>Tipo documento</th>
-                                                <th>Documento</th>
-                                                <th>Correo</th>
-                                                <th>Estado</th>
+                                                <th>Texto</th>
+                                                <th>Numero parrafo</th>
                                                 <th>Opciones</th>
                                             </tr>
                                         </thead>
@@ -82,42 +86,42 @@
 @endsection
 
 @section('javascript')
-    <script>
-        $('#supervisores').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: '/supervisores/listar',
-            columns: [
-                {data: 'id_supervisor', name: 'id_supervisor'},
-                {data: 'tipo_documento', name: 'tipo_documento'},
-                {data: 'documento', name: 'documento'},
-                {data: 'correo', name: 'correo'},
-                {data: 'estado', name: 'estado'},
-                {data: 'Opciones', name: 'Opciones'},
-            ],
-            language : {
-                "processing": "Procesando...",
-                "zeroRecords": "No se encontraron resultados",
-                "emptyTable": "Ningún dato disponible en esta tabla",
-                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "search": "Buscar:",
-                "infoThousands": ",",
-                "loadingRecords": "Cargando...",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Último",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                },
-                "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
-                "lengthMenu": "Mostrar <select>"+
-                            "<option value='10'>10</option>"+
-                            "<option value='25'>25</option>"+
-                            "<option value='50'>50</option>"+
-                            "<option value='-1'>Todos</option>"+
-                            "</select> registros"
-            }
-        });
-    </script>
+
+<script>
+    let id_plantilla = {{ $plantilla->id_plantilla }}
+    $('#parrafos').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '/plantillas/parrafos/listar/'+id_plantilla,
+        columns: [
+            {data: 'texto', name: 'texto'},
+            {data: 'numero_parrafo', name: 'numero_parrafo'},
+            {data: 'Opciones', name: 'Opciones', orderable: false, searchable: false}
+        ],
+        language : {
+            "processing": "Procesando...",
+            "zeroRecords": "No se encontraron resultados",
+            "emptyTable": "Ningún dato disponible en esta tabla",
+            "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "search": "Buscar:",
+            "infoThousands": ",",
+            "loadingRecords": "Cargando...",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+            "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
+            "lengthMenu": "Mostrar <select>"+
+                        "<option value='10'>10</option>"+
+                        "<option value='25'>25</option>"+
+                        "<option value='50'>50</option>"+
+                        "<option value='-1'>Todos</option>"+
+                        "</select> registros"
+        }
+    });
+</script>
+    
 @endsection

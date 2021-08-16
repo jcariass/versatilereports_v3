@@ -21,6 +21,8 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
+                            <li class="breadcrumb-item"><a href="{{ route('listar_formularios') }}">Listar formularios</a>
+                            </li>
                             <li class="breadcrumb-item active">Lista de preguntas
                             </li>
                         </ol>

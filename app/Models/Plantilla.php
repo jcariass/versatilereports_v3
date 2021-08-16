@@ -5,18 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Obligacion extends Model
+class Plantilla extends Model
 {
     use HasFactory;
 
-    protected $table = "obligaciones";
-
-    protected $primaryKey = "id_obligacion";
-
+    protected $primaryKey = "id_plantilla";
     protected $fillable = [
-        'detalle', 'id_proceso', 'fecha_creacion', 'fecha_vencimiento'
+        'nombre', 'descripcion', 'fecha_creacion', 'fecha_finalizacion', 'ciudad', 'id_proceso'
     ];
-
     public $timestamps = false;
-    
 }
