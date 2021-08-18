@@ -74,3 +74,43 @@
     </div>
 </div>
 @endsection
+
+
+@section('javascript')
+<!-- Inicio de validación/////////////////////////////////////////////////////////////////////////////////////-->
+<script>
+    $(document).ready(function() {
+
+        /* Metodo para letras */
+        jQuery.validator.addMethod("letras", function(value, element) {
+            return this.optional(element) || /^[a-zA-Z]+(([\'\,\.\-][a-zA-Z])?[ a-zA-Z]*)*$/.test(value);
+        });
+
+        $("#form_crear_centro").validate({
+
+            onfocusin: function(element) { $(element).valid(); },
+            onfocusout: function(element) { $(element).valid(); },
+            onclick: function(element) { $(element).valid(); },
+            onkeyup: function(element) { $(element).valid(); },
+
+            rules: {
+                nombre : {
+                required: true,
+                letras: true,
+                minlength: 3,
+                maxlength: 100
+                }
+            },
+            messages : {
+                nombre: {
+                    required: "Este campo es obligatorio",
+                    letras: "Solo se admiten letras",
+                    minlength: "El nombre debe tener minimo 3 caracteres",
+                    maxlength: "El nombre puede tener máximo 100 caracteres"
+                }
+            }
+        });
+});
+</script>
+<!-- Inicio de validación/////////////////////////////////////////////////////////////////////////////////////-->
+@endsection

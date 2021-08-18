@@ -142,6 +142,8 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     //Contratistas
     Route::get('/contratistas', [ContratistaController::class, 'view_list'])->name('listar_contratistas');
     Route::get('/contratistas/listar', [ContratistaController::class, 'list']);
+    Route::get('/contratistas/reporte', [ContratistaController::class, 'view_reporte'])->name('view_reporte');
+    Route::post('/contratistas/generar/reporte', [ContratistaController::class, 'generar_excel'])->name('generar_reporte_contratistas');
     //Fin contratistas
     //Contratos
     Route::get('/contratistas/contratos/{id}', [ContratoController::class, 'view_list'])->name('listar_contratos');

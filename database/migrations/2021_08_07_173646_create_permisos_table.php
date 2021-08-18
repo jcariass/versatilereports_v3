@@ -136,6 +136,8 @@ class CreatePermisosTable extends Migration
             [   'nombre' => 'Actualizar un contrato',   'url' => '/contratistas/contratos/actualizar', 'method' => 'PUT',  'url_identica' => 1],
             [   'nombre' => 'Ver detalles de un contrato',   'url' => '/contratistas/ver/contrato/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Cambiar estados de un contrato',   'url' => '/contratistas/contratos/cambiar/estado/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Ver formulario de generar reporte de contratistas',   'url' => '/contratistas/reporte', 'method' => 'GET',  'url_identica' => 1],
+            [   'nombre' => 'Generar reporte de contratistas',   'url' => '/contratistas/generar/reporte', 'method' => 'POST',  'url_identica' => 1],
             //Fin rutas gestión de contratistas y contratos
         ]);
     }

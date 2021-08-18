@@ -114,6 +114,6 @@
                 $('#guardar_form').show("slow");
             }
         });
-  });
+});
 </script>
 @endsection

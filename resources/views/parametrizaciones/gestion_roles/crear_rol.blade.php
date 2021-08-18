@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('registrar_rol') }}" method="post">
+                            <form id="form_crear_rol" action="{{ route('registrar_rol') }}" method="post">
                                 @csrf
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -86,4 +86,44 @@
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('javascript')
+<!-- Inicio de validación/////////////////////////////////////////////////////////////////////////////////////-->
+<script>
+    $(document).ready(function() {
+
+        /* Metodo para letras */
+        jQuery.validator.addMethod("letras", function(value, element) {
+            return this.optional(element) || /^[a-zA-Z]+(([\'\,\.\-][a-zA-Z])?[ a-zA-Z]*)*$/.test(value);
+        });
+
+        $("#form_crear_rol").validate({
+
+            onfocusin: function(element) { $(element).valid(); },
+            onfocusout: function(element) { $(element).valid(); },
+            onclick: function(element) { $(element).valid(); },
+            onkeyup: function(element) { $(element).valid(); },
+
+            rules: {
+                nombre : {
+                required: true,
+                letras: true,
+                minlength: 3,
+                maxlength: 30
+                }
+            },
+            messages : {
+                nombre: {
+                    required: "Este campo es obligatorio",
+                    letras: "Solo se admiten letras",
+                    minlength: "El nombre del rol debe tener minimo 3 caracteres",
+                    maxlength: "El nombre del rol puede tener máximo 30 caracteres"
+                }
+            }
+        });
+});
+</script>
+<!-- Inicio de validación/////////////////////////////////////////////////////////////////////////////////////-->
 @endsection

@@ -44,9 +44,7 @@ class FormularioController extends Controller
     }
 
     public function save(Request $request){
-        $request->validate([
-            'nombre' => 'required|string|min:3|max:100'
-        ]);
+        $this->validations($request);
         try {
             Formulario::create([
                 'nombre' => $request->nombre
@@ -58,9 +56,7 @@ class FormularioController extends Controller
     }
 
     public function update(Request $request){
-        $request->validate([
-            'nombre' => 'required|string|min:3|max:100'
-        ]);
+        $this->validations($request);
         $formulario = Formulario::findOrFail($request->id_formulario);
         try {
             $formulario->update([
@@ -108,6 +104,11 @@ class FormularioController extends Controller
             DB::rollBack();
             return redirect()->route('listar_formularios')->withErrors('Ocurrio un error inesperado: '.$e->getMessage());
         }
-        
+    }
+
+    private function validations(Request $request){
+        $request->validate([
+            'nombre' => 'required|string|min:3|max:100'
+        ]);
     }
 }

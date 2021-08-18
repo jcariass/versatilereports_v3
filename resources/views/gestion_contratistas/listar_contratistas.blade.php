@@ -39,7 +39,7 @@
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">
                                     <li>
-                                        <a href="#" class="btn btn-gris">
+                                        <a href="{{ route('view_reporte') }}" class="btn btn-gris">
                                             <i class="ft-file"></i> Generar reporte
                                         </a>
                                     </li>
