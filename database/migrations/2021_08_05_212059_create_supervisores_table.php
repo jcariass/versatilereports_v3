@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateSupervisoresTable extends Migration
@@ -19,6 +20,10 @@ class CreateSupervisoresTable extends Migration
             $table->foreignId('id_persona')->references('id_persona')->on('personas')->onUpdate('cascade');
             $table->timestamps();
         });
+
+        DB::table('supervisores')->insert([
+            'id_persona' => '2'
+        ]);
     }
 
     /**

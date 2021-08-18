@@ -26,17 +26,20 @@ class CreatePermisosTable extends Migration
             //Rutas dashboard
             [   'nombre' => 'Dashboard',    'url' => '/principal',  'method' => 'GET',  'url_identica' => 1 ],
             //Fin rutas dashboard - 1 ruta
+
+            //Ruta municipios
+            [   'nombre' => 'Listar municipios y departamentos',   'url' => '/municipios', 'method' => 'GET',  'url_identica' => 1 ],
+            //Fin ruta municipios
             
             //Rutas gestión de usuarios
             [   'nombre' => 'Modulo gestión de usuarios',  'url' => '/usuarios',   'method' => 'GET',  'url_identica' => 1 ],
             [   'nombre' => 'Listar usuarios',  'url' => '/usuarios/listar',   'method' => 'GET',  'url_identica' => 0 ],
             [   'nombre' => 'Ver formulario crear usuarios',   'url' => '/usuarios/crear', 'method' => 'GET',  'url_identica' => 1 ],
             [   'nombre' => 'Ver formulario editar usuarios',   'url' => '/usuarios/editar/', 'method' => 'GET',  'url_identica' => 0 ],
-            [   'nombre' => 'Listar municipios y departamentos',   'url' => '/usuarios/listar/municipios', 'method' => 'GET',  'url_identica' => 1 ],
             [   'nombre' => 'Registrar usuarios',   'url' => '/usuarios/registrar', 'method' => 'POST',  'url_identica' => 1 ],
             [   'nombre' => 'Cambiar estado de usuarios',   'url' => '/usuarios/cambiar/estado/', 'method' => 'GET',  'url_identica' => 0 ],
             [   'nombre' => 'Actualizar usuarios',   'url' => '/usuarios/actualizar', 'method' => 'PUT',  'url_identica' => 1],
-            //Fin rutas gestión de usuarios  -- 8 rutas
+            //Fin rutas gestión de usuarios  -- 7 rutas
 
             //Rutas gestión de roles
             [   'nombre' => 'Modulo gestión de roles',   'url' => '/roles', 'method' => 'GET',  'url_identica' => 1],
@@ -121,6 +124,19 @@ class CreatePermisosTable extends Migration
             [   'nombre' => 'Actualizar preguntas a una plantilla',   'url' => '/plantillas/parrafos/actualizar', 'method' => 'PUT',  'url_identica' => 1],
             [   'nombre' => 'Eliminar preguntas a una plantilla',   'url' => '/plantillas/parrafos/eliminar/', 'method' => 'GET',  'url_identica' => 0],
             //Fin rutas gestión de plantillas -- 10 rutas
+            
+            //Rutas gestión de contratistas y contratos
+            [   'nombre' => 'Modulo gestión de contratistas',   'url' => '/contratistas', 'method' => 'GET',  'url_identica' => 1],
+            [   'nombre' => 'Listar contratistas',   'url' => '/contratistas/listar', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Ver vista de contratos por contratista',   'url' => '/contratistas/contratos/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Listar contratos por contratista',   'url' => '/contratistas/contratos/listar/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Ver formulario de crear contrato',   'url' => '/contratistas/contratos/crear/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Registrar un contrato',   'url' => '/contratistas/contratos/registrar', 'method' => 'POST',  'url_identica' => 1],
+            [   'nombre' => 'Ver formulario de editar contrato',   'url' => '/contratistas/contratos/editar/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Actualizar un contrato',   'url' => '/contratistas/contratos/actualizar', 'method' => 'PUT',  'url_identica' => 1],
+            [   'nombre' => 'Ver detalles de un contrato',   'url' => '/contratistas/ver/contrato/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Cambiar estados de un contrato',   'url' => '/contratistas/contratos/cambiar/estado/', 'method' => 'GET',  'url_identica' => 0],
+            //Fin rutas gestión de contratistas y contratos
         ]);
     }
 

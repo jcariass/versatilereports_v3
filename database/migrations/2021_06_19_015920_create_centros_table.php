@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateCentrosTable extends Migration
@@ -18,6 +19,10 @@ class CreateCentrosTable extends Migration
             $table->string('nombre', 100);
             $table->timestamps();
         });
+
+        DB::table('centros')->insert([
+            'nombre' => 'centro de prueba'
+        ]);
     }
 
     /**

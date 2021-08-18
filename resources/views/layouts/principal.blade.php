@@ -112,6 +112,7 @@
     <script>
         $(document).ready(function() {
             $('select').select2({    
+                width: '100%',
                 language: {
                     noResults: function() {
                         return "No hay resultados";        

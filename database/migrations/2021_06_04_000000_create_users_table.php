@@ -36,7 +36,15 @@ class CreateUsersTable extends Migration
                 'email' => 'jaog.11.2003@gmail.com', 
                 'id_rol' => '1',
                 'id_persona' => '1'
-            ]
+            ],
+            [
+                'tipo_documento' => 'CC', 
+                'documento' => '1000444493', 
+                'password' => Hash::make('1000444493'), 
+                'email' => 'jaog.2003.11@gmail.com', 
+                'id_rol' => '2',
+                'id_persona' => '2'
+            ],
         ]);
     }
 

@@ -188,7 +188,7 @@
             $('#id_departamento').on('change', function(){
                 let id_departamento = $(this).val();
                 if($.trim(id_departamento) != null){
-                    $.get('/usuarios/listar/municipios', {id_departamento: id_departamento}, function(municipios){
+                    $.get('/municipios', {id_departamento: id_departamento}, function(municipios){
                         $('#id_municipio').empty();
                         $('#id_municipio').append("<option value=''>Seleccione el municipio</option>");
                         $.each(municipios, function (id, nombre){

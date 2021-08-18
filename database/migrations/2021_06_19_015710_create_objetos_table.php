@@ -20,6 +20,11 @@ class CreateObjetosTable extends Migration
             $table->text('detalle', 700);
             $table->timestamps();
         });
+
+        DB::table('objetos')->insert([
+            'nombre' => 'objeto de prueba',
+            'detalle' => 'dsadadadjasdoiajsodiajidsoasjodiajod'
+        ]);
     }
 
     /**

@@ -25,7 +25,7 @@ class CreateMenuTable extends Migration
 
         DB::table('menu')->insert([
             [   'nombre' => 'Usuarios', 'icono' => 'la la-user', 'url' => '/usuarios' ,'padre' => 'No'    ],
-            [   'nombre' => 'Contratistas', 'icono' => 'la la-group', 'url' => '#' ,'padre' => 'No'    ],
+            [   'nombre' => 'Contratistas', 'icono' => 'la la-group', 'url' => '/contratistas' ,'padre' => 'No'    ],
             [   'nombre' => 'Entrega de Requerimientos', 'icono' => 'la la-archive', 'url' => '#' ,'padre' => 'No'    ],
             [   'nombre' => 'Revisión de Requerimientos', 'icono' => 'la la-list-alt', 'url' => '#' ,'padre' => 'No'    ],
             [   'nombre' => 'Gestión de Requerimientos', 'icono' => 'la la-database', 'url' => '#' ,'padre' => 'No'    ],

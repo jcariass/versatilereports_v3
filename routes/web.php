@@ -5,8 +5,11 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\CentroController;
+use App\Http\Controllers\ContratistaController;
+use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FormularioController;
+use App\Http\Controllers\MunicipioController;
 use App\Http\Controllers\ObjetoController;
 use App\Http\Controllers\ObligacionController;
 use App\Http\Controllers\ParrafoController;
@@ -16,6 +19,7 @@ use App\Http\Controllers\ProcesoController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\UsuarioController;
+use App\Models\Contrato;
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/', function () {
@@ -36,12 +40,15 @@ Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->
 Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::get('/principal', [DashboardController::class, 'view_dashboard'])->name('dashboard');
     
+    /* Ruta obtener municipios */
+    Route::get('/municipios', [MunicipioController::class, 'get']);
+    /* Fin ruta obtener municipios */
+
     /* Inicio rutas gestión de usuarios */
     Route::get('/usuarios', [UsuarioController::class, 'view_list'])->name('listar_usuarios');
     Route::get('/usuarios/listar', [UsuarioController::class, 'list']);
     Route::get('/usuarios/crear', [UsuarioController::class, 'view_create'])->name('crear_usuario');
     Route::get('/usuarios/editar/{id}', [UsuarioController::class, 'view_edit'])->name('editar_usuario');
-    Route::get('/usuarios/listar/municipios', [UsuarioController::class, 'get_municipios']);
     Route::post('/usuarios/registrar', [UsuarioController::class, 'save'])->name('registrar_usuario');
     Route::get('/usuarios/cambiar/estado/{id}/{estado}', [UsuarioController::class, 'cambiar_estado']);
     Route::put('/usuarios/actualizar', [UsuarioController::class, 'update'])->name('actualizar_usuario');
@@ -130,5 +137,22 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::put('/plantillas/parrafos/actualizar', [ParrafoController::class, 'update'])->name('editar_parrafo');
     Route::get('/plantillas/parrafos/eliminar/{id}', [ParrafoController::class, 'update_state']);
     /* Fin rutas gestión de plantillas y parrafos */
+
+    /* Inicio rutas gestión de contratistas y contratos */
+    //Contratistas
+    Route::get('/contratistas', [ContratistaController::class, 'view_list'])->name('listar_contratistas');
+    Route::get('/contratistas/listar', [ContratistaController::class, 'list']);
+    //Fin contratistas
+    //Contratos
+    Route::get('/contratistas/contratos/{id}', [ContratoController::class, 'view_list'])->name('listar_contratos');
+    Route::get('/contratistas/contratos/listar/{id}', [ContratoController::class, 'list']);
+    Route::get('/contratistas/contratos/crear/{id}', [ContratoController::class, 'view_create'])->name('crear_contratos');
+    Route::post('/contratistas/contratos/registrar', [ContratoController::class, 'save'])->name('guardar_contrato');
+    Route::get('/contratistas/contratos/editar/{id}', [ContratoController::class, 'view_edit']);
+    Route::put('/contratistas/contratos/actualizar', [ContratoController::class, 'update'])->name('editar_contrato');
+    Route::get('/contratistas/ver/contrato/{id}', [ContratoController::class, 'view_more']);
+    Route::get('/contratistas/contratos/cambiar/estado/{id}/{estado}', [ContratoController::class, 'state_update']);
+    //Fin contratos
+    /* Fin rutas gestión de contratos */
 }); 
 

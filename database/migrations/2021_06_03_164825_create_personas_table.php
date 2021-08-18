@@ -32,13 +32,24 @@ class CreatePersonasTable extends Migration
         });
 
         DB::table('personas')->insert([
-            'documento' => '123456789',
-            'tipo_documento' => 'CC',
-            'nombre' => 'Jorge Asdrúbal',
-            'primer_apellido' => 'Ortega',
-            'correo' => 'jaog.11.2003@gmail.com',
-            'celular_uno' => '3116519569',
-            'id_municipio' => '21'
+            [
+                'documento' => '123456789',
+                'tipo_documento' => 'CC',
+                'nombre' => 'Jorge Asdrúbal',
+                'primer_apellido' => 'Ortega',
+                'correo' => 'jaog.11.2003@gmail.com',
+                'celular_uno' => '3116519569',
+                'id_municipio' => '21'
+            ],
+            [
+                'documento' => '1000444493',
+                'tipo_documento' => 'CC',
+                'nombre' => 'Jorge',
+                'primer_apellido' => 'Gonzalez',
+                'correo' => 'jaog.2003.11@gmail.com',
+                'celular_uno' => '1234567890',
+                'id_municipio' => '21'
+            ]
         ]);
     }
 
