@@ -28,7 +28,7 @@ class CreateMenuTable extends Migration
             [   'nombre' => 'Contratistas', 'icono' => 'la la-group', 'url' => '/contratistas' ,'padre' => 'No'    ],
             [   'nombre' => 'Entrega de Requerimientos', 'icono' => 'la la-archive', 'url' => '#' ,'padre' => 'No'    ],
             [   'nombre' => 'Revisión de Requerimientos', 'icono' => 'la la-list-alt', 'url' => '#' ,'padre' => 'No'    ],
-            [   'nombre' => 'Gestión de Requerimientos', 'icono' => 'la la-database', 'url' => '#' ,'padre' => 'No'    ],
+            [   'nombre' => 'Gestión de Requerimientos', 'icono' => 'la la-database', 'url' => '/requerimientos' ,'padre' => 'No'    ],
             [   'nombre' => 'Parametrizaciones', 'icono' => 'mbri-extension', 'url' => '#' ,'padre' => 'Si'    ],
             [   'nombre' => 'Gestión de Roles', 'icono' => 'la la-cogs', 'url' => '/roles' ,'padre' => '6'    ],
             [   'nombre' => 'Gestión de Objetos de Contrato', 'icono' => 'la la-cogs', 'url' => '/objetos/contratos' ,'padre' => '6'    ],

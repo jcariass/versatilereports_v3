@@ -11,7 +11,6 @@
         <div class="content-header row">
         </div>
         <div class="content-body">
-            Hola soy el dashboard
             <div class="card">
                 <div class="card-header">
                     <h2>Permisos del usuarios: </h2>

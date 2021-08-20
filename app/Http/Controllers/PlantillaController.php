@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Parrafo;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Models\Plantilla;
 use App\Models\Proceso;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class PlantillaController extends Controller
 {
@@ -34,7 +36,8 @@ class PlantillaController extends Controller
                 ->editColumn('Opciones', function($plantilla){
                     $btn_editar = '<a href="/plantillas/editar/'.$plantilla->id_plantilla.'" class="btn btn-versatile_reports">Editar</a>';
                     $btn_ver = '<a href="/plantillas/parrafos/'.$plantilla->id_plantilla.'" class="btn btn-gris">Ver</a>';
-                    return $btn_editar . ' ' . $btn_ver;
+                    $btn_duplicar = '<a href="/plantillas/duplicar/'.$plantilla->id_plantilla.'" class="btn btn-secondary btn-estados">Duplicar</a>';
+                    return $btn_editar . ' ' . $btn_ver . ' ' . $btn_duplicar;
                 })
                 ->rawColumns(['Opciones'])
                 ->make(true);
@@ -76,6 +79,40 @@ class PlantillaController extends Controller
             ]);
             return redirect()->route('listar_plantillas')->with('success', 'Se modifico la plantilla');
         } catch (Exception $e) {
+            return redirect()->route('listar_plantillas')->withErrors('Ocurrio un error: '.$e->getMessage());
+        }
+    }
+
+    public function duplicar($id){
+        $plantilla = Plantilla::findOrFail($id);
+        if($plantilla == null) return redirect()->route('listar_plantillas')->withErrors('No se encontro la plantilla');
+        $parrafos = Parrafo::where('id_plantilla', '=', $plantilla->id_plantilla)->get();
+        try {
+            DB::beginTransaction();
+            $fecha_actual = Carbon::now()->toDateString();
+            $plantilla_nueva = Plantilla::create([
+                'nombre' => $plantilla->nombre,
+                'descripcion' => $plantilla->descripcion,
+                'fecha_creacion' => $fecha_actual,
+                'fecha_finalizacion' => $plantilla->fecha_finalizacion,
+                'ciudad' => $plantilla->ciudad,
+                'id_proceso' => $plantilla->id_proceso
+            ]);
+
+            if (count($parrafos) > 0) {
+                foreach($parrafos as $parrafo){
+                    Parrafo::create([
+                        'texto' => $parrafo->texto,
+                        'numero_parrafo' => $parrafo->numero_parrafo,
+                        'id_plantilla' => $plantilla_nueva->id_plantilla
+                    ]);
+                }
+            }
+
+            DB::commit();
+            return redirect()->route('listar_plantillas')->with('success', 'Se duplico con éxito la plantilla');
+        } catch (Exception $th) {
+            DB::rollBack();
             return redirect()->route('listar_plantillas')->withErrors('Ocurrio un error: '.$e->getMessage());
         }
     }

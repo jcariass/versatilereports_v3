@@ -16,6 +16,7 @@ use App\Http\Controllers\ParrafoController;
 use App\Http\Controllers\PlantillaController;
 use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\ProcesoController;
+use App\Http\Controllers\RequerimimientoController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\UsuarioController;
@@ -129,6 +130,7 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::post('/plantillas/guardar', [PlantillaController::class, 'save'])->name('registrar_plantilla');
     Route::get('/plantillas/editar/{id}', [PlantillaController::class, 'view_edit']);
     Route::put('/plantillas/actualizar', [PlantillaController::class, 'update'])->name('editar_plantilla');
+    Route::get('/plantillas/duplicar/{id}', [PlantillaController::class, 'duplicar']);
     Route::get('/plantillas/parrafos/{id}', [ParrafoController::class, 'view_list'])->name('listar_parrafos');
     Route::get('/plantillas/parrafos/listar/{id}', [ParrafoController::class, 'list']);
     Route::get('/plantillas/parrafos/crear/{id}', [ParrafoController::class, 'view_create'])->name('añadir_parrafos');
@@ -156,5 +158,15 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::get('/contratistas/contratos/cambiar/estado/{id}/{estado}', [ContratoController::class, 'state_update']);
     //Fin contratos
     /* Fin rutas gestión de contratos */
+
+    /* Inicio rutas gestión de requerimientos */
+    Route::get('/requerimientos', [RequerimimientoController::class, 'view_list'])->name('listar_requerimientos');
+    Route::get('/requerimientos/listar', [RequerimimientoController::class, 'list']);
+    Route::get('/requerimientos/crear', [RequerimimientoController::class, 'view_create'])->name('view_crear_requerimientos');
+    Route::get('/requerimientos/editar/{id}', [RequerimimientoController::class, 'view_edit']);
+    Route::put('/requerimientos/actualizar', [RequerimimientoController::class, 'update'])->name('editar_requerimientos');
+    Route::post('/requerimientos/guardar', [RequerimimientoController::class, 'save'])->name('crear_requerimientos');
+    Route::get('/requerimientos/cambiar/estado/{id}/{estado}', [RequerimimientoController::class, 'state_update']);
+    /* Fin rutas gestión de requerimientos */
 }); 
 

@@ -117,6 +117,7 @@ class CreatePermisosTable extends Migration
             [   'nombre' => 'Ver formulario de editar plantilla',   'url' => '/plantillas/editar/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Actualizar una plantilla',   'url' => '/plantillas/actualizar', 'method' => 'PUT',  'url_identica' => 1],
             [   'nombre' => 'Ver una plantilla',   'url' => '/plantillas/parrafos/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Duplicar una plantilla',   'url' => '/plantillas/duplicar/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Listar preguntas de una plantilla',   'url' => '/plantillas/parrafos/listar/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Ver formulario de añadir preguntas a una plantilla',   'url' => '/plantillas/parrafos/crear/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Registrar preguntas a una plantilla',   'url' => '/plantillas/parrafos/guardar', 'method' => 'POST',  'url_identica' => 1],
@@ -138,7 +139,17 @@ class CreatePermisosTable extends Migration
             [   'nombre' => 'Cambiar estados de un contrato',   'url' => '/contratistas/contratos/cambiar/estado/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Ver formulario de generar reporte de contratistas',   'url' => '/contratistas/reporte', 'method' => 'GET',  'url_identica' => 1],
             [   'nombre' => 'Generar reporte de contratistas',   'url' => '/contratistas/generar/reporte', 'method' => 'POST',  'url_identica' => 1],
-            //Fin rutas gestión de contratistas y contratos
+            //Fin rutas gestión de contratistas y contratos -- 12 rutas
+
+            //Rutas gestión de requerimientos
+            [   'nombre' => 'Modulo gestión de requerimientos',   'url' => '/requerimientos', 'method' => 'GET',  'url_identica' => 1],
+            [   'nombre' => 'Listar requerimientos',   'url' => '/requerimientos/listar', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Ver formulario de crear requerimiento',   'url' => '/requerimientos/crear', 'method' => 'GET',  'url_identica' => 1],
+            [   'nombre' => 'Registrar un requerimiento',   'url' => '/requerimientos/guardar', 'method' => 'POST',  'url_identica' => 1],
+            [   'nombre' => 'Ver formulario de editar requerimiento',   'url' => '/requerimientos/editar/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Actualizar un requerimiento',   'url' => '/requerimientos/actualizar', 'method' => 'PUT',  'url_identica' => 1],
+            [   'nombre' => 'Cambiar estados a un requerimiento',   'url' => '/requerimientos/cambiar/estado/', 'method' => 'GET',  'url_identica' => 0],
+            //Fin rutas gestión de requerimientos -- 6 rutas
         ]);
     }
 

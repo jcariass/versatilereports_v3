@@ -103,6 +103,14 @@ class CreatePermisoRolTable extends Migration
             ['id_permiso' => 79, 'id_rol' => 1],
             ['id_permiso' => 80, 'id_rol' => 1],
             ['id_permiso' => 81, 'id_rol' => 1],
+            ['id_permiso' => 82, 'id_rol' => 1],
+            ['id_permiso' => 83, 'id_rol' => 1],
+            ['id_permiso' => 84, 'id_rol' => 1],
+            ['id_permiso' => 85, 'id_rol' => 1],
+            ['id_permiso' => 86, 'id_rol' => 1],
+            ['id_permiso' => 87, 'id_rol' => 1],
+            ['id_permiso' => 88, 'id_rol' => 1],
+            ['id_permiso' => 89, 'id_rol' => 1],
             //Fin rol administrador -- Permisos
         ]);
     }
