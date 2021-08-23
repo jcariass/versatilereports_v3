@@ -83,7 +83,6 @@
                                     <table style="width: 100%;" class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                {{-- <th>Id obligacion</th> --}}
                                                 <th>#</th>
                                                 <th>Pregunta actividad</th>
                                                 <th>Pregunta evidencia</th>
@@ -129,8 +128,8 @@
 
             // <td>${id_obligacion}</td>
             $('#preguntas_ingresadas').append(`
-            <tr id="tr-${contador}">
-                <input type="hidden" name="informacion[]" value="${informacion[contador-1]}">
+                <tr id="tr-${contador}">
+                    <input type="hidden" name="informacion[]" value="${informacion[contador-1]}">
                     <td>${contador}</td>
                     <td>${pregunta_actividad}</td>
                     <td>${pregunta_evidencia}</td>

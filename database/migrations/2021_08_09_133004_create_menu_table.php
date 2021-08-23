@@ -26,8 +26,8 @@ class CreateMenuTable extends Migration
         DB::table('menu')->insert([
             [   'nombre' => 'Usuarios', 'icono' => 'la la-user', 'url' => '/usuarios' ,'padre' => 'No'    ],
             [   'nombre' => 'Contratistas', 'icono' => 'la la-group', 'url' => '/contratistas' ,'padre' => 'No'    ],
-            [   'nombre' => 'Entrega de Requerimientos', 'icono' => 'la la-archive', 'url' => '#' ,'padre' => 'No'    ],
-            [   'nombre' => 'Revisión de Requerimientos', 'icono' => 'la la-list-alt', 'url' => '#' ,'padre' => 'No'    ],
+            [   'nombre' => 'Entrega de Requerimientos', 'icono' => 'la la-archive', 'url' => '/entrega/requerimientos' ,'padre' => 'No'    ],
+            [   'nombre' => 'Revisión de Requerimientos', 'icono' => 'la la-list-alt', 'url' => '/revision/requerimientos' ,'padre' => 'No'    ],
             [   'nombre' => 'Gestión de Requerimientos', 'icono' => 'la la-database', 'url' => '/requerimientos' ,'padre' => 'No'    ],
             [   'nombre' => 'Parametrizaciones', 'icono' => 'mbri-extension', 'url' => '#' ,'padre' => 'Si'    ],
             [   'nombre' => 'Gestión de Roles', 'icono' => 'la la-cogs', 'url' => '/roles' ,'padre' => '6'    ],

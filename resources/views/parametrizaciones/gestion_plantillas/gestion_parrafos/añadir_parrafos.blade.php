@@ -125,7 +125,7 @@
                         <button class="btn btn-danger" type="button" onclick="eliminar_parrafo('${contador}')">X</button>
                     </td>
                 </tr>
-            `);
+                `);
 
             $('#texto').val('');
             $('#numero_parrafo').val('');

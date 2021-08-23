@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Menu;
-use App\Models\menu_rol;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use DataTables;
 use Exception;
 use App\Models\Rol;
 use App\Models\Permiso;
 use App\Models\permiso_rol;
-use Illuminate\Support\Facades\DB;
+use App\Models\Menu;
+use App\Models\menu_rol;
 
 class RolController extends Controller
 {

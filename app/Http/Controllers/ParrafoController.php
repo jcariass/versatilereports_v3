@@ -44,13 +44,12 @@ class ParrafoController extends Controller
 
     public function save(Request $request){
         $plantilla = Plantilla::findOrFail($request->id_plantilla);
+
         if($plantilla == null) return redirect()->route('listar_plantillas')->withErrors('No se encontro la plantilla, por lo tanto no se pudieron asignar los parrafos.');
         try {
             DB::beginTransaction();
-            // dd($request->informacion);
             foreach($request->informacion as $item){
                 $item = explode(',/,.-_-,,-#p?', $item);
-                // dd($item);
                 Parrafo::create([
                     'texto' => $item[0],
                     'numero_parrafo' => $item[1],

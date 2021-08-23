@@ -150,6 +150,21 @@ class CreatePermisosTable extends Migration
             [   'nombre' => 'Actualizar un requerimiento',   'url' => '/requerimientos/actualizar', 'method' => 'PUT',  'url_identica' => 1],
             [   'nombre' => 'Cambiar estados a un requerimiento',   'url' => '/requerimientos/cambiar/estado/', 'method' => 'GET',  'url_identica' => 0],
             //Fin rutas gestión de requerimientos -- 6 rutas
+
+            //Rutas revisión de requerimientos
+            [   'nombre' => 'Modulo revisión de requerimientos',   'url' => '/revision/requerimientos', 'method' => 'GET',  'url_identica' => 1],
+            [   'nombre' => 'Listar requerimientos para revisión',   'url' => '/revision/requerimientos/listar', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Ver detalles de un requerimiento',   'url' => '/revision/requerimientos/detalles/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Listar respuestas de un requerimiento',   'url' => '/revision/requerimientos/detalles/listar/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Generar reporte de respuestas a un requerimiento',   'url' => '/revision/requerimientos/generar/reporte', 'method' => 'POST',  'url_identica' => 1],
+            //Fin rutas revisión de requerimientos -- 5 rutas
+
+            //Rutas entrega de requerimientos
+            [   'nombre' => 'Modulo entrega de requerimientos',   'url' => '/entrega/requerimientos', 'method' => 'GET',  'url_identica' => 1],
+            [   'nombre' => 'Listar requerimientos para entrega',   'url' => '/entrega/requerimientos/listar', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Ver formulario de requerimientos de tipo archivo',   'url' => '/entrega/requerimientos/cargar/archivo/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Enviar requerimientos de tipo archivo',   'url' => '/entrega/requerimientos/guardar/archivo', 'method' => 'GET',  'url_identica' => 1],
+            //Fin rutas entrega de requerimientos -- 4 rutas
         ]);
     }
 

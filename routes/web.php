@@ -8,6 +8,7 @@ use App\Http\Controllers\CentroController;
 use App\Http\Controllers\ContratistaController;
 use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EntregaRequerimientoController;
 use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\MunicipioController;
 use App\Http\Controllers\ObjetoController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\PlantillaController;
 use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\ProcesoController;
 use App\Http\Controllers\RequerimimientoController;
+use App\Http\Controllers\RevisionRequerimientoController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\UsuarioController;
@@ -168,5 +170,21 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::post('/requerimientos/guardar', [RequerimimientoController::class, 'save'])->name('crear_requerimientos');
     Route::get('/requerimientos/cambiar/estado/{id}/{estado}', [RequerimimientoController::class, 'state_update']);
     /* Fin rutas gestión de requerimientos */
+
+    /* Inicio rutas revisión de requerimientos */
+    Route::get('/revision/requerimientos', [RevisionRequerimientoController::class, 'view_list'])->name('listar_rev_requerimientos');
+    Route::post('/revision/requerimientos/generar/reporte', [RevisionRequerimientoController::class, 'generar_reporte'])->name('reporte_requerimientos');
+    Route::get('/revision/requerimientos/listar', [RevisionRequerimientoController::class, 'list']);
+    Route::get('/revision/requerimientos/detalles/{id}', [RevisionRequerimientoController::class, 'view_list_details']);
+    Route::get('/revision/requerimientos/detalles/listar/{id}', [RevisionRequerimientoController::class, 'list_details']);
+    /* Fin rutas revisión de requerimientos */
+
+    /* Inicio rutas entrega de requerimientos */
+    Route::get('/entrega/requerimientos', [EntregaRequerimientoController::class, 'view_list'])->name('listar_ent_requerimientos');
+    Route::get('/entrega/requerimientos/listar', [EntregaRequerimientoController::class, 'list']);
+    Route::get('/entrega/requerimientos/cargar/archivo/{id}', [EntregaRequerimientoController::class, 'view_insert_archive']);
+    Route::post('/entrega/requerimientos/guardar/archivo', [EntregaRequerimientoController::class, 'insert_archive'])->name('insertar_archivo');
+    // Route::get('/entrega/requerimientos/informe/contractual/{id}', [EntregaRequerimientoController::class, 'view_insert_informe']);
+    /* Fin rutas entrega de requerimientos */
 }); 
 
