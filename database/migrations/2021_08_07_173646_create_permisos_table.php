@@ -157,14 +157,20 @@ class CreatePermisosTable extends Migration
             [   'nombre' => 'Ver detalles de un requerimiento',   'url' => '/revision/requerimientos/detalles/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Listar respuestas de un requerimiento',   'url' => '/revision/requerimientos/detalles/listar/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Generar reporte de respuestas a un requerimiento',   'url' => '/revision/requerimientos/generar/reporte', 'method' => 'POST',  'url_identica' => 1],
+            [   'nombre' => 'Descargar archivo de una respuesta a un requerimiento',   'url' => '/revision/requerimientos/descargar/archivo/', 'method' => 'GET',  'url_identica' => 0],
             //Fin rutas revisión de requerimientos -- 5 rutas
 
             //Rutas entrega de requerimientos
             [   'nombre' => 'Modulo entrega de requerimientos',   'url' => '/entrega/requerimientos', 'method' => 'GET',  'url_identica' => 1],
             [   'nombre' => 'Listar requerimientos para entrega',   'url' => '/entrega/requerimientos/listar', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Ver formulario de requerimientos de tipo archivo',   'url' => '/entrega/requerimientos/cargar/archivo/', 'method' => 'GET',  'url_identica' => 0],
-            [   'nombre' => 'Enviar requerimientos de tipo archivo',   'url' => '/entrega/requerimientos/guardar/archivo', 'method' => 'GET',  'url_identica' => 1],
-            //Fin rutas entrega de requerimientos -- 4 rutas
+            [   'nombre' => 'Enviar requerimientos de tipo archivo',   'url' => '/entrega/requerimientos/guardar/archivo', 'method' => 'POST',  'url_identica' => 1],
+            [   'nombre' => 'Ver formulario de editar requerimientos de tipo archivo',   'url' => '/entrega/requerimientos/editar/archivo/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Actualizar requerimientos de tipo archivo',   'url' => '/entrega/requerimientos/actualizar/archivo', 'method' => 'PUT',  'url_identica' => 1],
+            [   'nombre' => 'Descargar archivos enviados de un requerimiento',   'url' => '/entrega/requerimientos/descargar/archivo/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Ver formulario de requerimientos de tipo informe',   'url' => '/entrega/requerimientos/informe/contractual/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Enviar requerimientos de tipo formulario',   'url' => '/entrega/requerimientos/guardar/informe', 'method' => 'POST',  'url_identica' => 1],
+            //Fin rutas entrega de requerimientos -- 5 rutas
         ]);
     }
 

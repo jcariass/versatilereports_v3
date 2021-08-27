@@ -49,7 +49,7 @@ class ParrafoController extends Controller
         try {
             DB::beginTransaction();
             foreach($request->informacion as $item){
-                $item = explode(',/,.-_-,,-#p?', $item);
+                $item = explode('8a0a5fac87bb9cccb268a0133e75f637', $item);
                 Parrafo::create([
                     'texto' => $item[0],
                     'numero_parrafo' => $item[1],

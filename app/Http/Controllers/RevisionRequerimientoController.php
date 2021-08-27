@@ -18,7 +18,8 @@ class RevisionRequerimientoController extends Controller
 
     public function list(){
         if(request()->ajax()){
-            $requerimientos = Requerimiento::where('fecha_finalizacion', '>', Carbon::now()->toDateString())
+            $requerimientos = Requerimiento::where('estado', '=', '1')
+                ->where('fecha_finalizacion', '>', Carbon::now()->toDateString())
                 ->orderBy('fecha_finalizacion', 'asc')->get();
             return DataTables::of($requerimientos)
                 ->addColumn('Opciones', function($requerimiento){
@@ -36,7 +37,7 @@ class RevisionRequerimientoController extends Controller
         return view('revision_requerimientos.listar_rev_detalles', compact("requerimiento"));
     }
 
-    public function list_details($id){
+    public function list_details($id, $tipo){
         if (request()->ajax()) {
             $respuestas_requerimientos = RespuestaRequerimiento::join('contratos', 'contratos.id_contrato', '=', 'respuestas_requerimientos.id_contrato')
             ->join('personas', 'personas.id_persona', '=', 'contratos.id_persona')
@@ -53,9 +54,9 @@ class RevisionRequerimientoController extends Controller
                 ->addColumn('Opciones', function($respuesta_requerimiento){
                     $opcion = '<a href="/revision/requerimientos/descargar/archivo/'.$respuesta_requerimiento->nombre.'" class="btn btn-versatile_reports"><i class="ft-download"></i></a>';
                     if ($respuesta_requerimiento->estado == 0) {
-                        $estado = '<a href="/revision/requerimientos/archivo/cambiar/estado/'.$respuesta_requerimiento->id_respuesta_requerimiento.'/1" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
+                        $estado = '<a href="#" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
                     }else{
-                        $estado = '<a href="/revision/requerimientos/archivo/cambiar/estado/'.$respuesta_requerimiento->id_respuesta_requerimiento.'/0" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
+                        $estado = '<a href="#" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
                     }
                     return $opcion . ' ' . $estado;
                 })
@@ -65,10 +66,10 @@ class RevisionRequerimientoController extends Controller
         return redirect()->route('dashboard');
     }
 
-    /* public function download_archive($nombre){
+    public function download_archive($nombre){
         $archivo = public_path('uploads/archivos/'.$nombre.'');
         return response()->download($archivo);
-    } */
+    }
 
     public function generar_reporte(Request $request){
         $respuestas_requerimientos = RespuestaRequerimiento::join('requerimientos', 'requerimientos.id_requerimiento', '=', 'respuestas_requerimientos.id_requerimiento')

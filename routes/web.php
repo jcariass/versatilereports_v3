@@ -1,28 +1,27 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\CentroController;
-use App\Http\Controllers\ContratistaController;
-use App\Http\Controllers\ContratoController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RevisionRequerimientoController;
 use App\Http\Controllers\EntregaRequerimientoController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\RequerimimientoController;
+use App\Http\Controllers\ContratistaController;
 use App\Http\Controllers\FormularioController;
-use App\Http\Controllers\MunicipioController;
-use App\Http\Controllers\ObjetoController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ObligacionController;
-use App\Http\Controllers\ParrafoController;
+use App\Http\Controllers\SupervisorController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MunicipioController;
 use App\Http\Controllers\PlantillaController;
 use App\Http\Controllers\PreguntaController;
+use App\Http\Controllers\ContratoController;
+use App\Http\Controllers\ParrafoController;
 use App\Http\Controllers\ProcesoController;
-use App\Http\Controllers\RequerimimientoController;
-use App\Http\Controllers\RevisionRequerimientoController;
-use App\Http\Controllers\RolController;
-use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\UsuarioController;
-use App\Models\Contrato;
+use App\Http\Controllers\CentroController;
+use App\Http\Controllers\ObjetoController;
+use App\Http\Controllers\RolController;
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/', function () {
@@ -176,15 +175,20 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::post('/revision/requerimientos/generar/reporte', [RevisionRequerimientoController::class, 'generar_reporte'])->name('reporte_requerimientos');
     Route::get('/revision/requerimientos/listar', [RevisionRequerimientoController::class, 'list']);
     Route::get('/revision/requerimientos/detalles/{id}', [RevisionRequerimientoController::class, 'view_list_details']);
-    Route::get('/revision/requerimientos/detalles/listar/{id}', [RevisionRequerimientoController::class, 'list_details']);
+    Route::get('/revision/requerimientos/detalles/listar/{id}/{tipo}', [RevisionRequerimientoController::class, 'list_details']);
+    Route::get('/revision/requerimientos/descargar/archivo/{nombre}', [RevisionRequerimientoController::class, 'download_archive']);
     /* Fin rutas revisión de requerimientos */
 
     /* Inicio rutas entrega de requerimientos */
     Route::get('/entrega/requerimientos', [EntregaRequerimientoController::class, 'view_list'])->name('listar_ent_requerimientos');
     Route::get('/entrega/requerimientos/listar', [EntregaRequerimientoController::class, 'list']);
     Route::get('/entrega/requerimientos/cargar/archivo/{id}', [EntregaRequerimientoController::class, 'view_insert_archive']);
+    Route::get('/entrega/requerimientos/editar/archivo/{id}', [EntregaRequerimientoController::class, 'view_edit_archive']);
+    Route::put('/entrega/requerimientos/actualizar/archivo', [EntregaRequerimientoController::class, 'update_archive'])->name('update_archive');
+    Route::get('/entrega/requerimientos/descargar/archivo/{nombre}', [EntregaRequerimientoController::class, 'download_archive']);
     Route::post('/entrega/requerimientos/guardar/archivo', [EntregaRequerimientoController::class, 'insert_archive'])->name('insertar_archivo');
-    // Route::get('/entrega/requerimientos/informe/contractual/{id}', [EntregaRequerimientoController::class, 'view_insert_informe']);
+    Route::get('/entrega/requerimientos/informe/contractual/{id}', [EntregaRequerimientoController::class, 'view_insert_informe']);
+    Route::post('/entrega/requerimientos/guardar/informe', [EntregaRequerimientoController::class, 'save'])->name('guardar_informe');
     /* Fin rutas entrega de requerimientos */
 }); 
 

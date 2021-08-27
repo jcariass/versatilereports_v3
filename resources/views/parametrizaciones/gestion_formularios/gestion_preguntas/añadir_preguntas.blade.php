@@ -123,10 +123,9 @@
             let id_obligacion = $('#id_obligacion option:selected').val();
             let pregunta_actividad = $('#pregunta_actividad').val();
             let pregunta_evidencia = $('#pregunta_evidencia').val();
-            informacion.push([id_obligacion + ',/,.-_-,,-#p?' + pregunta_actividad + ',/,.-_-,,-#p?' + pregunta_evidencia]);
+            informacion.push([id_obligacion + '8a0a5fac87bb9cccb268a0133e75f637' + pregunta_actividad + '8a0a5fac87bb9cccb268a0133e75f637' + pregunta_evidencia]);
             contador = contador + 1;
 
-            // <td>${id_obligacion}</td>
             $('#preguntas_ingresadas').append(`
                 <tr id="tr-${contador}">
                     <input type="hidden" name="informacion[]" value="${informacion[contador-1]}">

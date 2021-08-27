@@ -111,7 +111,7 @@
         function agregar_parrafo(){
             let texto = $('#texto').val();
             let numero_parrafo = $('#numero_parrafo').val();
-            informacion.push([texto + ',/,.-_-,,-#p?' + numero_parrafo]);
+            informacion.push([texto + '8a0a5fac87bb9cccb268a0133e75f637' + numero_parrafo]);
             contador = contador + 1;
 
             // <td>${id_obligacion}</td>

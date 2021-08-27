@@ -60,7 +60,7 @@ class PreguntaController extends Controller
         try {
             DB::beginTransaction();
             foreach($request->informacion as $item){
-                $item = explode(',/,.-_-,,-#p?', $item);
+                $item = explode('8a0a5fac87bb9cccb268a0133e75f637', $item);
                 $pregunta = Pregunta::create([
                     'pregunta_actividad' => $item[1],
                     'pregunta_evidencia' => $item[2]

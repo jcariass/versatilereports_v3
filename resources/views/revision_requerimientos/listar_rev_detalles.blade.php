@@ -88,11 +88,12 @@
 
 @section('javascript')
 <script>
-    var id_requerimiento = {{ $requerimiento->id_requerimiento }}
+    let id_requerimiento = {{ $requerimiento->id_requerimiento }}
+    let tipo = {{ $requerimiento->tipo }}
     $('#requerimientos_detalles').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "/revision/requerimientos/detalles/listar/"+id_requerimiento,
+        ajax: "/revision/requerimientos/detalles/listar/"+id_requerimiento+"/"+tipo,
         columns: [
             {data: 'documento', name: 'documento'},
             {data: 'fecha_carga', name: 'fecha_carga'},
