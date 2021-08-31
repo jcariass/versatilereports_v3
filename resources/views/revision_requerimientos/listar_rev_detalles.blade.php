@@ -42,6 +42,7 @@
                                     <li>
                                         <form action="{{ route('reporte_requerimientos') }}" method="post">
                                             @csrf
+                                            <input type="hidden" value="{{ $requerimiento->id_tipo_requerimiento }}" name="id_tipo_requerimiento" id="id_tipo_requerimiento">
                                             <input type="hidden" value="{{ $requerimiento->id_requerimiento }}" name="id_requerimiento" id="id_requerimiento">
                                             <button type="submit" class="btn btn-gris"><i class="ft-file"></i> Generar reporte</button>
                                         </form>
@@ -89,7 +90,7 @@
 @section('javascript')
 <script>
     let id_requerimiento = {{ $requerimiento->id_requerimiento }}
-    let tipo = {{ $requerimiento->tipo }}
+    let tipo = {{ $requerimiento->id_tipo_requerimiento }}
     $('#requerimientos_detalles').DataTable({
         processing: true,
         serverSide: true,

@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use DataTables;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RespuestaRequerimientoExport;
+use App\Models\Informe;
 use App\Models\RespuestaRequerimiento;
 use App\Models\Requerimiento;
 
@@ -39,7 +40,57 @@ class RevisionRequerimientoController extends Controller
 
     public function list_details($id, $tipo){
         if (request()->ajax()) {
-            $respuestas_requerimientos = RespuestaRequerimiento::join('contratos', 'contratos.id_contrato', '=', 'respuestas_requerimientos.id_contrato')
+            if ($tipo == 1) {
+                return $this->list_details_informes($id);
+            }elseif($tipo == 2){
+                return $this->list_details_archivos($id);
+            }else{
+                return redirect()->route('dashboard');
+            }
+        }
+        return redirect()->route('dashboard');
+    }
+    
+    private function list_details_informes($id){
+        $informes = Informe::join('contratos', 'contratos.id_contrato', '=', 'informes.id_contrato')
+            ->join('personas', 'personas.id_persona', '=', 'contratos.id_persona')
+            ->select('informes.*', 'personas.documento')
+            ->where('id_requerimiento', '=', ''.$id.'')->get();
+            return DataTables::of($informes)
+                ->editColumn('estado', function($informes){
+                    if ($informes->estado_uno == 0) {
+                        $btn_estado_uno = '<div class="badge badge-danger">No aprobado</div>';
+                    }else{
+                        $btn_estado_uno = '<div class="badge badge-success">Aprobado</div>';
+                    }
+                    if ($informes->estado_dos == 0) {
+                        $btn_estado_dos = '<div class="badge badge-danger">No aprobado</div>';
+                    }else{
+                        $btn_estado_dos = '<div class="badge badge-success">Aprobado</div>';
+                    }
+                    return $btn_estado_uno . ' ' . $btn_estado_dos;
+                })
+                ->addColumn('Opciones', function($informes){
+                    $ver = '<a href="#" class="btn btn-versatile_reports">Ver</a>';
+                    $informe = '<a href="#" class="btn btn-gris">Generar informe</a>';
+                    if ($informes->estado_uno == 0) {
+                        $estado_uno = '<a href="#" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
+                    }else{
+                        $estado_uno = '<a href="#" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
+                    }
+                    if ($informes->estado_dos == 0) {
+                        $estado_dos = '<a href="#" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
+                    }else{
+                        $estado_dos = '<a href="#" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
+                    }
+                    return $ver . ' ' . $informe. ' ' . $estado_uno . ' ' . $estado_dos;
+                })
+                ->rawColumns(['Opciones', 'estado'])
+                ->make(true);
+    }   
+
+    private function list_details_archivos($id){
+        $respuestas_requerimientos = RespuestaRequerimiento::join('contratos', 'contratos.id_contrato', '=', 'respuestas_requerimientos.id_contrato')
             ->join('personas', 'personas.id_persona', '=', 'contratos.id_persona')
             ->select('respuestas_requerimientos.*', 'personas.documento')
             ->where('id_requerimiento', '=', ''.$id.'')->get();
@@ -62,9 +113,7 @@ class RevisionRequerimientoController extends Controller
                 })
                 ->rawColumns(['Opciones', 'estado'])
                 ->make(true);
-        }
-        return redirect()->route('dashboard');
-    }
+    }       
 
     public function download_archive($nombre){
         $archivo = public_path('uploads/archivos/'.$nombre.'');
@@ -72,7 +121,23 @@ class RevisionRequerimientoController extends Controller
     }
 
     public function generar_reporte(Request $request){
-        $respuestas_requerimientos = RespuestaRequerimiento::join('requerimientos', 'requerimientos.id_requerimiento', '=', 'respuestas_requerimientos.id_requerimiento')
+        if ($request->id_tipo_requerimiento == 1) {
+            $respuestas_requerimientos = Informe::join('requerimientos', 'requerimientos.id_requerimiento', '=', 'informes.id_requerimiento')
+            ->join('contratos', 'contratos.id_contrato', '=', 'informes.id_contrato')
+            ->join('personas', 'personas.id_persona', '=', 'contratos.id_persona')
+            ->select(
+                'requerimientos.nombre as nombre_requerimiento', 
+                'requerimientos.fecha_creacion',
+                'requerimientos.fecha_finalizacion',
+                'personas.nombre as nombre_contratista',
+                'personas.primer_apellido',
+                'personas.segundo_apellido',
+                'personas.documento',
+                'informes.fecha_carga'
+                )
+            ->where('informes.id_requerimiento', '=', ''.$request->id_requerimiento.'')->get();
+        }elseif($request->id_tipo_requerimiento== 2){
+            $respuestas_requerimientos = RespuestaRequerimiento::join('requerimientos', 'requerimientos.id_requerimiento', '=', 'respuestas_requerimientos.id_requerimiento')
             ->join('contratos', 'contratos.id_contrato', '=', 'respuestas_requerimientos.id_contrato')
             ->join('personas', 'personas.id_persona', '=', 'contratos.id_persona')
             ->select(
@@ -86,6 +151,9 @@ class RevisionRequerimientoController extends Controller
                 'respuestas_requerimientos.fecha_carga'
                 )
             ->where('respuestas_requerimientos.id_requerimiento', '=', ''.$request->id_requerimiento.'')->get();
+        }else{
+
+        }
         if (count($respuestas_requerimientos) > 0) {
             return Excel::download(new RespuestaRequerimientoExport($respuestas_requerimientos), 'requerimiento.xlsx');
         }
