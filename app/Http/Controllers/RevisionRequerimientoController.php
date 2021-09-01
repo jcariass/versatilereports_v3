@@ -34,7 +34,7 @@ class RevisionRequerimientoController extends Controller
     }
 
     public function view_list_details($id){
-        $requerimiento = Requerimiento::find($id);
+        $requerimiento = Requerimiento::findOrFail($id);
         return view('revision_requerimientos.listar_rev_detalles', compact("requerimiento"));
     }
 
@@ -151,8 +151,6 @@ class RevisionRequerimientoController extends Controller
                 'respuestas_requerimientos.fecha_carga'
                 )
             ->where('respuestas_requerimientos.id_requerimiento', '=', ''.$request->id_requerimiento.'')->get();
-        }else{
-
         }
         if (count($respuestas_requerimientos) > 0) {
             return Excel::download(new RespuestaRequerimientoExport($respuestas_requerimientos), 'requerimiento.xlsx');
