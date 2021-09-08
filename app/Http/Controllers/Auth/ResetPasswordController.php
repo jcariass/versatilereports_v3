@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Menu;
+use App\Models\Permiso;
 use Illuminate\Foundation\Auth\RedirectsUsers;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
@@ -103,7 +105,7 @@ class ResetPasswordController extends Controller
 
         event(new PasswordReset($user));
 
-        $this->guard()->login($user);
+        return redirect()->route('login');
     }
 
     /**
@@ -163,16 +165,6 @@ class ResetPasswordController extends Controller
     public function broker()
     {
         return Password::broker();
-    }
-
-    /**
-     * Get the guard to be used during password reset.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
-    protected function guard()
-    {
-        return Auth::guard();
     }
 
 

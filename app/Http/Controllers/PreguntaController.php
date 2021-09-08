@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DataTables;
+use Exception;
+use Illuminate\Support\Facades\DB;
 use App\Models\Formulario;
 use App\Models\formulario_pregunta;
 use App\Models\Obligacion;
 use App\Models\Pregunta;
-use Exception;
-use Illuminate\Support\Facades\DB;
 
 class PreguntaController extends Controller
 {

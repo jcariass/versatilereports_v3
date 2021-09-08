@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DataTables;
+use Exception;
+use Illuminate\Support\Facades\DB;
 use App\Models\Formulario;
 use App\Models\formulario_pregunta;
 use App\Models\Pregunta;
-use Exception;
-use Illuminate\Support\Facades\DB;
 
 class FormularioController extends Controller
 {
@@ -27,7 +27,6 @@ class FormularioController extends Controller
 
     public function list(){
         if(!request()->ajax()){
-            // abort('403', 'NO AUTORIZADO');
             return redirect()->route('dashboard');
         }
 

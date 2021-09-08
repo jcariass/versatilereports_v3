@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\actividad_evidencia;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use DataTables;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\actividad_evidencia;
 use App\Models\formulario_pregunta;
 use App\Models\Requerimiento;
 use App\Models\Obligacion;
 use App\Models\Contrato;
 use App\Models\Informe;
 use App\Models\RespuestaRequerimiento;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class EntregaRequerimientoController extends Controller
 {

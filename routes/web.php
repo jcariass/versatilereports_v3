@@ -142,13 +142,10 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     /* Fin rutas gestión de plantillas y parrafos */
 
     /* Inicio rutas gestión de contratistas y contratos */
-    //Contratistas
     Route::get('/contratistas', [ContratistaController::class, 'view_list'])->name('listar_contratistas');
     Route::get('/contratistas/listar', [ContratistaController::class, 'list']);
     Route::get('/contratistas/reporte', [ContratistaController::class, 'view_reporte'])->name('view_reporte');
     Route::post('/contratistas/generar/reporte', [ContratistaController::class, 'generar_excel'])->name('generar_reporte_contratistas');
-    //Fin contratistas
-    //Contratos
     Route::get('/contratistas/contratos/{id}', [ContratoController::class, 'view_list'])->name('listar_contratos');
     Route::get('/contratistas/contratos/listar/{id}', [ContratoController::class, 'list']);
     Route::get('/contratistas/contratos/crear/{id}', [ContratoController::class, 'view_create'])->name('crear_contratos');
@@ -157,7 +154,6 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::put('/contratistas/contratos/actualizar', [ContratoController::class, 'update'])->name('editar_contrato');
     Route::get('/contratistas/ver/contrato/{id}', [ContratoController::class, 'view_more']);
     Route::get('/contratistas/contratos/cambiar/estado/{id}/{estado}', [ContratoController::class, 'state_update']);
-    //Fin contratos
     /* Fin rutas gestión de contratos */
 
     /* Inicio rutas gestión de requerimientos */
