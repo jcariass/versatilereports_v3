@@ -42,7 +42,7 @@ class UsuarioController extends Controller
     public function list(){
         if(request()->ajax()){
             $personas = User::join('roles', 'roles.id_rol', '=', 'usuarios.id_rol')
-            ->select('usuarios.*', 'roles.nombre as nombre_rol');
+            ->select('usuarios.*', 'roles.nombre as nombre_rol')->get();
             return DataTables::of($personas)
                 ->editColumn('estado', function($persona){
                     if ($persona->estado == 1) {
@@ -192,7 +192,7 @@ class UsuarioController extends Controller
             DB::beginTransaction();
             $persona->update([
                 'estado' => $estado
-            ]);
+            ]); 
             $usuario->update([
                 'estado' => $estado
             ]);

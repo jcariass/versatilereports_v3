@@ -74,8 +74,10 @@ class EntregaRequerimientoController extends Controller
                     $tipo_informe = $this->requerimiento_informe($requerimiento->id_requerimiento, $contrato->id_contrato);
                     if ($tipo_informe == null) {
                         return '<a href="/entrega/requerimientos/informe/contractual/'.$requerimiento->id_requerimiento.'" class="btn btn-versatile_reports">Responder</a>';
+                    }elseif($tipo_informe == 'Aprobado'){
+                        return '<div class="alert alert-success" role="alert">Requerimiento aprobado</div>';
                     }else{
-                        $opcion1 = '<a href="#" class="btn btn-versatile_reports">Editar</a>';
+                        $opcion1 = '<a href="/entrega/requerimientos/editar/informe/contractual/'.$tipo_informe->id_informe.'" class="btn btn-versatile_reports">Editar</a>';
                         $opcion2 = '<a href="#" class="btn btn-gris">Generar informe</a>';
                         return $opcion1 . ' ' . $opcion2;
                     }
@@ -84,6 +86,8 @@ class EntregaRequerimientoController extends Controller
                     $tipo_archivo = $this->requerimiento_archivo($requerimiento->id_requerimiento, $contrato->id_contrato);
                     if ($tipo_archivo == null) {
                         return '<a href="/entrega/requerimientos/cargar/archivo/'.$requerimiento->id_requerimiento.'" class="btn btn-versatile_reports">Responder</a>';
+                    }elseif($tipo_archivo == 'Aprobado'){
+                        return '<div class="alert alert-success" role="alert">Requerimiento aprobado</div>';
                     }else{
                         $opcion1 = '<a href="/entrega/requerimientos/editar/archivo/'.$tipo_archivo->id_respuesta_requerimiento.'" class="btn btn-versatile_reports">Editar</a>';
                         $opcion2 = '<a href="/entrega/requerimientos/descargar/archivo/'.$tipo_archivo->nombre.'" class="btn btn-gris">Descargar</a>';
@@ -107,12 +111,21 @@ class EntregaRequerimientoController extends Controller
                     ->where('informes.id_requerimiento', '=', $id_requerimiento)
                     ->where('informes.id_contrato', '=', $id_contrato)
                     ->first();
-        return $informe;
+        if($informe->estado_uno == 1 && $informe->estado_dos == 1){
+            return $informe = 'Aprobado';
+        }else{
+            return $informe;
+        }
     }
     
     private function requerimiento_archivo($id_requerimiento, $id_contrato){
         $archivo = RespuestaRequerimiento::where('id_requerimiento', '=', $id_requerimiento)
                     ->where('id_contrato', '=', $id_contrato)->first();
+        if($archivo->estado == 1){
+            return $archivo = 'Aprobado';
+        }else{
+            return $archivo;
+        }
         return $archivo;
     }
 
@@ -192,6 +205,15 @@ class EntregaRequerimientoController extends Controller
         } catch (Exception $e) {
             return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrio un error: '.$e->getMessage());
         }
+    }
+
+    public function view_actualizar_informe($id){
+        $informe = Informe::findOrFail($id);
+        return view('entrega_requerimientos.editar_informe', compact('informe'));
+    }
+
+    public function update_informe(Request $request){
+        return 'Hola haciendo UPDATE';
     }
 
     private function validations(Request $request){

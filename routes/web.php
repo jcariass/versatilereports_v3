@@ -74,7 +74,9 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::put('/formularios/actualizar', [FormularioController::class, 'update'])->name('actualizar_formulario');
     Route::get('/formularios/duplicar/{id}', [FormularioController::class, 'duplicar'])->name('duplicar_formulario');
     Route::get('/formularios/preguntas/{id}', [PreguntaController::class, 'view_list'])->name('preguntas_formulario');
-    Route::get('/formularios/listar/preguntas/{id}', [PreguntaController::class, 'list']);
+    Route::get('/formularios/obligaciones/{id}', [PreguntaController::class, 'view_list_obligaciones'])->name('obligaciones_formulario');
+    Route::get('/formularios/listar/obligaciones/{id}', [PreguntaController::class, 'list_obligaciones']);
+    Route::get('/formularios/listar/preguntas/{id_obligacion}/{id_formulario}', [PreguntaController::class, 'list']);
     Route::get('/formularios/crear/preguntas/{id}', [PreguntaController::class, 'view_store'])->name('añadir_preguntas');
     Route::get('/formularios/editar/pregunta/{id}', [PreguntaController::class,'view_edit'])->name('editar_pregunta');
     Route::put('/formularios/actualizar/pregunta', [PreguntaController::class, 'update'])->name('actualizar_pregunta');
@@ -185,6 +187,8 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::post('/entrega/requerimientos/guardar/archivo', [EntregaRequerimientoController::class, 'insert_archive'])->name('insertar_archivo');
     Route::get('/entrega/requerimientos/informe/contractual/{id}', [EntregaRequerimientoController::class, 'view_insert_informe']);
     Route::post('/entrega/requerimientos/guardar/informe', [EntregaRequerimientoController::class, 'save'])->name('guardar_informe');
+    Route::get('/entrega/requerimientos/editar/informe/contractual/{id}', [EntregaRequerimientoController::class, 'view_actualizar_informe']);
+    Route::put('/entrega/requerimientos/actualizar/informe', [EntregaRequerimientoController::class, 'update_informe'])->name('actualizar_informe');
     /* Fin rutas entrega de requerimientos */
 }); 
 

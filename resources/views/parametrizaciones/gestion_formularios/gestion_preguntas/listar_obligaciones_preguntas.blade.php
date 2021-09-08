@@ -23,9 +23,7 @@
                             </li>
                             <li class="breadcrumb-item"><a href="{{ route('listar_formularios') }}">Listar formularios</a>
                             </li>
-                            <li class="breadcrumb-item"><a href="{{ route('obligaciones_formulario', ['id' => $id]) }}">Listar obligaciones</a>
-                            </li>
-                            <li class="breadcrumb-item active">Lista de preguntas
+                            <li class="breadcrumb-item active">Lista de obligaciones
                             </li>
                         </ol>
                     </div>
@@ -38,10 +36,15 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">{{ $obligacion->detalle }} - Lista de preguntas</h4>
+                            <h4 class="card-title">{{ $formulario->nombre }} - Lista de obligaciones</h4>
                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">
+                                    <li>
+                                        <a href="{{ route('añadir_preguntas', ['id' => $formulario->id_formulario]) }}" class="btn btn-versatile_reports">
+                                            <i class="ft-plus-square"></i> Añadir preguntas
+                                        </a>
+                                    </li>
                                     <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
                                 </ul>
                             </div>
@@ -61,12 +64,11 @@
                                     </div>
                                 @endif
                                 <div class="table-responsive">
-                                    <table id="preguntas" style="width: 100%;" class="table table-bordered table-hover">
+                                    <table id="obligaciones" style="width: 100%;" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Pregunta actividad</th>
-                                                <th>Pregunta evidencia</th>
+                                                <th>Obligacion</th>
                                                 <th>Opciones</th>
                                             </tr>
                                         </thead>
@@ -85,16 +87,17 @@
 
 @section('javascript')
     <script>
-        let id_obligacion = {{ $obligacion->id_obligacion }}
-        let id_formulario = {{ $id }}
-        $('#preguntas').DataTable({
+        // function cambiar_estado(id, estado){
+        //     alert("id: "+id+"\nestado: "+estado);
+        // }
+        let id_formulario = {{ $formulario->id_formulario }}
+        $('#obligaciones').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/formularios/listar/preguntas/'+id_obligacion+'/'+id_formulario,
+            ajax: '/formularios/listar/obligaciones/'+id_formulario,
             columns: [
-                {data: 'id_pregunta', name: 'id_pregunta'},
-                {data: 'pregunta_actividad', name: 'pregunta_actividad'},
-                {data: 'pregunta_evidencia', name: 'pregunta_evidencia'},
+                {data: 'id_obligacion', name: 'id_obligacion'},
+                {data: 'detalle', name: 'detalle'},
                 {data: 'Opciones', name: 'Opciones'}
             ],
             language : {

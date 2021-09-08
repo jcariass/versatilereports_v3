@@ -58,6 +58,8 @@ class CreatePermisosTable extends Migration
             [   'nombre' => 'Ver formulario editar formularios',   'url' => '/formularios/editar/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Actualizar formulario',   'url' => '/formularios/actualizar', 'method' => 'PUT',  'url_identica' => 1],
             [   'nombre' => 'Duplicar formularios',   'url' => '/formularios/duplicar/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Ver obligaciones del formulario',   'url' => '/formularios/obligaciones/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Listar obligaciones de un formulario',   'url' => '/formularios/listar/obligaciones/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Ver preguntas del formulario',   'url' => '/formularios/preguntas/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Listar preguntas de un formulario',   'url' => '/formularios/listar/preguntas/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Ver formulario de crear preguntas de un formulario',   'url' => '/formularios/crear/preguntas/', 'method' => 'GET',  'url_identica' => 0],
@@ -170,7 +172,9 @@ class CreatePermisosTable extends Migration
             [   'nombre' => 'Descargar archivos enviados de un requerimiento',   'url' => '/entrega/requerimientos/descargar/archivo/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Ver formulario de requerimientos de tipo informe',   'url' => '/entrega/requerimientos/informe/contractual/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Enviar requerimientos de tipo formulario',   'url' => '/entrega/requerimientos/guardar/informe', 'method' => 'POST',  'url_identica' => 1],
-            //Fin rutas entrega de requerimientos -- 5 rutas
+            [   'nombre' => 'Ver formulario de actualizar requerimientos de tipo informe',   'url' => '/entrega/requerimientos/editar/informe/contractual/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Actualizar requerimientos de tipo formulario',   'url' => '/entrega/requerimientos/actualizar/informe', 'method' => 'PUT',  'url_identica' => 1],
+            //Fin rutas entrega de requerimientos -- 11 rutas
         ]);
     }
 
