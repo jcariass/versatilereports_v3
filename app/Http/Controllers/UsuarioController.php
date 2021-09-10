@@ -13,6 +13,7 @@ use DataTables;
 use Exception;
 use Faker\Provider\ar_JO\Person;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -37,6 +38,11 @@ class UsuarioController extends Controller
         $municipios = Municipio::all();
         $roles = Rol::all();
         return view('gestion_usuarios.editar_usuario', compact('persona', 'departamentos', 'municipios', 'roles'));
+    }
+
+    public static function nombre_usuario(){
+        $nombre = Persona::select('nombre', 'primer_apellido', 'segundo_apellido')->where('id_persona', '=', Auth::user()->id_persona)->first();
+        return $nombre;
     }
 
     public function list(){
