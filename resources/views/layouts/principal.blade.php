@@ -11,7 +11,7 @@
     <meta name="author" content="Jorge Asdrúbal Ortega González">
     <title>VersatileReports</title>
 
-    <link rel="icon" href="{{ asset('dashboard/assets/img/logo.png') }}">
+    {{-- <link rel="icon" href="{{ asset('dashboard/assets/img/logo.png') }}">--}}
     <link href="{{ asset('dashboard/assets/fonts/fonts_googleapis.css') }}" rel="stylesheet">
 
     <!-- BEGIN: Vendor CSS-->
@@ -102,8 +102,8 @@
 
     <script src="{{ asset('datatable/js/datatables.min.js') }}"></script>
 
-    {{-- <script src="{{ asset('jquery_validate/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('jquery_validate/additional-methods.min.js') }}"></script> --}}
+    <script src="{{ asset('jquery_validate/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('jquery_validate/additional-methods.min.js') }}"></script>
     
     @yield('javascript') {{-- Incluir javascript especiales de alguna pagina --}}
     

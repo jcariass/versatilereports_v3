@@ -2,9 +2,12 @@
 
 @section('style')
     <style>
-        .error{
+        label.error {
             color: red;
+            font-size: 1rem;
             font-style: italic;
+            display: block;
+            margin-top: 5px;
         }
     </style>
 @endsection
@@ -147,14 +150,112 @@
                 Swal.fire({
                     icon: 'error',
                     title: '¡Fecha incorrecta!',
-                    text: 'La fecha de finalizacion debe ser un dia mayor a la fecha actual.',
-                    footer: '<strong>Nota: </strong><p>Actualiza la fecha y da click fuera del campo de texto</p>'
+                    text: 'La fecha de finalización debe ser un día mayor a la fecha actual.',
+                    footer: '<strong>Nota:</strong>&nbsp<p>Actualiza la fecha y da clic fuera del campo de texto</p>'
                 });
                 $('#guardar_form').hide("slow");
             }else{
                 $('#guardar_form').show("slow");
             }
         });
+
+        /* Método para letras con acentos */
+        jQuery.validator.addMethod("letras", function(value, element) {
+            return this.optional(element) || /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(value);
+        });
+
+        $("#form_crear_requerimiento").validate({
+
+            onfocusin: function(element) { $(element).valid(); },
+            onfocusout: function(element) { $(element).valid(); },
+            onclick: function(element) { $(element).valid(); },
+            onkeyup: function(element) { $(element).valid(); },
+
+            rules: {
+                nombre: {
+                    required: true,
+                    letras: true,
+                    minlength: 3,
+                    maxlength: 100
+                },
+
+                detalle: {
+                    required: true,
+                    letras: true,
+                    minlength: 3,
+                    maxlength: 255
+                },
+
+                fecha_finalizacion: {
+                    required: true
+                },
+
+                id_proceso: {
+                    required: true
+                },
+
+                id_tipo_requerimiento: {
+                    required: true
+                },
+
+                id_formulario: {
+                    required: true
+                }
+            },
+            messages: {
+                nombre: {
+                    required: "Este campo es obligatorio",
+                    letras: "Solo se admiten letras",
+                    minlength: "El nombre debe tener minimo 3 caracteres",
+                    maxlength: "El nombre puede tener máximo 100 caracteres"
+                },
+
+                detalle: {
+                    required: "Este campo es obligatorio",
+                    letras: "Solo se admiten letras",
+                    minlength: "El detalle debe tener minimo 3 caracteres",
+                    maxlength: "El detalle puede tener máximo 255 caracteres"
+                },
+
+                fecha_finalizacion: {
+                    required: "Debe seleccionar una fecha",
+                },
+
+                id_proceso: {
+                    required: "Debe seleccionar un proceso"
+                },
+
+                id_tipo_requerimiento: {
+                    required: "Debe seleccionar un tipo requerimiento"
+                },
+
+                id_formulario: {
+                    required: "Debe seleccionar un formulario"
+                }
+            },
+        });
+
+        /* función para confirmar */
+        $("#guardar_form").click(function(evento){
+            evento.preventDefault()
+            
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+                
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#form_crear_requerimiento').submit()
+                }
+            })
+
+        })
+
     });
 
     function actualizar_select(){

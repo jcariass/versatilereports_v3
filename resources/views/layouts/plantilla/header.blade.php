@@ -21,14 +21,14 @@
                     <li class="dropdown dropdown-user nav-item">
                         <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                             <span class="mr-1 user-name text-bold-700">
+
                                 @php
                                     $nombre_usuario = App\Http\Controllers\UsuarioController::nombre_usuario();
                                 @endphp
                                 {{ $nombre_usuario['nombre'] . ' ' . $nombre_usuario['primer_apellido'] . ' ' . $nombre_usuario['segundo_apellido'] }}
+                                
                             </span>
-                            <span class="avatar avatar-online">
-                                <img src="dashboard/app-assets/images/portrait/small/avatar-s-19.png" alt="avatar"><i></i>
-                            </span>
+                            <span class="ft-power text-bold-700"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             {{-- <a class="dropdown-item" href="{{ route('view_ajustes', ['id' => Auth::user()->id_usuario]) }}"><i class="ft-settings"></i> Ajustes</a> --}}

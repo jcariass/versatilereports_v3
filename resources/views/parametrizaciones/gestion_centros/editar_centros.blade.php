@@ -1,5 +1,17 @@
 @extends('layouts.principal')
 
+@section('style')
+    <style>
+        label.error {
+            color: red;
+            font-size: 1rem;
+            font-style: italic;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+@endsection
+
 @section('contenido')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -60,7 +72,7 @@
                                             <i class="la la-close"></i>
                                             Cancelar
                                         </a>
-                                        <button type="submit" class="btn btn-primary">
+                                        <button type="submit" class="btn btn-primary" id="btn_submit">
                                             <i class="la la-save"></i>
                                             Guardar
                                         </button>
@@ -79,13 +91,16 @@
 
 
 @section('javascript')
+
+<script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
+
 <!-- Inicio de validación/////////////////////////////////////////////////////////////////////////////////////-->
 <script>
     $(document).ready(function() {
 
-        /* Metodo para letras */
+        /* Método para letras con acentos */
         jQuery.validator.addMethod("letras", function(value, element) {
-            return this.optional(element) || /^[a-zA-Z]+(([\'\,\.\-][a-zA-Z])?[ a-zA-Z]*)*$/.test(value);
+            return this.optional(element) || /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(value);
         });
 
         $("#form_edit_centro").validate({
@@ -96,23 +111,45 @@
             onkeyup: function(element) { $(element).valid(); },
 
             rules: {
-                nombre : {
-                required: true,
-                letras: true,
-                minlength: 3,
-                maxlength: 30
+                nombre: {
+                    required: true,
+                    letras: true,
+                    minlength: 3,
+                    maxlength: 100
                 }
             },
-            messages : {
+            messages: {
                 nombre: {
                     required: "Este campo es obligatorio",
                     letras: "Solo se admiten letras",
                     minlength: "El nombre debe tener minimo 3 caracteres",
-                    maxlength: "El nombre puede tener máximo 30 caracteres"
+                    maxlength: "El nombre puede tener máximo 100 caracteres"
                 }
-            }
+            },
         });
+
+        /* función para confirmar */
+        $("#btn_submit").click(function(evento){
+            evento.preventDefault()
+            
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+                
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#form_edit_centro').submit()
+                }
+            })
+
+        })
+
 });
 </script>
-<!-- Inicio de validación/////////////////////////////////////////////////////////////////////////////////////-->
+<!-- Fin de validación/////////////////////////////////////////////////////////////////////////////////////-->
 @endsection

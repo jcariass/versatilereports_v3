@@ -9,7 +9,7 @@
     {{-- <meta name="description" content="Modern admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities with bitcoin dashboard.">
     <meta name="keywords" content="admin template, modern admin template, dashboard template, flat admin template, responsive admin template, web app, crypto dashboard, bitcoin dashboard">
     <meta name="author" content="PIXINVENT"> --}}
-    <title>Login VersatileReports</title>
+    <title>VersatileReports</title>
     <link rel="apple-touch-icon" href="{{ asset('dashboard/app-assets/images/ico/apple-icon-120.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('dashboard/app-assets/images/ico/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700" rel="stylesheet">
@@ -44,6 +44,16 @@
         }
     </style> --}}
 
+    <style>
+        label.error {
+            color: red;
+            font-size: 1em;
+            font-style: italic;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+
 </head>
 <!-- END: Head-->
 
@@ -69,7 +79,7 @@
                                 <div class="card-content">
                                     <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>{{__('VersatileReports')}}</span></p>
                                     <div class=" card-body">
-                                        <form method="POST" action="{{ route('login') }}">
+                                        <form id="form_login" class="form" method="POST" action="{{ route('login') }}">
                                             @csrf
                                             <!-- Tipo documento -->
                                             <fieldset class="form-group position-relative has-icon-left">
@@ -126,7 +136,7 @@
                                             <div class="col-sm-6 col-12 float-sm-right text-center text-sm-right">
                                                 @if (Route::has('password.request'))
                                                 <a class="card-link" href="{{ route('password.request') }}">
-                                                    Olvido su contraseña?
+                                                    ¿Olvido su contraseña?
                                                 </a>
                                                 @endif
                                             </div>
@@ -165,6 +175,44 @@
 <!-- BEGIN: Page JS-->
 <script src="{{ asset('dashboard/app-assets/js/scripts/forms/form-login-register.js') }}"></script>
 <!-- END: Page JS-->
+
+<script src="{{ asset('jquery_validate/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('jquery_validate/additional-methods.min.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+
+        $("#form_login").validate({
+
+            rules: {
+                tipo_documento: {
+                    required: true
+                },
+
+                documento: {
+                    required: true
+                },
+
+                password: {
+                    required: true
+                }
+            },
+            messages: {
+                tipo_documento: {
+                    required: "Seleccione un tipo de documento",
+                },
+
+                documento: {
+                    required: "Dígite un documento",
+                },
+
+                password: {
+                    required: "Escriba una contraseña",
+                }
+            },
+        });
+});
+</script>
 
 </body>
 <!-- END: Body-->

@@ -1,5 +1,17 @@
 @extends('layouts.principal')
 
+@section('style')
+    <style>
+        label.error {
+            color: red;
+            font-size: 1rem;
+            font-style: italic;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+@endsection
+
 @section('contenido')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -68,7 +80,7 @@
                                     </div>
                                 </div>
                                 <div class="form-actions text-center">
-                                    <button type="submit" class="btn btn-primary btn-block">
+                                    <button type="submit" class="btn btn-primary btn-block" id="btn_submit">
                                         <i class="la la-save"></i>
                                         Guardar
                                     </button>
@@ -90,13 +102,16 @@
 
 
 @section('javascript')
+
+<script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
+
 <!-- Inicio de validación/////////////////////////////////////////////////////////////////////////////////////-->
 <script>
     $(document).ready(function() {
 
-        /* Metodo para letras */
+        /* Método para letras */
         jQuery.validator.addMethod("letras", function(value, element) {
-            return this.optional(element) || /^[a-zA-Z]+(([\'\,\.\-][a-zA-Z])?[ a-zA-Z]*)*$/.test(value);
+            return this.optional(element) || /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(value);
         });
 
         $("#form_crear_rol").validate({
@@ -108,10 +123,10 @@
 
             rules: {
                 nombre : {
-                required: true,
-                letras: true,
-                minlength: 3,
-                maxlength: 30
+                    required: true,
+                    letras: true,
+                    minlength: 3,
+                    maxlength: 30
                 }
             },
             messages : {
@@ -123,7 +138,29 @@
                 }
             }
         });
+
+        /* función para confirmar */
+        $("#btn_submit").click(function(evento){
+            evento.preventDefault()
+            
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+                
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#form_crear_rol').submit()
+                }
+            })
+
+        })
+
 });
 </script>
-<!-- Inicio de validación/////////////////////////////////////////////////////////////////////////////////////-->
+<!-- Fin de validación/////////////////////////////////////////////////////////////////////////////////////-->
 @endsection

@@ -1,5 +1,17 @@
 @extends('layouts.principal')
 
+@section('style')
+    <style>
+        label.error {
+            color: red;
+            font-size: 1rem;
+            font-style: italic;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+@endsection
+
 @section('contenido')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -36,7 +48,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('registrar_usuario') }}" method="post">
+                            <form id="form_crear_usuario" class="form" action="{{ route('registrar_usuario') }}" method="post">
                                 @csrf
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -173,7 +185,7 @@
                                     </div>
                                 </div>
                                 <div class="form-actions text-center">
-                                    <button type="submit" class="btn btn-primary btn-block">
+                                    <button type="submit" class="btn btn-primary btn-block" id="btn_submit">
                                         <i class="la la-save"></i>
                                         Guardar
                                     </button>
@@ -193,6 +205,8 @@
 </div>
 @endsection
 
+<script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
+
 @section('javascript')
     <script>
         $(document).ready(function(){
@@ -208,6 +222,187 @@
                     })
                 }
             })
+
+            /* Metodo para letras con acentos */
+        jQuery.validator.addMethod("letras", function(value, element) {
+            return this.optional(element) || /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(value);
+        });
+
+        $("#form_crear_usuario").validate({
+
+            onfocusin: function(element) { $(element).valid(); },
+            onfocusout: function(element) { $(element).valid(); },
+            onclick: function(element) { $(element).valid(); },
+            onkeyup: function(element) { $(element).valid(); },
+
+            rules: {
+                tipo_documento: {
+                    required: true
+                },
+
+                documento: {
+                    required: true,
+                    number: true,
+                    minlength: 7,
+                    maxlength: 11
+                },
+
+                nombre: {
+                    required: true,
+                    letras: true,
+                    minlength: 3,
+                    maxlength: 40
+                },
+
+                primer_apellido: {
+                    required: true,
+                    letras: true,
+                    minlength: 3,
+                    maxlength: 30
+                },
+
+                segundo_apellido: {
+                    letras: true,
+                    minlength: 3,
+                    maxlength: 30
+                },
+
+                correo: {
+                    required: true
+                },
+
+                celular_uno: {
+                    required: true,
+                    number: true,
+                    minlength: 7,
+                    maxlength: 10
+                },
+
+                celular_dos: {
+                    number: true,
+                    minlength: 7,
+                    maxlength: 10
+                },
+
+                id_departamento: {
+                    required: true
+                },
+
+                id_municipio: {
+                    required: true
+                },
+
+                id_rol: {
+                    required: true
+                },
+
+                password: {
+                    required: true,
+                    minlength: 8,
+                    maxlength: 20
+                },
+
+                password_confirmation: {
+                    required: true,
+                    equalTo: "#password"
+                }
+            },
+
+            messages: {
+                tipo_documento: {
+                    required: "Seleccione un tipo de documento"
+                },
+
+                documento: {
+                    required: "Este campo es obligatorio",
+                    number: "Solo te admiten números",
+                    minlength: "El documento debe tener minimo 7 dígitos",
+                    maxlength: "El documento puede tener máximo 11 dígitos"
+                },
+
+                nombre: {
+                    required: "Este campo es obligatorio",
+                    letras: "Solo te admiten letras",
+                    minlength: "El nombre debe tener minimo 3 caracteres",
+                    maxlength: "El nombre puede tener máximo 40 caracteres"
+                },
+
+                primer_apellido: {
+                    required: "Este campo es obligatorio",
+                    letras: "Solo te admiten letras",
+                    minlength: "El apellido debe tener minimo 3 caracteres",
+                    maxlength: "El apellido puede tener máximo 30 caracteres"
+                },
+
+                segundo_apellido: {
+                    letras: "Solo te admiten letras",
+                    minlength: "El apellido debe tener minimo 3 caracteres",
+                    maxlength: "El apellido puede tener máximo 30 caracteres"
+                },
+
+                correo: {
+                    required: "Este campo es obligatorio"
+                },
+
+                celular_uno: {
+                    required: "Este campo es obligatorio",
+                    number: "Solo te admiten números",
+                    minlength: "El celular debe tener minimo 7 dígitos",
+                    maxlength: "El celular puede tener máximo 11 dígitos"
+                },
+
+                celular_dos: {
+                    number: "Solo te admiten números",
+                    minlength: "El celular debe tener minimo 7 dígitos",
+                    maxlength: "El celular puede tener máximo 11 dígitos"
+                },
+
+                id_departamento: {
+                    required: "Seleccione un logar de expedición"
+                },
+
+                id_municipio: {
+                    required: "Seleccione un logar de expedición"
+                },
+
+                id_rol: {
+                    required: "Seleccione un rol"
+                },
+
+                password: {
+                    required: "Este campo es obligatorio",
+                    minlength: "La contraseña debe tener minimo 8 dígitos",
+                    maxlength: "La contraseña puede tener máximo 20 dígitos"
+                },
+
+                password_confirmation: {
+                    required: "Este campo es obligatorio",
+                    equalTo: "Las contraseñas deben coincidir"
+                }
+            },
+        });
+
+        /* función para confirmar */
+        $("#btn_submit").click(function(evento){
+            evento.preventDefault()
+            
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+                
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#form_crear_usuario').submit()
+                }
+            })
+
+        })
+
         });
     </script>
 @endsection

@@ -35,9 +35,12 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/assets/css/style.css') }}">
     <!-- END: Custom CSS-->
     <style>
-        .error{
+        label.error {
             color: red;
+            font-size: 1rem;
             font-style: italic;
+            display: block;
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -135,7 +138,7 @@
                 },
                 messages: {
                     email: {
-                        required: "Debe ingresar un correo electronico",
+                        required: "Debe ingresar un correo electrónico",
                         email: "Ingrese un formato valido: ejemplo@ejemplo.com"
                     }
                 }

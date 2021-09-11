@@ -1,5 +1,17 @@
 @extends('layouts.principal')
 
+@section('style')
+    <style>
+        label.error {
+            color: red;
+            font-size: 1rem;
+            font-style: italic;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+@endsection
+
 @section('contenido')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -37,7 +49,7 @@
                         </div>
                         <div class="card-body">
                             <div class="card-content collapse show">
-                                <form id="form_editar_obligaciones" class="form" action="{{ route('editar_obligaciones') }}" method="post">
+                                <form id="form_edit_obligacion" class="form" action="{{ route('editar_obligaciones') }}" method="post">
                                     <input type="hidden" name="id_obligacion" id="id_obligacion" value="{{ $obligacion->id_obligacion }}">
                                     @csrf
                                     @method('put')
@@ -101,6 +113,8 @@
 <script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
 <script>
     $(document).ready(function() {
+
+        /* función para confirmar fecha */
         $('#fecha_vencimiento').on("blur", function(){
             let fecha_finalizacion = $('#fecha_vencimiento').val();
             let fecha_actual = 	moment().format('YYYY-MM-DD');
@@ -108,14 +122,82 @@
                 Swal.fire({
                     icon: 'error',
                     title: '¡Fecha incorrecta!',
-                    text: 'La fecha de vencimiento debe ser un dia mayor a la fecha actual.',
-                    footer: '<strong>Nota: </strong><p>Actualiza la fecha y da click fuera del campo de texto</p>'
+                    text: 'La fecha de vencimiento debe ser un día mayor a la fecha actual.',
+                    footer: '<strong>Nota:</strong>&nbsp<p>Actualiza la fecha y da clic fuera del campo de texto</p>'
                 });
                 $('#guardar_form').hide("slow");
             }else{
                 $('#guardar_form').show("slow");
             }
         });
-  });
+
+         /* Método para letras con acentos */
+        jQuery.validator.addMethod("letras", function(value, element) {
+            return this.optional(element) || /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(value);
+        });
+
+        $("#form_edit_obligacion").validate({
+
+            onfocusin: function(element) { $(element).valid(); },
+            onfocusout: function(element) { $(element).valid(); },
+            onclick: function(element) { $(element).valid(); },
+            onkeyup: function(element) { $(element).valid(); },
+
+            rules: {
+                detalle: {
+                    required: true,
+                    letras: true,
+                    minlength: 3,
+                    maxlength: 500
+                },
+
+                id_proceso: {
+                    required: true
+                },
+
+                fecha_vencimiento: {
+                    required: true
+                }
+            },
+            messages: {
+                detalle: {
+                    required: "Este campo es obligatorio",
+                    letras: "Solo se admiten letras",
+                    minlength: "El detalle debe tener minimo 3 caracteres",
+                    maxlength: "El detalle puede tener máximo 500 caracteres"
+                },
+
+                id_proceso: {
+                    required: "Debe seleccionar un proceso",
+                },
+
+                fecha_vencimiento:{
+                    required: "Debe establecer una fecha",
+                }
+            },
+        });
+
+        /* función para confirmar */
+        $("#guardar_form").click(function(evento){
+            evento.preventDefault()
+            
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+                
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#form_edit_obligacion').submit()
+                }
+            })
+
+        })
+
+});
 </script>
 @endsection

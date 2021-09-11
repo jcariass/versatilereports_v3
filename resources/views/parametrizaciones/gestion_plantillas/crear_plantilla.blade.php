@@ -1,5 +1,17 @@
 @extends('layouts.principal')
 
+@section('style')
+    <style>
+        label.error {
+            color: red;
+            font-size: 1rem;
+            font-style: italic;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+@endsection
+
 @section('contenido')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -36,7 +48,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('registrar_plantilla') }}" method="post">
+                            <form id="form_crear_plantilla" class="form" action="{{ route('registrar_plantilla') }}" method="post">
                                 @csrf
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -95,7 +107,7 @@
                                     </div>
                                 </div>
                                 <div class="form-actions text-center">
-                                    <button type="submit" class="btn btn-primary btn-block">
+                                    <button type="submit" class="btn btn-primary btn-block" id="btn_submit">
                                         <i class="la la-save"></i>
                                         Guardar
                                     </button>
@@ -113,4 +125,113 @@
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('javascript')
+
+<script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
+
+<!-- Inicio de validación/////////////////////////////////////////////////////////////////////////////////////-->
+<script>
+    $(document).ready(function() {
+
+        /* Metodo para letras con acentos */
+        jQuery.validator.addMethod("letras", function(value, element) {
+            return this.optional(element) || /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(value);
+        });
+
+        $("#form_crear_plantilla").validate({
+
+            onfocusin: function(element) { $(element).valid(); },
+            onfocusout: function(element) { $(element).valid(); },
+            onclick: function(element) { $(element).valid(); },
+            onkeyup: function(element) { $(element).valid(); },
+
+            rules: {
+                nombre: {
+                    required: true,
+                    letras: true,
+                    minlength: 3,
+                    maxlength: 30
+                },
+
+                fecha_finalizacion: {
+                    required: true
+                },
+
+                descripcion: {
+                    required: true,
+                    letras: true,
+                    minlength: 20,
+                    maxlength: 800
+                },
+
+                ciudad: {
+                    required: true,
+                    letras: true,
+                    minlength: 3,
+                    maxlength: 50
+                },
+
+                id_proceso: {
+                    required: true
+                }
+            },
+            messages: {
+                nombre: {
+                    required: "Este campo es obligatorio",
+                    letras: "Solo se admiten letras",
+                    minlength: "El nombre debe tener minimo 3 caracteres",
+                    maxlength: "El nombre puede tener máximo 30 caracteres"
+                },
+
+                fecha_finalizacion:{
+                    required: "Debe establecer una fecha",
+                },
+
+                descripcion: {
+                    required: "Este campo es obligatorio",
+                    letras: "Solo se admiten letras",
+                    minlength: "La descripción debe tener minimo 20 caracteres",
+                    maxlength: "La descripción debe tener minimo 800 caracteres"
+                },
+
+                ciudad: {
+                    required: "Este campo es obligatorio",
+                    letras: "Solo se admiten letras",
+                    minlength: "La ciudad debe tener minimo 3 caracteres",
+                    maxlength: "La ciudad debe tener minimo 50 caracteres"
+                },
+
+                id_proceso: {
+                    required: "Debe seleccionar un proceso",
+                }
+            }
+        });
+
+        /* función para confirmar */
+        $("#btn_submit").click(function(evento){
+            evento.preventDefault()
+            
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+                
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#form_crear_plantilla').submit()
+                }
+            })
+
+        })
+
+});
+</script>
+<!-- Fin de validación/////////////////////////////////////////////////////////////////////////////////////-->
 @endsection
