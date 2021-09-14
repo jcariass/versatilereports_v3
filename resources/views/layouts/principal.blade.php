@@ -55,6 +55,12 @@
 
     <link href="{{ asset('select2/select2.min.css') }}" rel="stylesheet" />
 
+    <style>
+        .select2-selection{
+            border: 1px solid #666ee8 !important;
+        }
+    </style>
+
     @yield('style') {{-- Incluir estilos especiales de alguna pagina --}}
 
 </head>
