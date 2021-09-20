@@ -36,8 +36,14 @@
     <!-- END: Custom CSS--> 
 
     <style>
-        .error{
+        label.error {
+            font-weight: bolder;
+            font-size: 80%;
+            color: #ff4961;
+        }
 
+        input.error {
+            border: 1px solid red;
         }
     </style>
 
@@ -65,9 +71,8 @@
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body">
-                                        <form method="POST" id="cambiar_contraseña" action="{{ route('password.update') }}">
+                                        <form id="cambiar_password" class="form" method="POST" action="{{ route('password.update') }}">
                                             @csrf
-                                
                                             <input type="hidden" name="token" value="{{ $token }}"> 
                                             <input readonly id="email" type="hidden" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" autocomplete="email">
                                             @error('email')
@@ -79,7 +84,7 @@
                                 
                                             <!-- Password -->
                                             <fieldset class="form-group position-relative has-icon-left">
-                                                <input required id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autofocus autocomplete="new-password" placeholder="{{ __('Contraseña')}}">
+                                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autofocus autocomplete="new-password" placeholder="{{ __('Contraseña')}}">
                                                 @error('password')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -93,7 +98,7 @@
                                             <!-- Confirm password -->
                                             <fieldset class="form-group position-relative has-icon-left">
                                                 <div>
-                                                    <input required placeholder="{{__('Confirmar contraseña')}}" id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                                    <input placeholder="{{__('Confirmar contraseña')}}" id="password_confirmation" type="password" class="form-control" name="password_confirmation" autocomplete="new-password">
                                                 </div>
                                                 <div class="form-control-position">
                                                     <i class="la la-key"></i>
@@ -130,6 +135,39 @@
     <!-- BEGIN: Page JS-->
     <script src="{{ asset('dashboard/app-assets/js/scripts/forms/form-login-register.js') }}"></script>
     <!-- END: Page JS-->
+
+    <script src="{{ asset('jquery_validate/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('jquery_validate/additional-methods.min.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+
+        $("#cambiar_password").validate({
+
+            rules: {
+                password: {
+                    required: true
+                },
+
+                password_confirmation: {
+                    required: true,
+                    equalTo: "#password"
+                }
+            },
+            messages: {
+                password: {
+                    required: "Este campo es obligatorio",
+                },
+
+                password_confirmation: {
+                    required: "Este campo es obligatorio",
+                    equalTo: "Las contraseñas deben coincidir"
+                }
+            },
+        });
+});
+</script>
+
 </body>
 <!-- END: Body-->
 

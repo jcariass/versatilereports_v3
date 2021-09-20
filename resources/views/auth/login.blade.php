@@ -46,11 +46,13 @@
 
     <style>
         label.error {
-            color: red;
-            font-size: 1em;
-            font-style: italic;
-            display: block;
-            margin-top: 5px;
+            font-weight: bolder;
+            font-size: 80%;
+            color: #ff4961;
+        }
+
+        input.error {
+            border: 1px solid red;
         }
     </style>
 
