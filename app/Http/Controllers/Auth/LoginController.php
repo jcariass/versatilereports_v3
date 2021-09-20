@@ -45,7 +45,7 @@ class LoginController extends Controller
     {
         $request->validate([
             'tipo_documento' => 'required|string',
-            'documento' => 'required|string|min:8|max:20',
+            'documento' => 'required|string|min:7|max:20',
             'password' => 'required|string|min:8|max:20',
         ]);
     }

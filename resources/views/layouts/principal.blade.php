@@ -59,6 +59,16 @@
         .select2-selection{
             border: 1px solid #666ee8 !important;
         }
+
+        label.error {
+            font-weight: bolder;
+            font-size: 80%;
+            color: #ff4961;
+        }
+
+        input.error {
+            border: 1px solid red;
+        }
     </style>
 
     @yield('style') {{-- Incluir estilos especiales de alguna pagina --}}
