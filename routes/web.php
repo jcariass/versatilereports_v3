@@ -175,6 +175,9 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::get('/revision/requerimientos/detalles/{id}', [RevisionRequerimientoController::class, 'view_list_details']);
     Route::get('/revision/requerimientos/detalles/listar/{id}/{tipo}', [RevisionRequerimientoController::class, 'list_details']);
     Route::get('/revision/requerimientos/descargar/archivo/{nombre}', [RevisionRequerimientoController::class, 'download_archive']);
+    Route::get('/revision/requerimientos/estado/archivo/{id}/{estado}', [RevisionRequerimientoController::class, 'estado_archivo']);
+    Route::get('/revision/requerimientos/estado/uno/informe/{id}/{estado}', [RevisionRequerimientoController::class, 'estado_uno_informe']);
+    Route::get('/revision/requerimientos/estado/dos/informe/{id}/{estado}', [RevisionRequerimientoController::class, 'estado_dos_informe']);
     /* Fin rutas revisión de requerimientos */
 
     /* Inicio rutas entrega de requerimientos */

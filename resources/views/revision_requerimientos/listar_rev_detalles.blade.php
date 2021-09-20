@@ -69,7 +69,8 @@
                                     <table id="requerimientos_detalles" class="table table-column">
                                         <thead>
                                             <tr>
-                                                <th>Documento contratista</th>
+                                                <th>Nombre</th>
+                                                <th>Documento</th>
                                                 <th>Fecha carga</th>
                                                 <th>Estado</th>
                                                 <th>Opciones</th>
@@ -96,6 +97,7 @@
         serverSide: true,
         ajax: "/revision/requerimientos/detalles/listar/"+id_requerimiento+"/"+tipo,
         columns: [
+            {data: 'nombre', name: 'nombre'},
             {data: 'documento', name: 'documento'},
             {data: 'fecha_carga', name: 'fecha_carga'},
             {data: 'estado', name: 'estado'},

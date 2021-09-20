@@ -160,7 +160,10 @@ class CreatePermisosTable extends Migration
             [   'nombre' => 'Listar respuestas de un requerimiento',   'url' => '/revision/requerimientos/detalles/listar/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Generar reporte de respuestas a un requerimiento',   'url' => '/revision/requerimientos/generar/reporte', 'method' => 'POST',  'url_identica' => 1],
             [   'nombre' => 'Descargar archivo de una respuesta a un requerimiento',   'url' => '/revision/requerimientos/descargar/archivo/', 'method' => 'GET',  'url_identica' => 0],
-            //Fin rutas revisión de requerimientos -- 5 rutas
+            [   'nombre' => 'Cambiar estado de requerimientos de tipo archivo enviados (Aprobrar o desaprobrar)',   'url' => '/revision/requerimientos/estado/archivo/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Cambiar estado uno de requerimientos de tipo informe enviados (Aprobrar o desaprobrar)',   'url' => '/revision/requerimientos/estado/uno/informe/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Cambiar estado dos de requerimientos de tipo informe enviados (Aprobrar o desaprobrar)',   'url' => '/revision/requerimientos/estado/dos/informe/', 'method' => 'GET',  'url_identica' => 0],
+            //Fin rutas revisión de requerimientos -- 8 rutas
 
             //Rutas entrega de requerimientos
             [   'nombre' => 'Modulo entrega de requerimientos',   'url' => '/entrega/requerimientos', 'method' => 'GET',  'url_identica' => 1],
