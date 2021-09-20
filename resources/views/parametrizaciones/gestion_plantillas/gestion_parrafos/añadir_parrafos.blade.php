@@ -94,7 +94,6 @@
                                     <table style="width: 100%;" class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
                                                 <th>Texto</th>
                                                 <th>Numero de párrafo</th>
                                                 <th>Opciones</th>
@@ -128,26 +127,37 @@
 
 @section('javascript')
     <script>
-        let contador = 0;
-        let informacion = [];
-
-        let letras = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
+        const letras = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
         let errores = document.querySelector("#error_input");
         let errores_d = document.querySelector("#error_input_d");
-
+        let contador = 0;
         function agregar_parrafo(){
+            alert("Recuerde validar esta mierda, Camilo Arias.");
             let texto = $('#texto').val();
             let numero_parrafo = $('#numero_parrafo').val();
-            informacion.push([texto + ',/,.-_-,,-#p?' + numero_parrafo]);
             contador = contador + 1;
-
-            if (letras.exec(texto)) {
-
-                // <td>${id_obligacion}</td>
+            // if (letras.exec(texto)) {
+            //     $('#parrafos_ingresados').append(`
+            //         <tr id="tr-${contador}">
+            //             <input type="hidden" name="numero_parrafo[]" value="${numero_parrafo}">
+            //             <input type="hidden" name="texto_parrafo[]" value="${texto}">
+            //             <td>${texto}</td>
+            //             <td>${numero_parrafo}</td>
+            //             <td>
+            //                 <button class="btn btn-danger" type="button" onclick="eliminar_parrafo('${contador}')">X</button>
+            //             </td>
+            //         </tr>
+            //     `);
+            //     $('#texto').val('');
+            //     $('#numero_parrafo').val('');
+            // } else {
+            //     errores.textContent = "Este campo es requerido";
+            //     errores_d.textContent = "Este campo es requerido";
+            // }
             $('#parrafos_ingresados').append(`
                 <tr id="tr-${contador}">
-                    <input type="hidden" name="informacion[]" value="${informacion[contador-1]}">
-                    <td>${contador}</td>
+                    <input type="hidden" name="numero_parrafo[]" value="${numero_parrafo}">
+                    <input type="hidden" name="texto_parrafo[]" value="${texto}">
                     <td>${texto}</td>
                     <td>${numero_parrafo}</td>
                     <td>
@@ -155,18 +165,11 @@
                     </td>
                 </tr>
             `);
-
             $('#texto').val('');
             $('#numero_parrafo').val('');
-                
-            } else {
-                errores.textContent = "Este campo es requerido";
-                errores_d.textContent = "Este campo es requerido";
-            }
         }
         
         function eliminar_parrafo(contador){
-            informacion.splice(contador-1, 1);
             $('#tr-'+contador).remove();
         }
     </script>
