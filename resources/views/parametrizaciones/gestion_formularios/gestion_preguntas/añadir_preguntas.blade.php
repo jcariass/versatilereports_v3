@@ -118,17 +118,17 @@
 @section('javascript')
     <script>
         let contador = 0;
-        let informacion = [];
         function agregar_pregunta(){
             let id_obligacion = $('#id_obligacion option:selected').val();
             let pregunta_actividad = $('#pregunta_actividad').val();
             let pregunta_evidencia = $('#pregunta_evidencia').val();
-            informacion.push([id_obligacion + '8a0a5fac87bb9cccb268a0133e75f637' + pregunta_actividad + '8a0a5fac87bb9cccb268a0133e75f637' + pregunta_evidencia]);
             contador = contador + 1;
 
             $('#preguntas_ingresadas').append(`
                 <tr id="tr-${contador}">
-                    <input type="hidden" name="informacion[]" value="${informacion[contador-1]}">
+                    <input type="hidden" name="identificaciones_obligacion[]" value="${id_obligacion}">
+                    <input type="hidden" name="preguntas_actividad[]" value="${pregunta_actividad}">
+                    <input type="hidden" name="preguntas_evidencia[]" value="${pregunta_evidencia}">
                     <td>${contador}</td>
                     <td>${pregunta_actividad}</td>
                     <td>${pregunta_evidencia}</td>
@@ -143,7 +143,6 @@
         }
         
         function eliminar_pregunta(contador){
-            informacion.splice(contador-1, 1);
             $('#tr-'+contador).remove();
         }
     </script>

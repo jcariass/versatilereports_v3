@@ -23,7 +23,7 @@
                             </li>
                             <li class="breadcrumb-item"><a href="{{ route('listar_formularios') }}">Listar formularios</a>
                             </li>
-                            <li class="breadcrumb-item"><a href="{{ route('obligaciones_formulario', ['id' => $id]) }}">Listar obligaciones</a>
+                            <li class="breadcrumb-item"><a href="{{ route('obligaciones_formulario', ['id' => $formulario->id_formulario]) }}">Listar obligaciones</a>
                             </li>
                             <li class="breadcrumb-item active">Lista de preguntas
                             </li>
@@ -86,7 +86,7 @@
 @section('javascript')
     <script>
         let id_obligacion = {{ $obligacion->id_obligacion }}
-        let id_formulario = {{ $id }}
+        let id_formulario = {{ $formulario->id_formulario }}
         $('#preguntas').DataTable({
             processing: true,
             serverSide: true,
