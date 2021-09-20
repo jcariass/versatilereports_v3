@@ -23,7 +23,7 @@
                             </li>
                             <li class="breadcrumb-item"><a href="{{ route('listar_plantillas') }}">Lista de plantillas</a>
                             </li>
-                            <li class="breadcrumb-item active">Lista de parrafos
+                            <li class="breadcrumb-item active">Lista de párrafos
                             </li>
                         </ol>
                     </div>
@@ -36,13 +36,13 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Lista de parrafos</h4>
+                            <h4 class="card-title">Lista de párrafos</h4>
                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">
                                     <li>
                                         <a href="{{route('añadir_parrafos', ['id' => $plantilla->id_plantilla ]) }}" class="btn btn-versatile_reports">
-                                            <i class="ft-plus-square"></i> Añadir parrafos
+                                            <i class="ft-plus-square"></i> Añadir párrafos
                                         </a>
                                     </li>
                                     <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
@@ -68,7 +68,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Texto</th>
-                                                <th>Numero parrafo</th>
+                                                <th>Número párrafo</th>
                                                 <th>Opciones</th>
                                             </tr>
                                         </thead>

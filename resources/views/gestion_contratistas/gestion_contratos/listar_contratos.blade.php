@@ -68,7 +68,7 @@
                                     <table id="contratos" style="width: 100%;" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Numero contrato</th>
+                                                <th>Número contrato</th>
                                                 <th>Fecha inicio</th>
                                                 <th>Fecha fin</th>
                                                 <th>Valor</th>

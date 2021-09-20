@@ -2,6 +2,17 @@
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/app-assets/css/plugins/forms/wizard.css') }}">
+
+    <style>
+    #error_input {
+        color: red;
+        font-size: 1rem;
+        font-style: italic;
+        display: block;
+        margin-top: 5px;
+    }
+    </style>
+
 @endsection
 
 @section('contenido')
@@ -59,11 +70,12 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label for="numero_contrato">Numero contrato: (*)</label>
+                                                    <label for="numero_contrato">Número contrato: (*)</label>
                                                     <input type="text" autocomplete="off" class="form-control @error('numero_contrato') is-invalid @enderror" name="numero_contrato" id="numero_contrato">
                                                     @error('numero_contrato')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
+                                                    <p id="error_input">Debe agregar un número de contrato</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -75,6 +87,7 @@
                                                     @error('fecha_inicio')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
+                                                    <p id="error_input">Debe agregar una fecha</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -86,6 +99,7 @@
                                                     @error('fecha_fin')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
+                                                    <p id="error_input">Debe agregar una fecha</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -260,7 +274,7 @@ $(document).ready(function(){
             })
         }
     })
-  });
+});
 </script>
 
 <script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
