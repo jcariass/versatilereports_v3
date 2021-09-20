@@ -73,7 +73,7 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::get('/formularios/editar/{id}', [FormularioController::class, 'view_edit'])->name('editar_formulario');
     Route::put('/formularios/actualizar', [FormularioController::class, 'update'])->name('actualizar_formulario');
     Route::get('/formularios/duplicar/{id}', [FormularioController::class, 'duplicar'])->name('duplicar_formulario');
-    Route::get('/formularios/preguntas/{id}', [PreguntaController::class, 'view_list'])->name('preguntas_formulario');
+    Route::get('/formularios/preguntas/{id_obligacion}/{id_formulario}', [PreguntaController::class, 'view_list'])->name('preguntas_formulario');
     Route::get('/formularios/obligaciones/{id}', [PreguntaController::class, 'view_list_obligaciones'])->name('obligaciones_formulario');
     Route::get('/formularios/listar/obligaciones/{id}', [PreguntaController::class, 'list_obligaciones']);
     Route::get('/formularios/listar/preguntas/{id_obligacion}/{id_formulario}', [PreguntaController::class, 'list']);

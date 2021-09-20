@@ -111,20 +111,21 @@ class EntregaRequerimientoController extends Controller
                     ->where('informes.id_requerimiento', '=', $id_requerimiento)
                     ->where('informes.id_contrato', '=', $id_contrato)
                     ->first();
-        if($informe->estado_uno == 1 && $informe->estado_dos == 1){
-            return $informe = 'Aprobado';
-        }else{
-            return $informe;
+        if($informe != null){
+            if($informe->estado_uno == 1 && $informe->estado_dos == 1){
+                return $informe = 'Aprobado';
+            }
         }
+        return $informe;
     }
     
     private function requerimiento_archivo($id_requerimiento, $id_contrato){
-        $archivo = RespuestaRequerimiento::where('id_requerimiento', '=', $id_requerimiento)
+        $archivo = RespuestaRequerimiento::select('*')->where('id_requerimiento', '=', $id_requerimiento)
                     ->where('id_contrato', '=', $id_contrato)->first();
-        if($archivo->estado == 1){
-            return $archivo = 'Aprobado';
-        }else{
-            return $archivo;
+        if($archivo != null){
+            if($archivo->estado == 1){
+                return $archivo = 'Aprobado';
+            }
         }
         return $archivo;
     }
@@ -186,7 +187,6 @@ class EntregaRequerimientoController extends Controller
             DB::rollBack();
             return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrio un error: '.$e->getMessage());
         }
-        dd($request->all(), $contrato);
     }
 
     public function update_archive(Request $request){

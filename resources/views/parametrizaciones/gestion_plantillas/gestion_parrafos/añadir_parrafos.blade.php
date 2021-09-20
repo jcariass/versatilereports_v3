@@ -9,6 +9,14 @@
             display: block;
             margin-top: 5px;
         }
+
+        #error_input_d {
+            color: red;
+            font-size: 1rem;
+            font-style: italic;
+            display: block;
+            margin-top: 5px;
+        }
     </style>
 @endsection
 
@@ -26,9 +34,9 @@
                             </li>
                             <li class="breadcrumb-item"><a href="{{ route('listar_plantillas') }}">Listar plantillas</a>
                             </li>
-                            <li class="breadcrumb-item"><a href="{{ route('listar_parrafos', ['id' => $plantilla->id_plantilla]) }}">Listar parrafos</a>
+                            <li class="breadcrumb-item"><a href="{{ route('listar_parrafos', ['id' => $plantilla->id_plantilla]) }}">Listar párrafos</a>
                             </li>
-                            <li class="breadcrumb-item active">Añadir parrafos
+                            <li class="breadcrumb-item active">Añadir párrafos
                             </li>
                         </ol>
                     </div>
@@ -41,7 +49,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">{{ $plantilla->nombre }} - Añadir parrafos</h4>
+                            <h4 class="card-title">{{ $plantilla->nombre }} - Añadir párrafos</h4>
                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">
@@ -71,12 +79,12 @@
                                                 <p id="error_input"></p>
                                             </div>
                                             <div class="col-sm-3">
-                                                <label for="numero_parrafo">Numero de parrafo (*)</label>
+                                                <label for="numero_parrafo">Número de párrafo (*)</label>
                                                 <input type="text" id="numero_parrafo" class="form-control border-primary @error('numero_parrafo') is-invalid @enderror">
                                                 @error('numero_parrafo')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
-                                                <p id="error_input"></p>
+                                                <p id="error_input_d"></p>
                                             </div>
                                         </div><br>
                                         <button type="button" onclick="agregar_parrafo()" class="btn btn-versatile_reports float-right">Añadir</button>
@@ -86,9 +94,8 @@
                                     <table style="width: 100%;" class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
                                                 <th>Texto</th>
-                                                <th>Numero de parrafo</th>
+                                                <th>Numero de párrafo</th>
                                                 <th>Opciones</th>
                                             </tr>
                                         </thead>
@@ -120,25 +127,37 @@
 
 @section('javascript')
     <script>
-        let contador = 0;
-        let informacion = [];
-
-        let letras = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
+        const letras = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
         let errores = document.querySelector("#error_input");
-
+        let errores_d = document.querySelector("#error_input_d");
+        let contador = 0;
         function agregar_parrafo(){
+            alert("Recuerde validar esta mierda, Camilo Arias.");
             let texto = $('#texto').val();
             let numero_parrafo = $('#numero_parrafo').val();
-            informacion.push([texto + ',/,.-_-,,-#p?' + numero_parrafo]);
             contador = contador + 1;
-
-            if (letras.exec(texto)) {
-
-                // <td>${id_obligacion}</td>
+            // if (letras.exec(texto)) {
+            //     $('#parrafos_ingresados').append(`
+            //         <tr id="tr-${contador}">
+            //             <input type="hidden" name="numero_parrafo[]" value="${numero_parrafo}">
+            //             <input type="hidden" name="texto_parrafo[]" value="${texto}">
+            //             <td>${texto}</td>
+            //             <td>${numero_parrafo}</td>
+            //             <td>
+            //                 <button class="btn btn-danger" type="button" onclick="eliminar_parrafo('${contador}')">X</button>
+            //             </td>
+            //         </tr>
+            //     `);
+            //     $('#texto').val('');
+            //     $('#numero_parrafo').val('');
+            // } else {
+            //     errores.textContent = "Este campo es requerido";
+            //     errores_d.textContent = "Este campo es requerido";
+            // }
             $('#parrafos_ingresados').append(`
                 <tr id="tr-${contador}">
-                    <input type="hidden" name="informacion[]" value="${informacion[contador-1]}">
-                    <td>${contador}</td>
+                    <input type="hidden" name="numero_parrafo[]" value="${numero_parrafo}">
+                    <input type="hidden" name="texto_parrafo[]" value="${texto}">
                     <td>${texto}</td>
                     <td>${numero_parrafo}</td>
                     <td>
@@ -146,17 +165,11 @@
                     </td>
                 </tr>
             `);
-
             $('#texto').val('');
             $('#numero_parrafo').val('');
-                
-            } else {
-                errores.textContent = "Error!!!!!!!!";
-            }
         }
         
         function eliminar_parrafo(contador){
-            informacion.splice(contador-1, 1);
             $('#tr-'+contador).remove();
         }
     </script>

@@ -38,16 +38,17 @@ class PreguntaController extends Controller
             }
         }
         return DataTables::of($obligaciones)
-            ->editColumn('Opciones', function($obligacion){
-                return '<a href="/formularios/preguntas/'.$obligacion->id_obligacion.'" class="btn btn-versatile_reports">Ver preguntas</a>'; 
+            ->editColumn('Opciones', function($obligacion) use ($formulario){
+                return '<a href="/formularios/preguntas/'.$obligacion->id_obligacion.'/'.$formulario->id_formulario.'" class="btn btn-versatile_reports">Ver preguntas</a>'; 
             })
             ->rawColumns(['Opciones'])
             ->make(true);
     }
 
-    public function view_list($id){
-        $obligacion = Obligacion::findOrFail($id);
-        return view('parametrizaciones.gestion_formularios.gestion_preguntas.listar_preguntas', compact('obligacion', 'id'));
+    public function view_list($id_obligacion, $id_formulario){
+        $obligacion = Obligacion::findOrFail($id_obligacion);
+        $formulario = $this->getFormulario($id_formulario);
+        return view('parametrizaciones.gestion_formularios.gestion_preguntas.listar_preguntas', compact('obligacion', 'formulario'));
     }
 
     public function view_store($id){
@@ -67,11 +68,15 @@ class PreguntaController extends Controller
     public function list($id_obligacion, $id_formulario){
         $obligacion = Obligacion::findOrFail($id_obligacion);
         $formulario = Formulario::findOrFail($id_formulario);
-        $preguntas = Pregunta::select('preguntas.*')
+        if($formulario == null || $obligacion == null)
+            $preguntas = array();
+        else{
+            $preguntas = Pregunta::select('preguntas.*')
                 ->join('formulario_pregunta', 'formulario_pregunta.id_pregunta', '=', 'preguntas.id_pregunta')
                 ->where('formulario_pregunta.id_obligacion', '=', $obligacion->id_obligacion)
                 ->where('formulario_pregunta.id_formulario', '=', $formulario->id_formulario)
                 ->where('preguntas.estado', '=', '1')->get();
+        }
         return DataTables::of($preguntas)
             ->editColumn('Opciones', function($pregunta) use ($obligacion){
                 $btn_eliminar = '<a href="/formularios/eliminar/pregunta/'.$pregunta->id_pregunta.'/'.$obligacion->id_obligacion.'" class="btn btn-gris">Eliminar</a>';
@@ -84,27 +89,32 @@ class PreguntaController extends Controller
 
     public function save(Request $request){
         $formulario = Formulario::findOrFail($request->id_formulario);
-        if($formulario == null) return redirect()->route('listar_formularios')->withErrors('No se encontro el formulario, por lo tanto no se pudieron asignar las preguntas.');
-        try {
-            DB::beginTransaction();
-            foreach($request->informacion as $item){
-                $item = explode('8a0a5fac87bb9cccb268a0133e75f637', $item);
-                $pregunta = Pregunta::create([
-                    'pregunta_actividad' => $item[1],
-                    'pregunta_evidencia' => $item[2]
-                ]);
-
-                formulario_pregunta::create([
-                    'id_obligacion' => $item[0],
-                    'id_pregunta' => $pregunta->id_pregunta,
-                    'id_formulario' => $formulario->id_formulario
-                ]);
+        if($formulario == null) 
+            return redirect()->route('listar_formularios')->withErrors('No se encontro el formulario, por lo tanto no se pudieron asignar las preguntas.');
+        else{
+            if(count($request->identificaciones_obligacion) < 1 || count($request->preguntas_actividad) < 1 || count($request->preguntas_evidencia) < 1)
+                return redirect()->route('listar_formularios')->withErrors('Ocurrio un error, intente de nuevo.');
+            else{
+                try {
+                    DB::beginTransaction();
+                    foreach($request->identificaciones_obligacion as $key => $value){
+                        $pregunta = Pregunta::create([
+                            'pregunta_actividad' => $request->preguntas_actividad[$key],
+                            'pregunta_evidencia' => $request->preguntas_evidencia[$key]
+                        ]);
+                        formulario_pregunta::create([
+                            'id_obligacion' => $value,
+                            'id_pregunta' => $pregunta->id_pregunta,
+                            'id_formulario' => $formulario->id_formulario
+                        ]);
+                    }
+                    DB::commit();
+                    return redirect()->route('obligaciones_formulario', ['id' => $formulario->id_formulario])->with('success', 'Se añadieron las preguntas.');
+                } catch (Exception $e) {
+                    DB::rollBack();
+                    return redirect()->route('obligaciones_formulario', ['id' => $formulario->id_formulario])->withErrors('Ocurrio un error: '.$e->getMessage());
+                }
             }
-            DB::commit();
-            return redirect()->route('obligaciones_formulario', ['id' => $formulario->id_formulario])->with('success', 'Se añadieron las preguntas.');
-        } catch (Exception $e) {
-            DB::rollBack();
-            return redirect()->route('obligaciones_formulario', ['id' => $formulario->id_formulario])->withErrors('Ocurrio un error: '.$e->getMessage());
         }
     }
 

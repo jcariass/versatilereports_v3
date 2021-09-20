@@ -44,37 +44,44 @@ class ParrafoController extends Controller
 
     public function save(Request $request){
         $plantilla = Plantilla::findOrFail($request->id_plantilla);
-
-        if($plantilla == null) return redirect()->route('listar_plantillas')->withErrors('No se encontro la plantilla, por lo tanto no se pudieron asignar los parrafos.');
-        try {
-            DB::beginTransaction();
-            foreach($request->informacion as $item){
-                $item = explode('8a0a5fac87bb9cccb268a0133e75f637', $item);
-                Parrafo::create([
-                    'texto' => $item[0],
-                    'numero_parrafo' => $item[1],
-                    'id_plantilla' => $plantilla->id_plantilla
-                ]);
+        if($plantilla == null)
+            return redirect()->route('listar_plantillas')->withErrors('No se encontro la plantilla, por lo tanto no se pudieron asignar los parrafos.');
+        else
+            if(count($request->texto_parrafo) < 1 || count($request->numero_parrafo) < 1)
+                return redirect()->route('listar_plantillas')->withErrors('Ocurrio un error, intente de nuevo.');
+            else{
+                try {
+                    DB::beginTransaction();
+                    foreach($request->numero_parrafo as $key => $value){
+                        Parrafo::create([
+                            'texto' => $request->texto_parrafo[$key],
+                            'numero_parrafo' => $value,
+                            'id_plantilla' => $plantilla->id_plantilla
+                        ]);
+                    }
+                    DB::commit();
+                    return redirect()->route('listar_parrafos', ['id' => $plantilla->id_plantilla])->with('success', 'Se añadieron los parrafos.');
+                } catch (Exception $e) {
+                    DB::rollBack();
+                    return redirect()->route('listar_parrafos', ['id' => $plantilla->id_plantilla])->withErrors('Ocurrio un error: '.$e->getMessage());
+                }
             }
-            DB::commit();
-            return redirect()->route('listar_parrafos', ['id' => $plantilla->id_plantilla])->with('success', 'Se añadieron los parrafos.');
-        } catch (Exception $e) {
-            DB::rollBack();
-            return redirect()->route('listar_parrafos', ['id' => $plantilla->id_plantilla])->withErrors('Ocurrio un error: '.$e->getMessage());
-        }
     }
 
     public function update(Request $request){
         $parrafo = Parrafo::findOrFail($request->id_parrafo);
-        if($parrafo == null) return redirect()->route('listar_plantillas')->withErrors('No se pudo editar el parrafo, intente de nuevo.');
-        try {
-            $parrafo->update([
-                'texto' => $request->texto,
-                'numero_parrafo' => $request->numero_parrafo,
-            ]);
-            return redirect()->route('listar_parrafos', ['id' => $parrafo->id_plantilla])->with('success', 'Se modifico el parrafo.');
-        } catch (Exception $e) {
-            return redirect()->route('listar_parrafos', ['id' => $parrafo->id_plantilla])->withErrors('Ocurrio un error: '.$e->getMessage());
+        if($parrafo == null) 
+            return redirect()->route('listar_plantillas')->withErrors('No se pudo editar el parrafo, intente de nuevo.');
+        else{
+            try {
+                $parrafo->update([
+                    'texto' => $request->texto,
+                    'numero_parrafo' => $request->numero_parrafo,
+                ]);
+                return redirect()->route('listar_parrafos', ['id' => $parrafo->id_plantilla])->with('success', 'Se modifico el parrafo.');
+            } catch (Exception $e) {
+                return redirect()->route('listar_parrafos', ['id' => $parrafo->id_plantilla])->withErrors('Ocurrio un error: '.$e->getMessage());
+            }
         }
     }
     

@@ -89,7 +89,7 @@
 </div>
 @endsection
 
-
+{{--
 @section('javascript')
 
 <script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
@@ -152,4 +152,4 @@
 });
 </script>
 <!-- Fin de validación/////////////////////////////////////////////////////////////////////////////////////-->
-@endsection
+@endsection--}}

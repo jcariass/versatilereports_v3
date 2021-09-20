@@ -86,8 +86,8 @@
                                                 <div>
                                                     <select name="tipo_documento" id="tipo_documento" class="form-control @error('tipo_documento') is-invalid @enderror" value="{{ old('tipo_documento') }}" required autocomplete="tipo_documento" autofocus>
                                                         <option value="">Tipo de documento</option>
-                                                        <option value="CC">Cedula Ciudadania</option>
-                                                        <option value="CE">Cedula Extranjera</option>
+                                                        <option value="CC">Cédula Ciudadania</option>
+                                                        <option value="CE">Cédula Extranjera</option>
                                                     </select>
                                                     @error('tipo_documento')
                                                     <span class="invalid-feedback" role="alert">
@@ -136,7 +136,7 @@
                                             <div class="col-sm-6 col-12 float-sm-right text-center text-sm-right">
                                                 @if (Route::has('password.request'))
                                                 <a class="card-link" href="{{ route('password.request') }}">
-                                                    ¿Olvido su contraseña?
+                                                    ¿Olvidó su contraseña?
                                                 </a>
                                                 @endif
                                             </div>
