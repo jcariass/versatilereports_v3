@@ -10,6 +10,7 @@ use App\Exports\RespuestaRequerimientoExport;
 use App\Models\Informe;
 use App\Models\RespuestaRequerimiento;
 use App\Models\Requerimiento;
+use Exception;
 
 class RevisionRequerimientoController extends Controller
 {
@@ -54,9 +55,12 @@ class RevisionRequerimientoController extends Controller
     private function list_details_informes($id){
         $informes = Informe::join('contratos', 'contratos.id_contrato', '=', 'informes.id_contrato')
             ->join('personas', 'personas.id_persona', '=', 'contratos.id_persona')
-            ->select('informes.*', 'personas.documento')
+            ->select('informes.*', 'personas.documento', 'personas.nombre', 'personas.primer_apellido', 'personas.segundo_apellido')
             ->where('id_requerimiento', '=', ''.$id.'')->get();
             return DataTables::of($informes)
+                ->editColumn('nombre', function($informes){
+                    return $informes->nombre . ' ' . $informes->primer_apellido . ' ' . $informes->segundo_apellido;
+                })
                 ->editColumn('estado', function($informes){
                     if ($informes->estado_uno == 0) {
                         $btn_estado_uno = '<div class="badge badge-danger">No aprobado</div>';
@@ -74,14 +78,14 @@ class RevisionRequerimientoController extends Controller
                     $ver = '<a href="#" class="btn btn-versatile_reports">Ver</a>';
                     $informe = '<a href="#" class="btn btn-gris">Generar informe</a>';
                     if ($informes->estado_uno == 0) {
-                        $estado_uno = '<a href="#" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
+                        $estado_uno = '<a href="/revision/requerimientos/estado/uno/informe/'.$informes->id_informe.'/1" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
                     }else{
-                        $estado_uno = '<a href="#" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
+                        $estado_uno = '<a href="/revision/requerimientos/estado/uno/informe/'.$informes->id_informe.'/0" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
                     }
                     if ($informes->estado_dos == 0) {
-                        $estado_dos = '<a href="#" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
+                        $estado_dos = '<a href="/revision/requerimientos/estado/dos/informe/'.$informes->id_informe.'/1" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
                     }else{
-                        $estado_dos = '<a href="#" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
+                        $estado_dos = '<a href="/revision/requerimientos/estado/dos/informe/'.$informes->id_informe.'/0" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
                     }
                     return $ver . ' ' . $informe. ' ' . $estado_uno . ' ' . $estado_dos;
                 })
@@ -104,11 +108,10 @@ class RevisionRequerimientoController extends Controller
                 })
                 ->addColumn('Opciones', function($respuesta_requerimiento){
                     $opcion = '<a href="/revision/requerimientos/descargar/archivo/'.$respuesta_requerimiento->nombre.'" class="btn btn-versatile_reports"><i class="ft-download"></i></a>';
-                    if ($respuesta_requerimiento->estado == 0) {
-                        $estado = '<a href="#" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
-                    }else{
-                        $estado = '<a href="#" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
-                    }
+                    if ($respuesta_requerimiento->estado == 0)
+                        $estado = '<a href="/revision/requerimientos/estado/archivo/'.$respuesta_requerimiento->id_respuesta_requerimiento.'/1" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
+                    else
+                        $estado = '<a href="/revision/requerimientos/estado/archivo/'.$respuesta_requerimiento->id_respuesta_requerimiento.'/0" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
                     return $opcion . ' ' . $estado;
                 })
                 ->rawColumns(['Opciones', 'estado'])
@@ -158,22 +161,63 @@ class RevisionRequerimientoController extends Controller
         return redirect('/revision/requerimientos/detalles/'.$request->id_requerimiento.'')->withErrors('No se encontraron respuestas en este requerimiento.');
     }  
 
-    /* public function update_state($id, $estado){
-        $respuesta_requerimiento = RespuestaRequerimiento::find($id);
-        if ($respuesta_requerimiento == null) {
+    public function estado_archivo($id, $estado){
+        $respuesta_requerimiento = RespuestaRequerimiento::findOrFail($id);
+        if ($respuesta_requerimiento == null)
             return back()->withErrors('La respuesta al requerimiento no existe');
-        }
-        try {
-            $respuesta_requerimiento->update([
-                'estado' => $estado
-            ]);
-            if ($estado == 0) {
-                return back()->withSuccess('La respuesta fue desaprobada');
-            }else{
-                return back()->withSuccess('Se aprobo la respuesta');
+        else{
+            try {
+                $respuesta_requerimiento->update([
+                    'estado' => $estado
+                ]);
+                if ($estado == 0) 
+                    return back()->withSuccess('La respuesta fue desaprobada');
+                else
+                    return back()->withSuccess('Se aprobo la respuesta');
+                
+            } catch (Exception $e) {
+                return back()->withSuccess('Ocurrio un error: '.$e->getMessage());
             }
-        } catch (Exception $e) {
-            return back()->withSuccess('Ocurrio un error: '.$e->getMessage());
         }
-    } */
+    }
+
+    public function estado_uno_informe($id, $estado){
+        $informe = Informe::findOrFail($id);
+        if ($informe == null)
+            return back()->withErrors('La respuesta al requerimiento no existe');
+        else{
+            try {
+                $informe->update([
+                    'estado_uno' => $estado
+                ]);
+                if ($estado == 0) 
+                    return back()->withSuccess('Se desaprobo el estado uno del informe');
+                else
+                    return back()->withSuccess('Se aprobo el estado uno del informe');
+                
+            } catch (Exception $e) {
+                return back()->withSuccess('Ocurrio un error: '.$e->getMessage());
+            }
+        }
+    }
+
+    public function estado_dos_informe($id, $estado){
+        $informe = Informe::findOrFail($id);
+        if ($informe == null)
+            return back()->withErrors('La respuesta al requerimiento no existe');
+        else{
+            try {
+                $informe->update([
+                    'estado_dos' => $estado
+                ]);
+                if ($estado == 0) 
+                    return back()->withSuccess('Se desaprobo el estado dos del informe');
+                else
+                    return back()->withSuccess('Se aprobo el estado dos del informe');
+                
+            } catch (Exception $e) {
+                return back()->withSuccess('Ocurrio un error: '.$e->getMessage());
+            }
+        }
+    }
 }
