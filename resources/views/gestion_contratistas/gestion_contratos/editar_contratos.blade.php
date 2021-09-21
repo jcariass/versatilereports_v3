@@ -281,7 +281,7 @@ $(document).ready(function(){
         labels: {
             previous: "Anterior",
             next: "Siguiente",
-            finish: 'Crear contrato'
+            finish: 'Editar contrato'
         },
         onStepChanging: function (event, currentIndex, newIndex) {
             if (currentIndex > newIndex) {

@@ -130,7 +130,7 @@ class PreguntaController extends Controller
                 'pregunta_actividad' => $request->pregunta_actividad,
                 'pregunta_evidencia' => $request->pregunta_evidencia
             ]);
-            return redirect()->route('preguntas_formulario', ['id' => $obligacion->id_obligacion])->with('success', 'Se modificó con exito');
+            return redirect()->route('obligaciones_formulario', ['id' => $request->id_formulario])->with('success', 'Se modificó con exito');
         } catch (Exception $e) {
             return redirect()->route('listar_formularios')->withErrors('Ocurrio un error: '.$e->getMessage());
         }

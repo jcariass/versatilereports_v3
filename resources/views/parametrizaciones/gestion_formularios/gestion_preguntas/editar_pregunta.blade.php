@@ -14,7 +14,7 @@
                             </li>
                             <li class="breadcrumb-item"><a href="{{ route('listar_formularios') }}">Listar formularios</a>
                             </li>
-                            <li class="breadcrumb-item"><a href="{{ route('preguntas_formulario', ['id' => $pregunta[0]->id_formulario]) }}">Listar preguntas</a>
+                            <li class="breadcrumb-item"><a href="{{ route('obligaciones_formulario', ['id' => $pregunta[0]->id_formulario]) }}">Listar preguntas</a>
                             </li>
                             <li class="breadcrumb-item active">Editar preguntas
                             </li>
@@ -42,6 +42,7 @@
                                 @csrf
                                 @method('put')
                                 <input type="hidden" value="{{ $pregunta[0]->id_pregunta }}" name="id_pregunta">
+                                <input type="hidden" value="{{ $pregunta[0]->id_formulario }}" name="id_formulario">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
@@ -80,7 +81,7 @@
                                         <i class="la la-save"></i>
                                         Guardar
                                     </button>
-                                    <a href="{{ route('preguntas_formulario', ['id' => $pregunta[0]->id_formulario]) }}" class="btn btn-warning mr-1 btn-block">
+                                    <a href="{{ route('obligaciones_formulario', ['id' => $pregunta[0]->id_formulario]) }}" class="btn btn-warning mr-1 btn-block">
                                         <i class="la la-close"></i>
                                         Cancelar
                                     </a>

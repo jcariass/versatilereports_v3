@@ -104,10 +104,10 @@
 
         $("#form_crear_rol").validate({
 
-            onfocusin: function(element) { $(element).valid(); },
+            // onfocusin: function(element) { $(element).valid(); },
             onfocusout: function(element) { $(element).valid(); },
-            onclick: function(element) { $(element).valid(); },
-            onkeyup: function(element) { $(element).valid(); },
+            // onclick: function(element) { $(element).valid(); },
+            // onkeyup: function(element) { $(element).valid(); },
 
             rules: {
                 nombre : {
