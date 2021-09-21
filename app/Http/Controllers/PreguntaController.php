@@ -90,10 +90,10 @@ class PreguntaController extends Controller
     public function save(Request $request){
         $formulario = Formulario::findOrFail($request->id_formulario);
         if($formulario == null) 
-            return redirect()->route('listar_formularios')->withErrors('No se encontro el formulario, por lo tanto no se pudieron asignar las preguntas.');
+            return redirect()->route('listar_formularios')->withErrors('No se encontró el formulario, por lo tanto no se pudieron asignar las preguntas');
         else{
             if(count($request->identificaciones_obligacion) < 1 || count($request->preguntas_actividad) < 1 || count($request->preguntas_evidencia) < 1)
-                return redirect()->route('listar_formularios')->withErrors('Ocurrio un error, intente de nuevo.');
+                return redirect()->route('listar_formularios')->withErrors('Ocurrió un error, intente de nuevo.');
             else{
                 try {
                     DB::beginTransaction();
@@ -109,10 +109,10 @@ class PreguntaController extends Controller
                         ]);
                     }
                     DB::commit();
-                    return redirect()->route('obligaciones_formulario', ['id' => $formulario->id_formulario])->with('success', 'Se añadieron las preguntas.');
+                    return redirect()->route('obligaciones_formulario', ['id' => $formulario->id_formulario])->with('success', 'Se añadieron las preguntas');
                 } catch (Exception $e) {
                     DB::rollBack();
-                    return redirect()->route('obligaciones_formulario', ['id' => $formulario->id_formulario])->withErrors('Ocurrio un error: '.$e->getMessage());
+                    return redirect()->route('obligaciones_formulario', ['id' => $formulario->id_formulario])->withErrors('Ocurrió un error: '.$e->getMessage());
                 }
             }
         }
@@ -123,14 +123,14 @@ class PreguntaController extends Controller
         $obligacion = Pregunta::join('formulario_pregunta', 'formulario_pregunta.id_pregunta', '=', 'preguntas.id_pregunta')
                 ->select('formulario_pregunta.id_obligacion')
                 ->where('formulario_pregunta.id_pregunta', '=', $pregunta->id_pregunta)->first();
-        if ($pregunta == null) if($pregunta == null) return redirect()->route('preguntas_formulario', ['id' => $obligacion->id_obligacion])->withErrors('Ocurrio un error al eliminar la pregunta');
+        if ($pregunta == null) if($pregunta == null) return redirect()->route('preguntas_formulario', ['id' => $obligacion->id_obligacion])->withErrors('Ocurrió un error al eliminar la pregunta');
         try {
             $pregunta->update([
                 'id_obligacion' => $request->id_obligacion,
                 'pregunta_actividad' => $request->pregunta_actividad,
                 'pregunta_evidencia' => $request->pregunta_evidencia
             ]);
-            return redirect()->route('preguntas_formulario', ['id' => $obligacion->id_obligacion])->with('success', 'Se modifico con exito.');
+            return redirect()->route('preguntas_formulario', ['id' => $obligacion->id_obligacion])->with('success', 'Se modificó con exito');
         } catch (Exception $e) {
             return redirect()->route('listar_formularios')->withErrors('Ocurrio un error: '.$e->getMessage());
         }
@@ -138,18 +138,18 @@ class PreguntaController extends Controller
 
     public function state_update($id_pregunta, $id_obligacion){
         $obligacion = Obligacion::findOrFail($id_obligacion);
-        if($obligacion == null) return redirect()->route('listar_formularios')->withErrors('Ocurrio un error al eliminar la pregunta');
+        if($obligacion == null) return redirect()->route('listar_formularios')->withErrors('Ocurrió un error al eliminar la pregunta');
         
         $pregunta = Pregunta::findOrFail($id_pregunta);
-        if($pregunta == null) return redirect()->route('preguntas_formulario', ['id' => $obligacion->id_obligacion])->withErrors('Ocurrio un error al eliminar la pregunta');
+        if($pregunta == null) return redirect()->route('preguntas_formulario', ['id' => $obligacion->id_obligacion])->withErrors('Ocurrió un error al eliminar la pregunta');
 
         try {
             $pregunta->update([
                 'estado' => '0'
             ]);
-            return redirect()->route('preguntas_formulario', ['id' => $obligacion->id_obligacion])->with('success', 'Se elimino con exito.');
+            return redirect()->route('preguntas_formulario', ['id' => $obligacion->id_obligacion])->with('success', 'Se eliminó con exito');
         } catch (Exception $e) {
-            return redirect()->route('listar_formularios')->withErrors('Ocurrio un error: '.$e->getMessage());
+            return redirect()->route('listar_formularios')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 }

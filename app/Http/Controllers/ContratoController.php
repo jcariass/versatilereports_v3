@@ -137,7 +137,7 @@ class ContratoController extends Controller
             'id_municipio' => 'required|exists:municipios,id_municipio'
         ]);
         if($request->fecha_inicio >= $request->fecha_fin){
-            return back()->withErrors('La fecha de inicio debe ser mayor a la fecha de finalizacion');
+            return back()->withErrors('La fecha de inicio debe ser mayor a la fecha de finalización');
         }
         try {
             $contrato = Contrato::create([
@@ -154,9 +154,9 @@ class ContratoController extends Controller
                 'id_municipio' => $request->id_municipio
             ]);
 
-            return redirect('/contratistas/contratos/'.$contrato->id_persona.'')->withSuccess('Se creo con éxito');
+            return redirect('/contratistas/contratos/'.$contrato->id_persona.'')->withSuccess('Se creó con éxito');
         } catch (Exception $e) {
-            return redirect('/contratistas')->withErrors('Ocurrio un error. Error: '.$e->getMessage());
+            return redirect('/contratistas')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
@@ -174,7 +174,7 @@ class ContratoController extends Controller
             'id_municipio' => 'required|exists:municipios,id_municipio'
         ]);
         if($request->fecha_inicio >= $request->fecha_fin){
-            return back()->withErrors('La fecha de inicio debe ser mayor a la fecha de finalizacion');
+            return back()->withErrors('La fecha de inicio debe ser mayor a la fecha de finalización');
         }
         $contrato = Contrato::findOrFail($request->id_contrato);
         if($contrato == null) return redirect()->route('listar_contratos')->withErrors('El contrato no se pudo actualizar, no fue encontrado');
@@ -192,16 +192,16 @@ class ContratoController extends Controller
                 'id_municipio' => $request->id_municipio
             ]);
             
-            return redirect('/contratistas/contratos/'.$contrato->id_persona.'')->withSuccess('Se modifico con éxito');
+            return redirect('/contratistas/contratos/'.$contrato->id_persona.'')->withSuccess('Se modificó con éxito');
         } catch (Exception $e) {
-            return redirect('/contratistas/contratos/'.$contrato->id_persona.'')->withErrors('Ocurrio un error. Error: '.$e->getMessage());
+            return redirect('/contratistas/contratos/'.$contrato->id_persona.'')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
     public function state_update($id, $estado){
         $contrato = Contrato::findOrFail($id);
         if ($contrato == null) {
-            return back()->withErrors('No se encontro el contrato');
+            return back()->withErrors('No se encontró el contrato');
         }
         try {
             if ($estado == 1) {
@@ -222,7 +222,7 @@ class ContratoController extends Controller
                 return back()->withSuccess('Contrato finalizado');
             }
         } catch (Exception $e) {
-            return back()->withErrors('Ocurrio un error: '.$e->getMessage());
+            return back()->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 }

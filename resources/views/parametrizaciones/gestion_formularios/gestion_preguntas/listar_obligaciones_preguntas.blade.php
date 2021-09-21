@@ -68,7 +68,7 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Obligacion</th>
+                                                <th>Obligación</th>
                                                 <th>Opciones</th>
                                             </tr>
                                         </thead>

@@ -40,15 +40,15 @@
                                 <p><strong>Nota:</strong>&nbsp;El reporte solo consultará los contratistas con contratos activos.</p>
                             </div>
                             <div class="card-content collapse show">
-                                <form action="{{ route('generar_reporte_contratistas') }}" method="POST" class="form">
+                                <form id="crear_reporte" action="{{ route('generar_reporte_contratistas') }}" method="POST" class="form">
                                     @csrf
                                     <div class="form-body">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label for="criterio">Criterio de busqueda (*)</label>
+                                                    <label for="criterio">Criterio de búsqueda (*)</label>
                                                     <select class="form-control border-primary" name="criterio" id="criterio">
-                                                        <option value="">Seleccione un Criterio</option>
+                                                        <option value="">Seleccione un criterio</option>
                                                         <option value="fecha_inicio">Fecha inicio</option>
                                                         <option value="fecha_fin">Fecha fin</option>
                                                     </select>
@@ -86,4 +86,61 @@
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('javascript')
+
+<!-- Inicio de validación/////////////////////////////////////////////////////////////////////////////////////-->
+<script>
+    $(document).ready(function() {
+
+        $.validator.addMethod("minDate", function(value, element) {
+            let fecha_inicio = $('#fecha_inicio').val();
+            let fecha_fin = $('#fecha_fin').val();
+            if (fecha_inicio < fecha_fin)
+                return true;
+            return false;
+        });
+
+        $("#crear_reporte").validate({
+
+            onfocusin: function(element) { $(element).valid(); },
+            onfocusout: function(element) { $(element).valid(); },
+            onclick: function(element) { $(element).valid(); },
+            onkeyup: function(element) { $(element).valid(); },
+
+            rules: {
+                criterio: {
+                    required: true
+                },
+
+                fecha_inicio: {
+                    required: true
+                },
+
+                fecha_fin: {
+                    required: true,
+                    minDate: true
+                }
+            },
+            messages: {
+                criterio: {
+                    required: "Este campo es obligatorio",
+                },
+
+                fecha_inicio: {
+                    required: "Este campo es obligatorio",
+                },
+
+                fecha_fin: {
+                    required: "Este campo es obligatorio",
+                    minDate: "La fecha final debe ser mayor a la fecha de inicio"
+                }
+            },
+        });
+
+});
+</script>
+<!-- Fin de validación/////////////////////////////////////////////////////////////////////////////////////-->
 @endsection

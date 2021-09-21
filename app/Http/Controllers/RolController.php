@@ -72,10 +72,10 @@ class RolController extends Controller
                     ]);
                 }
             DB::commit();
-            return redirect()->route('listar_roles')->with("success", "Se creo con éxito");
+            return redirect()->route('listar_roles')->with("success", "Se creó con éxito");
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->route('listar_roles')->withErrors('Ocurrio un error inesperado: '.$e->getMessage());
+            return redirect()->route('listar_roles')->withErrors('Ocurrió un error inesperado: '.$e->getMessage());
         }
     }
 
@@ -86,7 +86,7 @@ class RolController extends Controller
         $rol = Rol::findOrFail($request->id_rol);
         $permisos_rol = permiso_rol::select('*')->where('id_rol', '=', $rol->id_rol)->get();
         $menu_rol = menu_rol::select('*')->where('id_rol', '=', $rol->id_rol)->get();
-        if($rol == null) return redirect()->route('listar_roles')->withErrors('No se encontro el rol');
+        if($rol == null) return redirect()->route('listar_roles')->withErrors('No se encontró el rol');
         try {
             DB::beginTransaction();
                 $rol->update([
@@ -115,10 +115,10 @@ class RolController extends Controller
                     ]);
                 }
             DB::commit();
-            return redirect()->route('listar_roles')->with("success", "Se modifico con éxito");
+            return redirect()->route('listar_roles')->with("success", "Se modificó con éxito");
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->route('listar_roles')->withErrors('Ocurrio un error inesperado: '.$e->getMessage());
+            return redirect()->route('listar_roles')->withErrors('Ocurrió un error inesperado: '.$e->getMessage());
         }
     }
 

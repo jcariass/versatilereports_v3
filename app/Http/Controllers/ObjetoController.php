@@ -47,9 +47,9 @@ class ObjetoController extends Controller
                 'detalle' => $request->detalle
             ]);
 
-            return redirect()->route('listar_objetos_contratos')->withSuccess('Se creo con éxito');
+            return redirect()->route('listar_objetos_contratos')->withSuccess('Se creó con éxito');
         } catch (Exception $e) {
-            return redirect()->route('listar_objetos_contratos')->withErrors('Ocurrio un error\nError: '.$e->getMessage());
+            return redirect()->route('listar_objetos_contratos')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
@@ -61,16 +61,16 @@ class ObjetoController extends Controller
         try {
             $objeto = Objeto::find($request->id_objeto);
 
-            if($objeto == null) return redirect()->route('listar_objetos_contratos')->withErrors('No se encontro el objeto de contrato');
+            if($objeto == null) return redirect()->route('listar_objetos_contratos')->withErrors('No se encontró el objeto de contrato');
         
             $objeto->update([
                 'nombre' => $request->nombre,
                 'detalle' => $request->detalle
             ]);
 
-            return redirect()->route('listar_objetos_contratos')->withSuccess('Se modifico con éxito');
+            return redirect()->route('listar_objetos_contratos')->withSuccess('Se modificó con éxito');
         } catch (Exception $e) {
-            return redirect()->route('listar_objetos_contratos')->withErrors('Ocurrio un error.\nError: '.$e->getMessage());
+            return redirect()->route('listar_objetos_contratos')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 

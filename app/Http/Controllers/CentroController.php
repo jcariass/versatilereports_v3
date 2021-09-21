@@ -42,9 +42,9 @@ class CentroController extends Controller
             Centro::create([
                 'nombre' => $request->nombre
             ]);
-            return redirect()->route('listar_centros')->withSuccess('Se creo el centro');
+            return redirect()->route('listar_centros')->withSuccess('Se creó el centro');
         } catch (Exception $e) {
-            return redirect()->route('listar_centros')->withErrors('Ocurrio un error\nError: '.$e->getMessage());
+            return redirect()->route('listar_centros')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
@@ -54,15 +54,15 @@ class CentroController extends Controller
         $centro = Centro::find($request->id_centro);
 
         if ($centro == null) {
-            return redirect()->route('listar_centros')->withErrors('El centro no se encontro');
+            return redirect()->route('listar_centros')->withErrors('El centro no se encontró');
         }
         try {
             $centro->update([
                 'nombre' => $request->nombre
             ]);
-            return redirect()->route('listar_centros')->withSuccess('Se modifico el centro');
+            return redirect()->route('listar_centros')->withSuccess('Se modificó el centro');
         } catch (Exception $e) {
-            return redirect()->route('listar_centros')->withErrors('Ocurrio un error\nError: '.$e->getMessage());
+            return redirect()->route('listar_centros')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 

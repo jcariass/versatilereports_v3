@@ -1,17 +1,5 @@
 @extends('layouts.principal')
 
-@section('style')
-    <style>
-        label.error {
-            color: red;
-            font-size: 1rem;
-            font-style: italic;
-            display: block;
-            margin-top: 5px;
-        }
-    </style>
-@endsection
-
 @section('contenido')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -89,7 +77,7 @@
 </div>
 @endsection
 
-{{--
+
 @section('javascript')
 
 <script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
@@ -152,4 +140,4 @@
 });
 </script>
 <!-- Fin de validación/////////////////////////////////////////////////////////////////////////////////////-->
-@endsection--}}
+@endsection

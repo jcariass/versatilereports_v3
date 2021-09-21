@@ -43,9 +43,9 @@ class ProcesoController extends Controller
             Proceso::create([
                 'nombre' => $request->nombre
             ]);
-            return redirect()->route('listar_procesos')->withSuccess('Se creo el proceso');
+            return redirect()->route('listar_procesos')->withSuccess('Se creó el proceso');
         } catch (Exception $e) {
-            return redirect()->route('listar_procesos')->withErrors('Ocurrio un error\nError: '.$e->getMessage());
+            return redirect()->route('listar_procesos')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
@@ -55,15 +55,15 @@ class ProcesoController extends Controller
         $proceso = Proceso::find($request->id_proceso);
 
         if ($proceso == null) {
-            return redirect()->route('listar_procesos')->withErrors('El proceso no se encontro');
+            return redirect()->route('listar_procesos')->withErrors('El proceso no se encontró');
         }
         try {
             $proceso->update([
                 'nombre' => $request->nombre
             ]);
-            return redirect()->route('listar_procesos')->withSuccess('Se modifico el proceso');
+            return redirect()->route('listar_procesos')->withSuccess('Se modificó el proceso');
         } catch (Exception $e) {
-            return redirect()->route('listar_procesos')->withErrors('Ocurrio un error\nError: '.$e->getMessage());
+            return redirect()->route('listar_procesos')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 

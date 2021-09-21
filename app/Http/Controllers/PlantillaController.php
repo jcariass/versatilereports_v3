@@ -58,16 +58,16 @@ class PlantillaController extends Controller
                 'ciudad' => $request->ciudad,
                 'id_proceso' => $request->id_proceso
             ]);
-            return redirect()->route('listar_plantillas')->with('success', 'Se creo la plantilla');
+            return redirect()->route('listar_plantillas')->with('success', 'Se creó la plantilla');
         } catch (Exception $e) {
-            return redirect()->route('listar_plantillas')->withErrors('Ocurrio un error: '.$e->getMessage());
+            return redirect()->route('listar_plantillas')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
     public function update(Request $request){
         $this->validations($request);
         $plantilla = Plantilla::findOrFail($request->id_plantilla);
-        if ($plantilla == null) return redirect()->route('listar_plantillas')->withErrors('No se encontro la plantilla');
+        if ($plantilla == null) return redirect()->route('listar_plantillas')->withErrors('No se encontró la plantilla');
 
         try {
             $plantilla->update([
@@ -77,15 +77,15 @@ class PlantillaController extends Controller
                 'ciudad' => $request->ciudad,
                 'id_proceso' => $request->id_proceso
             ]);
-            return redirect()->route('listar_plantillas')->with('success', 'Se modifico la plantilla');
+            return redirect()->route('listar_plantillas')->with('success', 'Se modificó la plantilla');
         } catch (Exception $e) {
-            return redirect()->route('listar_plantillas')->withErrors('Ocurrio un error: '.$e->getMessage());
+            return redirect()->route('listar_plantillas')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
     public function duplicar($id){
         $plantilla = Plantilla::findOrFail($id);
-        if($plantilla == null) return redirect()->route('listar_plantillas')->withErrors('No se encontro la plantilla');
+        if($plantilla == null) return redirect()->route('listar_plantillas')->withErrors('No se encontró la plantilla');
         $parrafos = Parrafo::where('id_plantilla', '=', $plantilla->id_plantilla)->get();
         try {
             DB::beginTransaction();
@@ -110,10 +110,10 @@ class PlantillaController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('listar_plantillas')->with('success', 'Se duplico con éxito la plantilla');
+            return redirect()->route('listar_plantillas')->with('success', 'Se duplicó con éxito la plantilla');
         } catch (Exception $th) {
             DB::rollBack();
-            return redirect()->route('listar_plantillas')->withErrors('Ocurrio un error: '.$e->getMessage());
+            return redirect()->route('listar_plantillas')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
