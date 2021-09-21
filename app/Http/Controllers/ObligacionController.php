@@ -53,9 +53,9 @@ class ObligacionController extends Controller
                 'fecha_creacion' => $fecha_creacion,
                 'fecha_vencimiento' => $fecha_finalizacion
             ]);
-            return redirect()->route('listar_obligaciones')->withSuccess('Se creo con éxito');
+            return redirect()->route('listar_obligaciones')->withSuccess('Se creó con éxito');
         } catch (Exception $e) {
-            return redirect()->route('listar_obligaciones')->withErrors('Ocurrio un error\nError: '.$e->getMessage());
+            return redirect()->route('listar_obligaciones')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
@@ -63,7 +63,7 @@ class ObligacionController extends Controller
         $this->rules($request);
         $obligacion = Obligacion::find($request->id_obligacion);
         if ($obligacion == null) {
-            return redirect()->route('listar_obligaciones')->withErrors('No se encontro la obligacion');
+            return redirect()->route('listar_obligaciones')->withErrors('No se encontró la obligación');
         }
         try {
             $fecha_finalizacion = date('Y-m-d', strtotime($request->fecha_vencimiento));
@@ -72,9 +72,9 @@ class ObligacionController extends Controller
                 'id_proceso' => $request->id_proceso,
                 'fecha_vencimiento' => $fecha_finalizacion
             ]);
-            return redirect()->route('listar_obligaciones')->withSuccess('Se modifico con éxito');
+            return redirect()->route('listar_obligaciones')->withSuccess('Se modificó con éxito');
         } catch (Exception $e) {
-            return redirect()->route('listar_obligaciones')->withErrors('Ocurrio un error\nError: '.$e->getMessage());
+            return redirect()->route('listar_obligaciones')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 

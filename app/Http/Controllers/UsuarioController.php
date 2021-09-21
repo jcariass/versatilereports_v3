@@ -60,11 +60,10 @@ class UsuarioController extends Controller
                     $btn_editar = '<a href="/usuarios/editar/'.$persona->id_persona.'" class="btn btn-versatile_reports">Editar</a>';
                     if ($persona->estado == 1) {
                         // $btn_estado = '<button class="btn btn-danger btn-estados" onclick="cambiar_estado('.$persona->id_persona.', 0)" type="button">Inactivar</button>';
-                        $btn_estado = '<a href="/usuarios/cambiar/estado/'.$persona->id_persona.'/0" class="btn btn-danger btn-estados"
-                        onclick="confirm()">Inactivar</a>';
+                        $btn_estado = '<butt type="button" class="btn btn-danger btn-estados" onclick="confirm('.$persona->id_persona.', 0)">Inactivar</button>';
                     }else{
                         // $btn_estado = '<button class="btn btn-success btn-estados" onclick="cambiar_estado('.$persona->id_persona.', 1)" type="button">Activar</button>';
-                        $btn_estado = '<a href="/usuarios/cambiar/estado/'.$persona->id_persona.'/1" class="btn btn-success btn-estados" onclick="confirm()">Activar</a>';
+                        $btn_estado = '<button type="button" class="btn btn-success btn-estados" onclick="confirm('.$persona->id_persona.', 1)">Activar</button>';
                     }
                     return $btn_editar . ' ' . $btn_estado;
                 })
@@ -179,7 +178,7 @@ class UsuarioController extends Controller
             }
             
             DB::commit();
-            return redirect()->route('listar_usuarios')->with('success', 'Se actualizo el usuario');
+            return redirect()->route('listar_usuarios')->with('success', 'Se actualizó el usuario');
         } catch (Exception $e) {
             DB::rollBack();
             return redirect()->route('listar_usuarios')->withErrors('Ocurrió un error inesperado: '.$e->getMessage());
@@ -209,10 +208,10 @@ class UsuarioController extends Controller
                 ]);
             }
             DB::commit();
-            return redirect()->route('listar_usuarios')->with('success', 'Se cambió el estado');
+            return true;
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->route('listar_usuarios')->withErrors('Ocurrió un error inesperado: '.$e->getMessage());
+            return false;
         }
     }
 

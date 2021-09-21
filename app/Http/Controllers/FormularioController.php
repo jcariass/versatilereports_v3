@@ -48,9 +48,9 @@ class FormularioController extends Controller
             Formulario::create([
                 'nombre' => $request->nombre
             ]);
-            return redirect()->route('listar_formularios')->with("success", "Se creo con éxito");
+            return redirect()->route('listar_formularios')->with("success", "Se creó con éxito");
         } catch (Exception $e) {
-            return redirect()->route('listar_formularios')->withErrors('Ocurrio un error inesperado: '.$e->getMessage());
+            return redirect()->route('listar_formularios')->withErrors('Ocurrió un error inesperado: '.$e->getMessage());
         }  
     }
 
@@ -61,16 +61,16 @@ class FormularioController extends Controller
             $formulario->update([
                 'nombre' => $request->nombre
             ]);
-            return redirect()->route('listar_formularios')->with("success", "Se modifico con éxito");
+            return redirect()->route('listar_formularios')->with("success", "Se modificó con éxito");
         } catch (Exception $e) {
-            return redirect()->route('listar_formularios')->withErrors('Ocurrio un error inesperado: '.$e->getMessage());
+            return redirect()->route('listar_formularios')->withErrors('Ocurrió un error inesperado: '.$e->getMessage());
         }  
     }
 
     public function duplicar($id){
         $formulario = Formulario::findOrFail($id);
         if ($formulario == null) {
-            return redirect()->route('listar_formularios')->withErrors('No se pudo duplicar el formulario.');
+            return redirect()->route('listar_formularios')->withErrors('No se pudo duplicar el formulario');
         }
         $preguntas_formulario = formulario_pregunta::select('*')
         ->where('id_formulario', '=', $formulario->id_formulario)->get();
@@ -98,10 +98,10 @@ class FormularioController extends Controller
                 }
             }
             DB::commit();
-            return redirect()->route('listar_formularios')->with("success", "Se duplico el formulario con éxito");
+            return redirect()->route('listar_formularios')->with("success", "Se duplicó el formulario con éxito");
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->route('listar_formularios')->withErrors('Ocurrio un error inesperado: '.$e->getMessage());
+            return redirect()->route('listar_formularios')->withErrors('Ocurrió un error inesperado: '.$e->getMessage());
         }
     }
 

@@ -35,7 +35,7 @@ class EntregaRequerimientoController extends Controller
     public function view_insert_informe($id){
         $requerimiento = Requerimiento::findOrFail($id);
         if ($requerimiento->id_formulario ==  null) {
-            return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrio un error inesperado.');
+            return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrió un error inesperado');
         }
         $obligaciones = Obligacion::select('id_obligacion', 'detalle')
                 ->where('fecha_vencimiento', '>', Carbon::now()->toDateString())
@@ -152,9 +152,9 @@ class EntregaRequerimientoController extends Controller
                     'id_requerimiento' => $requerimiento->id_requerimiento
                 ]);
             }
-            return redirect()->route('listar_ent_requerimientos')->withSuccess('Se envio el archivo');
+            return redirect()->route('listar_ent_requerimientos')->withSuccess('Se envió el archivo');
         } catch (Exception $e) {
-            return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrio un error: '.$e->getMessage());
+            return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
@@ -164,7 +164,7 @@ class EntregaRequerimientoController extends Controller
                 ->where('estado', '=', '1')
                 ->first();
         if ($contrato == null) {
-            return redirect()->route('listar_ent_requerimientos')->withErrors('Usted no cuenta con un contrato disponible, por lo tanto no puedes presentar este informe.');
+            return redirect()->route('listar_ent_requerimientos')->withErrors('Usted no cuenta con un contrato disponible, por lo tanto no puedes presentar este informe');
         }
         try {
             DB::beginTransaction();
@@ -182,17 +182,17 @@ class EntregaRequerimientoController extends Controller
                 ]);
             }
             DB::commit();
-            return redirect()->route('listar_ent_requerimientos')->with('success', 'Se envio el informe con éxito.');
+            return redirect()->route('listar_ent_requerimientos')->with('success', 'Se envió el informe con éxito');
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrio un error: '.$e->getMessage());
+            return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
     public function update_archive(Request $request){
         $this->validations($request);
         $respuesta = RespuestaRequerimiento::findOrFail($request->id_respuesta_requerimiento);
-        if ($respuesta == null) return redirect()->route('listar_ent_requerimientos')->withErrors('No se pudo editar la respuesta.');
+        if ($respuesta == null) return redirect()->route('listar_ent_requerimientos')->withErrors('No se pudo editar la respuesta');
         try {
             $fecha_archivo = Carbon::now()->format('d-m-Y-H-i-s');
             $archivo = $fecha_archivo.'-'.time().'.'.$request->archivo->extension();
@@ -201,9 +201,9 @@ class EntregaRequerimientoController extends Controller
             $respuesta->update([
                 'nombre' => $archivo,
             ]);
-            return redirect()->route('listar_ent_requerimientos')->with('success', 'Se modifico con éxito.');
+            return redirect()->route('listar_ent_requerimientos')->with('success', 'Se modificó con éxito');
         } catch (Exception $e) {
-            return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrio un error: '.$e->getMessage());
+            return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
@@ -222,4 +222,3 @@ class EntregaRequerimientoController extends Controller
         ]);
     }
 }
- 

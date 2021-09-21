@@ -158,7 +158,7 @@ class RevisionRequerimientoController extends Controller
         if (count($respuestas_requerimientos) > 0) {
             return Excel::download(new RespuestaRequerimientoExport($respuestas_requerimientos), 'requerimiento.xlsx');
         }
-        return redirect('/revision/requerimientos/detalles/'.$request->id_requerimiento.'')->withErrors('No se encontraron respuestas en este requerimiento.');
+        return redirect('/revision/requerimientos/detalles/'.$request->id_requerimiento.'')->withErrors('No se encontraron respuestas en este requerimiento');
     }  
 
     public function estado_archivo($id, $estado){
@@ -173,10 +173,10 @@ class RevisionRequerimientoController extends Controller
                 if ($estado == 0) 
                     return back()->withSuccess('La respuesta fue desaprobada');
                 else
-                    return back()->withSuccess('Se aprobo la respuesta');
+                    return back()->withSuccess('Se aprobó la respuesta');
                 
             } catch (Exception $e) {
-                return back()->withSuccess('Ocurrio un error: '.$e->getMessage());
+                return back()->withSuccess('Ocurrió un error: '.$e->getMessage());
             }
         }
     }
@@ -191,12 +191,12 @@ class RevisionRequerimientoController extends Controller
                     'estado_uno' => $estado
                 ]);
                 if ($estado == 0) 
-                    return back()->withSuccess('Se desaprobo el estado uno del informe');
+                    return back()->withSuccess('Se desaprobó el estado uno del informe');
                 else
-                    return back()->withSuccess('Se aprobo el estado uno del informe');
+                    return back()->withSuccess('Se aprobó el estado uno del informe');
                 
             } catch (Exception $e) {
-                return back()->withSuccess('Ocurrio un error: '.$e->getMessage());
+                return back()->withSuccess('Ocurrió un error: '.$e->getMessage());
             }
         }
     }
@@ -211,12 +211,12 @@ class RevisionRequerimientoController extends Controller
                     'estado_dos' => $estado
                 ]);
                 if ($estado == 0) 
-                    return back()->withSuccess('Se desaprobo el estado dos del informe');
+                    return back()->withSuccess('Se desaprobó el estado dos del informe');
                 else
-                    return back()->withSuccess('Se aprobo el estado dos del informe');
+                    return back()->withSuccess('Se aprobó el estado dos del informe');
                 
             } catch (Exception $e) {
-                return back()->withSuccess('Ocurrio un error: '.$e->getMessage());
+                return back()->withSuccess('Ocurrió un error: '.$e->getMessage());
             }
         }
     }

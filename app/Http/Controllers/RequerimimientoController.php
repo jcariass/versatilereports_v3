@@ -64,7 +64,7 @@ class RequerimimientoController extends Controller
         try {
             $fecha_creacion = Carbon::now()->toDateString();
             if($fecha_creacion > $request->fecha_finalizacion){
-                return redirect()->route('listar_requerimientos')->withErrors('No se pudo crear el requerimiento, la fecha de finalizacion introducida era menor a la fecha actual, intenta de nuevo.');
+                return redirect()->route('listar_requerimientos')->withErrors('No se pudo crear el requerimiento, la fecha de finalización introducida era menor a la fecha actual, intenta de nuevo');
             }
             $requerimiento = Requerimiento::create([
                 'nombre' => $request->nombre,
@@ -89,9 +89,9 @@ class RequerimimientoController extends Controller
                     $mail->to($item->correo);
                 }
             });
-            return redirect()->route('listar_requerimientos')->withSuccess('Se creo con exito');
+            return redirect()->route('listar_requerimientos')->withSuccess('Se creó con exito');
         } catch (Exception $e) {
-            return redirect()->route('listar_requerimientos')->withErrors('Ocurrio un error: '.$e->getMessage());
+            return redirect()->route('listar_requerimientos')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
@@ -104,16 +104,16 @@ class RequerimimientoController extends Controller
         try {
             $requerimiento = Requerimiento::find($request->id_requerimiento);
             if($requerimiento->fecha_creacion > $request->fecha_finalizacion){
-                return redirect()->route('listar_requerimientos')->withErrors('No se pudo crear el requerimiento, la fecha de finalizacion introducida era menor a la fecha actual, intenta de nuevo.');
+                return redirect()->route('listar_requerimientos')->withErrors('No se pudo crear el requerimiento, la fecha de finalización introducida era menor a la fecha actual, intenta de nuevo');
             }
             $requerimiento->update([
                 'nombre' => $request->nombre,
                 'detalle' => $request->detalle,
                 'fecha_finalizacion' => $request->fecha_finalizacion,
             ]);
-            return redirect()->route('listar_requerimientos')->withSuccess('Se modifico con exito');
+            return redirect()->route('listar_requerimientos')->withSuccess('Se modificó con exito');
         } catch (Exception $e) {
-            return redirect()->route('listar_requerimientos')->withErrors('Ocurrio un error: '.$e->getMessage());
+            return redirect()->route('listar_requerimientos')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 

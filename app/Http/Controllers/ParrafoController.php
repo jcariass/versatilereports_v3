@@ -45,10 +45,10 @@ class ParrafoController extends Controller
     public function save(Request $request){
         $plantilla = Plantilla::findOrFail($request->id_plantilla);
         if($plantilla == null)
-            return redirect()->route('listar_plantillas')->withErrors('No se encontro la plantilla, por lo tanto no se pudieron asignar los parrafos.');
+            return redirect()->route('listar_plantillas')->withErrors('No se encontró la plantilla, por lo tanto no se pudieron asignar los párrafos');
         else
             if(count($request->texto_parrafo) < 1 || count($request->numero_parrafo) < 1)
-                return redirect()->route('listar_plantillas')->withErrors('Ocurrio un error, intente de nuevo.');
+                return redirect()->route('listar_plantillas')->withErrors('Ocurrió un error, intente de nuevo');
             else{
                 try {
                     DB::beginTransaction();
@@ -60,10 +60,10 @@ class ParrafoController extends Controller
                         ]);
                     }
                     DB::commit();
-                    return redirect()->route('listar_parrafos', ['id' => $plantilla->id_plantilla])->with('success', 'Se añadieron los parrafos.');
+                    return redirect()->route('listar_parrafos', ['id' => $plantilla->id_plantilla])->with('success', 'Se añadieron los párrafos.');
                 } catch (Exception $e) {
                     DB::rollBack();
-                    return redirect()->route('listar_parrafos', ['id' => $plantilla->id_plantilla])->withErrors('Ocurrio un error: '.$e->getMessage());
+                    return redirect()->route('listar_parrafos', ['id' => $plantilla->id_plantilla])->withErrors('Ocurrió un error: '.$e->getMessage());
                 }
             }
     }
@@ -71,30 +71,30 @@ class ParrafoController extends Controller
     public function update(Request $request){
         $parrafo = Parrafo::findOrFail($request->id_parrafo);
         if($parrafo == null) 
-            return redirect()->route('listar_plantillas')->withErrors('No se pudo editar el parrafo, intente de nuevo.');
+            return redirect()->route('listar_plantillas')->withErrors('No se pudo editar el párrafo, intente de nuevo');
         else{
             try {
                 $parrafo->update([
                     'texto' => $request->texto,
                     'numero_parrafo' => $request->numero_parrafo,
                 ]);
-                return redirect()->route('listar_parrafos', ['id' => $parrafo->id_plantilla])->with('success', 'Se modifico el parrafo.');
+                return redirect()->route('listar_parrafos', ['id' => $parrafo->id_plantilla])->with('success', 'Se modificó el párrafo.');
             } catch (Exception $e) {
-                return redirect()->route('listar_parrafos', ['id' => $parrafo->id_plantilla])->withErrors('Ocurrio un error: '.$e->getMessage());
+                return redirect()->route('listar_parrafos', ['id' => $parrafo->id_plantilla])->withErrors('Ocurrió un error: '.$e->getMessage());
             }
         }
     }
     
     public function update_state($id){
         $parrafo = Parrafo::findOrFail($id);
-        if($parrafo == null) return redirect()->route('listar_plantillas')->withErrors('No se pudo editar el parrafo, intente de nuevo.');
+        if($parrafo == null) return redirect()->route('listar_plantillas')->withErrors('No se pudo editar el párrafo, intente de nuevo');
         try {
             $parrafo->update([
                 'estado' => 0
             ]);
-            return redirect()->route('listar_parrafos', ['id' => $parrafo->id_plantilla])->with('success', 'Se elimino el parrafo.');
+            return redirect()->route('listar_parrafos', ['id' => $parrafo->id_plantilla])->with('success', 'Se eliminó el párrafo');
         } catch (Exception $e) {
-            return redirect()->route('listar_parrafos', ['id' => $parrafo->id_plantilla])->withErrors('Ocurrio un error: '.$e->getMessage());
+            return redirect()->route('listar_parrafos', ['id' => $parrafo->id_plantilla])->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 }

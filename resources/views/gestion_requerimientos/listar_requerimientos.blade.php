@@ -126,6 +126,7 @@
         }
     });
 
+    /* función para cambiar estado */
     function confirm(id_requerimiento, estado) {
         Swal.fire({
             title: '¿Estás seguro de cambiar el estado?',
@@ -156,7 +157,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: 'Ocurrio un error!'
+                                text: '¡Ocurrió un error inesperado!'
                             });
                         }
                     }
@@ -164,5 +165,6 @@
             }
         })
     }
+    
 </script>
 @endsection

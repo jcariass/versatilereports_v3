@@ -2,17 +2,6 @@
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/app-assets/css/plugins/forms/wizard.css') }}">
-
-    <style>
-    #error_input {
-        color: red;
-        font-size: 1rem;
-        font-style: italic;
-        display: block;
-        margin-top: 5px;
-    }
-    </style>
-
 @endsection
 
 @section('contenido')
@@ -75,7 +64,6 @@
                                                     @error('numero_contrato')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
-                                                    <p id="error_input">Debe agregar un número de contrato</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -87,7 +75,6 @@
                                                     @error('fecha_inicio')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
-                                                    <p id="error_input">Debe agregar una fecha</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -99,7 +86,6 @@
                                                     @error('fecha_fin')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
-                                                    <p id="error_input">Debe agregar una fecha</p>
                                                 </div>
                                             </div>
                                         </div>
