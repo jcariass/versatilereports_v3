@@ -60,7 +60,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Requerimiento</th>
-                                                <th>Detalles</th>
+                                                <th>Detalle</th>
                                                 <th>Fecha creación</th>
                                                 <th>Fecha finalización</th>
                                                 <th>Opciones</th>

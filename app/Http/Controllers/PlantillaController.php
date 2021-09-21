@@ -36,7 +36,7 @@ class PlantillaController extends Controller
                 ->editColumn('Opciones', function($plantilla){
                     $btn_editar = '<a href="/plantillas/editar/'.$plantilla->id_plantilla.'" class="btn btn-versatile_reports">Editar</a>';
                     $btn_ver = '<a href="/plantillas/parrafos/'.$plantilla->id_plantilla.'" class="btn btn-gris">Ver</a>';
-                    $btn_duplicar = '<a href="/plantillas/duplicar/'.$plantilla->id_plantilla.'" class="btn btn-secondary btn-estados">Duplicar</a>';
+                    $btn_duplicar = '<button type="button" class="btn btn-secondary btn-estados" onclick="confirm_duplicar('.$plantilla->id_plantilla.')">Duplicar</button>';
                     return $btn_editar . ' ' . $btn_ver . ' ' . $btn_duplicar;
                 })
                 ->rawColumns(['Opciones'])
@@ -110,10 +110,10 @@ class PlantillaController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('listar_plantillas')->with('success', 'Se duplicó con éxito la plantilla');
+            return true;
         } catch (Exception $th) {
             DB::rollBack();
-            return redirect()->route('listar_plantillas')->withErrors('Ocurrió un error: '.$e->getMessage());
+            return false;
         }
     }
 

@@ -80,7 +80,7 @@ class ObligacionController extends Controller
 
     public function rules(Request $request){
         $request->validate([
-            'detalle' => 'required',
+            'detalle' => 'required|min:3|max:500',
             'id_proceso' => 'required|exists:procesos,id_proceso',
             'fecha_vencimiento' => 'required|date'
         ]);

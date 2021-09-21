@@ -1,17 +1,5 @@
 @extends('layouts.principal')
 
-@section('style')
-    <style>
-        label.error {
-            color: red;
-            font-size: 1rem;
-            font-style: italic;
-            display: block;
-            margin-top: 5px;
-        }
-    </style>
-@endsection
-
 @section('contenido')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -73,7 +61,7 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="descripcion">Descripcion (*)</label>
+                                            <label for="descripcion">Descripción (*)</label>
                                             <textarea class="@error('descripcion') is-invalid @enderror form-control border-primary" name="descripcion" id="descripcion" cols="30" rows="6"></textarea>
                                             @error('descripcion')
                                                 <div class="invalid-feedback">{{ $message }}</div>

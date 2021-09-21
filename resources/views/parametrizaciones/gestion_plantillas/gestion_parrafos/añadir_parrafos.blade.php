@@ -1,25 +1,5 @@
 @extends('layouts.principal')
 
-@section('style')
-    <style>
-        #error_input {
-            color: red;
-            font-size: 1rem;
-            font-style: italic;
-            display: block;
-            margin-top: 5px;
-        }
-
-        #error_input_d {
-            color: red;
-            font-size: 1rem;
-            font-style: italic;
-            display: block;
-            margin-top: 5px;
-        }
-    </style>
-@endsection
-
 @section('contenido')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -132,7 +112,6 @@
         let errores_d = document.querySelector("#error_input_d");
         let contador = 0;
         function agregar_parrafo(){
-            alert("Recuerde validar esta mierda, Camilo Arias.");
             let texto = $('#texto').val();
             let numero_parrafo = $('#numero_parrafo').val();
             contador = contador + 1;

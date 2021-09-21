@@ -66,7 +66,7 @@
             color: #ff4961;
         }
 
-        input.error {
+        input.error, textarea.error {
             border: 1px solid red !important;
         }
 

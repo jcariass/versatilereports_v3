@@ -87,7 +87,7 @@
 @endsection
 
 @section('javascript')
-
+<script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
 <script>
     $('#plantillas').DataTable({
         processing: true,
@@ -125,6 +125,47 @@
                         "</select> registros"
         }
     });
+
+    /* función para cambiar estado */
+    function confirm_duplicar(id_plantilla) {
+        Swal.fire({
+            title: '¿Estás seguro de duplicar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed){
+                $.ajax({
+                    url: "/plantillas/duplicar/"+id_plantilla,
+                    type: 'GET',
+                    success: function(result) {
+                        if(result){
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: '¡Se duplicó la plantilla!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(() => {  
+                                location.reload();
+                            }, 1500);
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: '¡Ocurrió un error inesperado!'
+                            });
+                        }
+                    }
+                });
+            }
+        })
+    }
+
 </script>
     
 @endsection

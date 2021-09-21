@@ -1,17 +1,5 @@
 @extends('layouts.principal')
 
-@section('style')
-    <style>
-        label.error {
-            color: red;
-            font-size: 1rem;
-            font-style: italic;
-            display: block;
-            margin-top: 5px;
-        }
-    </style>
-@endsection
-
 @section('contenido')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -55,7 +43,7 @@
                                         <div class="col-md-6">
                                             <div class="form-body">
                                                 <div class="form-group">
-                                                    <label for="detalle">Detalle obligacion (*)</label>
+                                                    <label for="detalle">Detalle obligación (*)</label>
                                                     <input autocomplete="off" type="text" class="form-control border-primary @error('detalle') is-invalid @enderror" name="detalle" id="detalle">
                                                     @error('detalle')
                                                         <div class="invalid-feedback">{{ $message }}</div>

@@ -39,7 +39,7 @@
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">
                                     <li>
-                                        <a href="https://youtu.be/tuTbYacs7TA" target="_blank" class="btn btn-versatile_reports">
+                                        <a href="https://youtu.be/tuTbYacs7TA" target="_blank" class="btn btn-gris">
                                             Ayuda en línea
                                         </a>
                                     </li>

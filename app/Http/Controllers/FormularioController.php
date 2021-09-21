@@ -33,7 +33,7 @@ class FormularioController extends Controller
         $formularios = Formulario::all();
         return DataTables::of($formularios)
                 ->editColumn('Opciones', function($formulario){
-                    $btn_duplicar = '<a href="/formularios/duplicar/'.$formulario->id_formulario.'" class="btn btn-info btn-estados">Duplicar</a>';
+                    $btn_duplicar = '<button type="button" class="btn btn-info btn-estados" onclick="confirm_duplicar('.$formulario->id_formulario.')">Duplicar</button>';
                     $btn_editar = '<a href="/formularios/editar/'.$formulario->id_formulario.'" class="btn btn-versatile_reports">Editar</a>';
                     $btn_ver = '<a href="/formularios/obligaciones/'.$formulario->id_formulario.'" class="btn btn-gris">Ver</a>';
                     return $btn_editar . ' ' . $btn_ver . ' ' . $btn_duplicar;
@@ -98,10 +98,10 @@ class FormularioController extends Controller
                 }
             }
             DB::commit();
-            return redirect()->route('listar_formularios')->with("success", "Se duplicó el formulario con éxito");
+            return true;
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->route('listar_formularios')->withErrors('Ocurrió un error inesperado: '.$e->getMessage());
+            return false;
         }
     }
 
