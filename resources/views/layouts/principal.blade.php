@@ -67,7 +67,13 @@
         }
 
         input.error {
-            border: 1px solid red;
+            border: 1px solid red !important;
+        }
+
+        .invalid-feedback {
+            font-weight: bolder;
+            font-size: 80%;
+            color: #ff4961;
         }
     </style>
 

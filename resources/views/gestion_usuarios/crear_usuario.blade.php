@@ -1,17 +1,5 @@
 @extends('layouts.principal')
 
-@section('style')
-    <style>
-        label.error {
-            color: red;
-            font-size: 1rem;
-            font-style: italic;
-            display: block;
-            margin-top: 5px;
-        }
-    </style>
-@endsection
-
 @section('contenido')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -56,8 +44,8 @@
                                             <label for="tipo_documento">Tipo documento (*)</label>
                                             <select class="@error('tipo_documento') is-invalid @enderror form-control border-primary" name="tipo_documento" id="tipo_documento">
                                                 <option value="">Seleccione</option>
-                                                <option value="CC">Cedula Ciudadania</option>
-                                                <option value="CE">Cedula Extranjera</option>
+                                                <option value="CC">Cédula Ciudadania</option>
+                                                <option value="CE">Cédula Extranjera</option>
                                             </select>
                                             @error('tipo_documento')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -139,7 +127,7 @@
                                         <div class="form-group">
                                             <label>Lugar expedición documento / Departamento / Municipio (*)</label>
                                             <div class="d-flex justify-content-between">
-                                                <select id="id_departamento" class="form-control border-primary">
+                                                <select name="id_departamento" id="id_departamento" class="form-control border-primary">
                                                     <option value="">Seleccion un departamento</option>
                                                     @foreach ($departamentos as $item)
                                                         <option value="{{ $item->id_departamento }}">{{ $item->nombre }}</option>
@@ -268,7 +256,8 @@
                 },
 
                 correo: {
-                    required: true
+                    required: true,
+                    email: true
                 },
 
                 celular_uno: {
@@ -285,10 +274,6 @@
                 },
 
                 id_departamento: {
-                    required: true
-                },
-
-                id_municipio: {
                     required: true
                 },
 
@@ -341,7 +326,8 @@
                 },
 
                 correo: {
-                    required: "Este campo es obligatorio"
+                    required: "Este campo es obligatorio",
+                    email: "Ingrese un formato valido: ejemplo@ejemplo.com"
                 },
 
                 celular_uno: {
@@ -358,11 +344,7 @@
                 },
 
                 id_departamento: {
-                    required: "Seleccione un logar de expedición"
-                },
-
-                id_municipio: {
-                    required: "Seleccione un logar de expedición"
+                    required: "Seleccione un lugar de expedición"
                 },
 
                 id_rol: {

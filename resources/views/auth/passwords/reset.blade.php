@@ -146,7 +146,9 @@
 
             rules: {
                 password: {
-                    required: true
+                    required: true,
+                    minlength: 8,
+                    maxlength: 20
                 },
 
                 password_confirmation: {
@@ -157,6 +159,8 @@
             messages: {
                 password: {
                     required: "Este campo es obligatorio",
+                    minlength: "La contraseña debe tener minimo 8 dígitos",
+                    maxlength: "La contraseña puede tener máximo 20 dígitos"
                 },
 
                 password_confirmation: {
