@@ -47,9 +47,11 @@ class RequerimimientoController extends Controller
         ->addColumn('Opciones', function ($requerimiento) {
             $btn_editar = '<a href="/requerimientos/editar/'.$requerimiento->id_requerimiento.'" class="btn btn-versatile_reports">Editar</a>';
             if ($requerimiento->estado == 1) {
-                $btn_estado = '<a href="/requerimientos/cambiar/estado/'.$requerimiento->id_requerimiento.'/0" class="btn btn-danger btn-estados">Inactivar</a>';
+                $btn_estado = '<button type="button" class="btn btn-danger btn-estados" onclick="confirm('.$requerimiento->id_requerimiento.', 0)">Inactivar</button>';
+                // $btn_estado = '<a href="/requerimientos/cambiar/estado/'.$requerimiento->id_requerimiento.'/0" class="btn btn-danger btn-estados" onclick="confirm()">Inactivar</a>';
             }else{
-                $btn_estado = '<a href="/requerimientos/cambiar/estado/'.$requerimiento->id_requerimiento.'/1" class="btn btn-success btn-estados">Activar</a>';
+                $btn_estado = '<button type="button" class="btn btn-success btn-estados" onclick="confirm('.$requerimiento->id_requerimiento.', 1)">Activar</button>';
+                // $btn_estado = '<a href="/requerimientos/cambiar/estado/'.$requerimiento->id_requerimiento.'/1" class="btn btn-success btn-estados" onclick="confirm()">Activar</a>';
             }
             return $btn_editar . ' ' . $btn_estado;
         })
@@ -118,15 +120,15 @@ class RequerimimientoController extends Controller
     public function state_update($id, $estado){
         $requerimiento = Requerimiento::findOrFail($id);
         if ($requerimiento == null) {
-            return redirect()->route('listar_requerimientos')->withErrors('No se encontro el requerimiento');
+            return false;
         }
         try {
             $requerimiento->update([
                 'estado' => $estado
             ]);
-            return redirect()->route('listar_requerimientos')->with('success', 'Se cambio el estado con éxito');
+            return true;
         } catch (Exception $e) {
-            return redirect()->route('listar_requerimientos')->withErrors('Ocurrio un error: '.$e->getMessage());
+            return false;
         }
     }
 
