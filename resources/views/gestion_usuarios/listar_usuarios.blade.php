@@ -19,6 +19,11 @@
                 <div class="row breadcrumbs-top">
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
+                            <li>
+                                <a href="https://youtu.be/DQIEVLNlSjY" target="_blank" class="btn btn-versatile_reports">
+                                    Ayuda en línea
+                                </a>
+                            </li>
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active">Lista de usuarios

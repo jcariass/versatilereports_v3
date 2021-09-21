@@ -39,6 +39,11 @@
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">
                                     <li>
+                                        <a href="https://youtu.be/qSeMBm0dnwE" target="_blank" class="btn btn-versatile_reports">
+                                            Ayuda en línea
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('view_crear_requerimientos') }}" class="btn btn-versatile_reports">
                                             <i class="ft-plus-square"></i> Nuevo
                                         </a>
