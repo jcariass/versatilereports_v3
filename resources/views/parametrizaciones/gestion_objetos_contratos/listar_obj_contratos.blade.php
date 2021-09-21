@@ -19,6 +19,11 @@
                 <div class="row breadcrumbs-top">
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
+                            <li>
+                                <a href="https://youtu.be/uIPrxJuMb0c" target="_blank" class="btn btn-gris">
+                                    Ayuda en línea
+                                </a>
+                            </li>
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active">Lista de objetos de contratos
