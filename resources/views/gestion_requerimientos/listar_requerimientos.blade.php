@@ -87,6 +87,7 @@
 @endsection
 
 @section('javascript')
+<script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
 <script>
     $('#requerimientos').DataTable({
         processing: true,
@@ -124,5 +125,44 @@
                         "</select> registros"
         }
     });
+
+    function confirm(id_requerimiento, estado) {
+        Swal.fire({
+            title: '¿Estás seguro de cambiar el estado?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed){
+                $.ajax({
+                    url: "/requerimientos/cambiar/estado/"+id_requerimiento+"/"+estado,
+                    type: 'GET',
+                    success: function(result) {
+                        if(result){
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: '¡Se actualizó el estado!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(() => {  
+                                location.reload();
+                            }, 1500);
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Ocurrio un error!'
+                            });
+                        }
+                    }
+                });
+            }
+        })
+    }
 </script>
 @endsection
