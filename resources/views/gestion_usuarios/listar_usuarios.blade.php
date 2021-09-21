@@ -86,6 +86,8 @@
 </div>
 @endsection
 
+<script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
+
 @section('javascript')
     <script>
         // function cambiar_estado(id, estado){
@@ -128,5 +130,34 @@
                             "</select> registros"
             }
         });
+
+        function confirm(){
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+            })
+        }
+        
+        /*$("#btn_estado").click(function(evento){
+            evento.preventDefault()
+            
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+                
+            })
+
+        })*/
+
     </script>
 @endsection

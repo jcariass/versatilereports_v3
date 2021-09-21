@@ -1,17 +1,5 @@
 @extends('layouts.principal')
 
-@section('style')
-    <style>
-        label.error {
-            color: red;
-            font-size: 1rem;
-            font-style: italic;
-            display: block;
-            margin-top: 5px;
-        }
-    </style>
-@endsection
-
 @section('contenido')
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -257,7 +245,8 @@
                 },
 
                 correo: {
-                    required: true
+                    required: true,
+                    email: true
                 },
 
                 celular_uno: {
@@ -274,10 +263,6 @@
                 },
 
                 id_departamento: {
-                    required: true
-                },
-
-                id_municipio: {
                     required: true
                 },
 
@@ -330,7 +315,8 @@
                 },
 
                 correo: {
-                    required: "Este campo es obligatorio"
+                    required: "Este campo es obligatorio",
+                    email: "Ingrese un formato valido: ejemplo@ejemplo.com"
                 },
 
                 celular_uno: {
@@ -347,11 +333,7 @@
                 },
 
                 id_departamento: {
-                    required: "Seleccione un logar de expedición"
-                },
-
-                id_municipio: {
-                    required: "Seleccione un logar de expedición"
+                    required: "Seleccione un lugar de expedición"
                 },
 
                 id_rol: {
