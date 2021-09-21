@@ -14,7 +14,7 @@
                             </li>
                             <li class="breadcrumb-item"><a href="{{ route('listar_formularios') }}">Listar formularios</a>
                             </li>
-                            <li class="breadcrumb-item"><a href="{{ route('preguntas_formulario', ['id' => $formulario->id_formulario]) }}">Listar preguntas</a>
+                            <li class="breadcrumb-item"><a href="{{ route('obligaciones_formulario', ['id' => $formulario->id_formulario]) }}">Listar preguntas</a>
                             </li>
                             <li class="breadcrumb-item active">Añadir preguntas
                             </li>
@@ -99,7 +99,7 @@
                                         <i class="la la-save"></i>
                                         Guardar
                                     </button>
-                                    <a href="{{ route('preguntas_formulario', ['id' => $formulario->id_formulario]) }}" class="btn btn-warning mr-1 btn-block">
+                                    <a href="{{ route('obligaciones_formulario', ['id' => $formulario->id_formulario]) }}" class="btn btn-warning mr-1 btn-block">
                                         <i class="la la-close"></i>
                                         Cancelar
                                     </a>
