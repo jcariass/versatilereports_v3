@@ -19,11 +19,6 @@
                 <div class="row breadcrumbs-top">
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
-                            <li>
-                                <a href="https://youtu.be/DQIEVLNlSjY" target="_blank" class="btn btn-versatile_reports">
-                                    Ayuda en línea
-                                </a>
-                            </li>
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active">Lista de usuarios
@@ -43,6 +38,11 @@
                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">
+                                    <li>
+                                        <a href="https://youtu.be/DQIEVLNlSjY" target="_blank" class="btn btn-gris">
+                                            Ayuda en línea
+                                        </a>
+                                    </li>
                                     <li>
                                         <a href="{{ route('crear_usuario') }}" class="btn btn-versatile_reports">
                                             <i class="ft-plus-square"></i> Nuevo
