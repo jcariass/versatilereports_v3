@@ -64,7 +64,7 @@
                                                     </div>
                                                 </div>
                                                 @foreach ($preguntas as $pregunta)
-                                                    <input type="hidden" value="{{ $obligacion->id_obligacion }}" name="obligaciones[]">
+                                                    <input type="hidden" value="{{ $pregunta['id_pregunta'] }}" name="preguntas[]">
                                                     <div class="card">
                                                         <div class="card-body border border-primary">
                                                             <div class="row">

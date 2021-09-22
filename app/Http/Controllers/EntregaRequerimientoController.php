@@ -173,9 +173,9 @@ class EntregaRequerimientoController extends Controller
                 'id_contrato' => $contrato->id_contrato,
                 'id_requerimiento' => $request->id_requerimiento,
             ]);
-            foreach ($request->obligaciones as $key => $value) {
+            foreach ($request->preguntas as $key => $value) {
                 actividad_evidencia::create([
-                    'id_obligacion' => $value,
+                    'id_pregunta' => $value,
                     'id_informe' => $informe->id_informe,
                     'respuesta_actividad' => $request->actividades[$key],
                     'respuesta_evidencia' => $request->evidencias[$key],
@@ -192,7 +192,7 @@ class EntregaRequerimientoController extends Controller
     public function update_archive(Request $request){
         $this->validations($request);
         $respuesta = RespuestaRequerimiento::findOrFail($request->id_respuesta_requerimiento);
-        if ($respuesta == null) return redirect()->route('listar_ent_requerimientos')->withErrors('No se pudo editar la respuesta');
+        if ($respuesta == -null) return redirect()->route('listar_ent_requerimientos')->withErrors('No se pudo editar la respuesta');
         try {
             $fecha_archivo = Carbon::now()->format('d-m-Y-H-i-s');
             $archivo = $fecha_archivo.'-'.time().'.'.$request->archivo->extension();
@@ -209,11 +209,70 @@ class EntregaRequerimientoController extends Controller
 
     public function view_actualizar_informe($id){
         $informe = Informe::findOrFail($id);
-        return view('entrega_requerimientos.editar_informe', compact('informe'));
+        $requerimiento = Requerimiento::findOrFail($informe->id_requerimiento);
+        $obligaciones = Obligacion::select('id_obligacion', 'detalle')
+                ->where('fecha_vencimiento', '>', Carbon::now()->toDateString())
+                ->where('id_proceso', '=', $requerimiento->id_proceso)->get();
+        return view('entrega_requerimientos.editar_informe', compact('informe', 'requerimiento', 'obligaciones'));
+    }
+
+    public static function buscar_respuesta($id_pregunta, $id_informe){
+        $respuesta = actividad_evidencia::select('id_actividad_evidencia', 'respuesta_actividad', 'respuesta_evidencia')
+                ->where('id_pregunta', '=', $id_pregunta)
+                ->where('id_informe', '=', $id_informe)->first();
+        return $respuesta;
     }
 
     public function update_informe(Request $request){
-        return 'Hola haciendo UPDATE';
+        $informe = Informe::findOrFail($request->id_informe);
+        $preguntas = $request->preguntas;
+        $id_respuestas = $request->id_respuestas;
+        $actividades = $request->actividades;
+        $evidencias = $request->evidencias;
+        if($informe == null)
+            return redirect()->route('listar_ent_requerimientos')->withErrors('No se pudo actualizar el informe.');
+        else{
+            try {
+                DB::beginTransaction();
+                foreach ($preguntas as $key => $value) {
+                    $validar_respuesta = $this->validar_respuesta($id_respuestas[$key], $actividades[$key], $evidencias[$key]);
+                    if($validar_respuesta == null){
+                        actividad_evidencia::create([
+                            'id_pregunta' => $value,
+                            'id_informe' => $informe->id_informe, 
+                            'respuesta_actividad' => $actividades[$key], 
+                            'respuesta_evidencia' => $evidencias[$key]
+                        ]);
+                    }else if($validar_respuesta != false){
+                        $validar_respuesta->update([
+                            'respuesta_actividad' => $actividades[$key], 
+                            'respuesta_evidencia' => $evidencias[$key]
+                        ]);
+                    }
+                }
+                DB::commit();
+                return redirect()->route('listar_ent_requerimientos')->with('success', 'Se actualizo su respuesta.');
+            } catch (Exception $e) {
+                DB::rollBack();
+                return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrio un error: '.$e->getMessage());
+            }
+        }
+    }
+
+    // private function getIdObligacion($id_pregunta){
+    //     return formulario_pregunta::select('id_obligacion')->where('id_pregunta', '=', $id_pregunta)->first();
+    // }
+
+    private function validar_respuesta($id_actividad_evidencia, $actividad, $evidencia){
+        $respuesta = actividad_evidencia::find($id_actividad_evidencia);
+        if($respuesta == null)
+            return $respuesta;
+        else{
+            if($respuesta->respuesta_actividad == $actividad && $respuesta->respuesta_evidencia == $evidencia)
+                return false;
+            else
+                return $respuesta;
+        }
     }
 
     private function validations(Request $request){

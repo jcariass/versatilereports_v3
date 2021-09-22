@@ -48,9 +48,52 @@
                             <div class="card-content collapse show">
                                 <form id="form_editar_informe" action="{{ route('actualizar_informe') }}" class="number-tab-steps wizard-circle" method="POST" >
                                     @csrf
-                                    Hola
-                                    <br>
-                                    {{ var_dump($informe); }}
+                                    @method('put')
+                                    <input type="hidden" name="id_informe" id="id_informe" value="{{ $informe->id_informe }}">
+                                    @foreach ($obligaciones as $obligacion)
+                                        @php
+                                            $preguntas = \App\Http\Controllers\EntregaRequerimientoController::preguntas_informe($obligacion->id_obligacion, $requerimiento->id_formulario);
+                                        @endphp
+                                        @if (count($preguntas) > 0)
+                                            <h6></h6>
+                                            <fieldset>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group d-flex justify-content-center">
+                                                            <h3>{{ $obligacion->detalle }}</h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @foreach ($preguntas as $pregunta)
+                                                    <input type="hidden" value="{{ $pregunta['id_pregunta'] }}" name="preguntas[]">
+                                                    @php
+                                                        $respuesta = \App\Http\Controllers\EntregaRequerimientoController::buscar_respuesta($pregunta['id_pregunta'], $informe->id_informe);
+                                                    @endphp
+                                                    <input type="hidden" value="{{ $respuesta != null ? $respuesta->id_actividad_evidencia : '' }}" name="id_respuestas[]">
+                                                    <div class="card">
+                                                        <div class="card-body border border-primary">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label>{{ $pregunta["pregunta_actividad"] }}</label>
+                                                                        <input type="text" value="{{ $respuesta != null ? $respuesta->respuesta_actividad : '' }}" class="form-control border-primary" name="actividades[]">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label>{{ $pregunta["pregunta_evidencia"] }}</label>
+                                                                        <input type="text" value="{{ $respuesta != null ? $respuesta->respuesta_evidencia : '' }}" class="form-control border-primary" name="evidencias[]">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </fieldset>
+                                        @endif
+                                    @endforeach
                                 </form>
                             </div>
                         </div>
@@ -94,7 +137,7 @@
             return form;
         },
         onFinished: function (event, currentIndex) {
-            $("#form_insert_report").submit()
+            $("#form_editar_informe").submit()
         }
     });
 
