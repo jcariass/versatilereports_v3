@@ -163,6 +163,8 @@ class CreatePermisosTable extends Migration
             [   'nombre' => 'Cambiar estado de requerimientos de tipo archivo enviados (Aprobrar o desaprobrar)',   'url' => '/revision/requerimientos/estado/archivo/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Cambiar estado uno de requerimientos de tipo informe enviados (Aprobrar o desaprobrar)',   'url' => '/revision/requerimientos/estado/uno/informe/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Cambiar estado dos de requerimientos de tipo informe enviados (Aprobrar o desaprobrar)',   'url' => '/revision/requerimientos/estado/dos/informe/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Ver formulario de agregar observaciones a un requerimiento',   'url' => '/revision/requerimientos/agregar/observacion/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Guardar y enviar observaciones a un requerimiento',   'url' => '/revision/requerimientos/guardar/observacion', 'method' => 'PUT',  'url_identica' => 1],
             //Fin rutas revisión de requerimientos -- 8 rutas
 
             //Rutas entrega de requerimientos

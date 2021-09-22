@@ -172,12 +172,14 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::get('/revision/requerimientos', [RevisionRequerimientoController::class, 'view_list'])->name('listar_rev_requerimientos');
     Route::post('/revision/requerimientos/generar/reporte', [RevisionRequerimientoController::class, 'generar_reporte'])->name('reporte_requerimientos');
     Route::get('/revision/requerimientos/listar', [RevisionRequerimientoController::class, 'list']);
-    Route::get('/revision/requerimientos/detalles/{id}', [RevisionRequerimientoController::class, 'view_list_details']);
+    Route::get('/revision/requerimientos/detalles/{id}', [RevisionRequerimientoController::class, 'view_list_details'])->name('view_detalles_requerimientos');
     Route::get('/revision/requerimientos/detalles/listar/{id}/{tipo}', [RevisionRequerimientoController::class, 'list_details']);
     Route::get('/revision/requerimientos/descargar/archivo/{nombre}', [RevisionRequerimientoController::class, 'download_archive']);
     Route::get('/revision/requerimientos/estado/archivo/{id}/{estado}', [RevisionRequerimientoController::class, 'estado_archivo']);
     Route::get('/revision/requerimientos/estado/uno/informe/{id}/{estado}', [RevisionRequerimientoController::class, 'estado_uno_informe']);
     Route::get('/revision/requerimientos/estado/dos/informe/{id}/{estado}', [RevisionRequerimientoController::class, 'estado_dos_informe']);
+    Route::get('/revision/requerimientos/agregar/observacion/{id}/{tipo}', [RevisionRequerimientoController::class, 'view_observacion']);
+    Route::put('/revision/requerimientos/guardar/observacion', [RevisionRequerimientoController::class, 'guardar_observacion'])->name('guardar_observacion');
     /* Fin rutas revisión de requerimientos */
 
     /* Inicio rutas entrega de requerimientos */

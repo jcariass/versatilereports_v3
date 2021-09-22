@@ -59,11 +59,12 @@
                                     <table id="requerimientos" class="table table-column">
                                         <thead>
                                             <tr>
-                                                <th style="width: 15%;">Nombre</th>
-                                                <th style="width: 25%;">Detalle</th>
-                                                <th style="width: 15%;">Tipo requerimiento</th>
-                                                <th style="width: 20%;">Fecha finalización</th>
-                                                <th style="width: 25%;">Opciones</th>
+                                                <th style="width: 10%;">Nombre</th>
+                                                <th style="width: 15%;">Detalle</th>
+                                                <th style="width: 10%;">Tipo requerimiento</th>
+                                                <th style="width: 10%;">Fecha finalización</th>
+                                                <th style="width: 25%;">Observación</th>
+                                                <th style="width: 30%;">Opciones</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -89,6 +90,7 @@
             {data: 'detalle', name: 'detalle'},
             {data: 'tipo_requerimiento', name: 'tipo_requerimiento'},
             {data: 'fecha_finalizacion', name: 'fecha_finalizacion'},
+            {data: 'observacion', name: 'observacion'},
             {data: 'Opciones', name: 'Opciones', orderable: false, searchable: false}
         ],
         language : {
