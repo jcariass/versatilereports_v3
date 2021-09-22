@@ -77,6 +77,7 @@ class RevisionRequerimientoController extends Controller
                 ->addColumn('Opciones', function($informes){
                     $ver = '<a href="#" class="btn btn-versatile_reports">Ver</a>';
                     $informe = '<a href="#" class="btn btn-gris">Generar informe</a>';
+                    $observacion = '<a href="/revision/requerimientos/agregar/observacion/'.$informes->id_informe.'/1" class="btn btn-info btn-estados">Observación</a>';
                     if ($informes->estado_uno == 0) {
                         $estado_uno = '<a href="/revision/requerimientos/estado/uno/informe/'.$informes->id_informe.'/1" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
                     }else{
@@ -87,7 +88,7 @@ class RevisionRequerimientoController extends Controller
                     }else{
                         $estado_dos = '<a href="/revision/requerimientos/estado/dos/informe/'.$informes->id_informe.'/0" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
                     }
-                    return $ver . ' ' . $informe. ' ' . $estado_uno . ' ' . $estado_dos;
+                    return $ver . ' ' . $informe. ' ' . $estado_uno . ' ' . $estado_dos . ' ' . $observacion;
                 })
                 ->rawColumns(['Opciones', 'estado'])
                 ->make(true);
@@ -107,12 +108,13 @@ class RevisionRequerimientoController extends Controller
                     }
                 })
                 ->addColumn('Opciones', function($respuesta_requerimiento){
+                    $observacion = '<a href="/revision/requerimientos/agregar/observacion/'.$respuesta_requerimiento->id_respuesta_requerimiento.'/2" class="btn btn-info btn-estados">Observación</a>';
                     $opcion = '<a href="/revision/requerimientos/descargar/archivo/'.$respuesta_requerimiento->nombre.'" class="btn btn-versatile_reports"><i class="ft-download"></i></a>';
                     if ($respuesta_requerimiento->estado == 0)
                         $estado = '<a href="/revision/requerimientos/estado/archivo/'.$respuesta_requerimiento->id_respuesta_requerimiento.'/1" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
                     else
                         $estado = '<a href="/revision/requerimientos/estado/archivo/'.$respuesta_requerimiento->id_respuesta_requerimiento.'/0" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
-                    return $opcion . ' ' . $estado;
+                    return $opcion . ' ' . $estado . ' ' . $observacion;
                 })
                 ->rawColumns(['Opciones', 'estado'])
                 ->make(true);
@@ -219,5 +221,59 @@ class RevisionRequerimientoController extends Controller
                 return back()->withSuccess('Ocurrió un error: '.$e->getMessage());
             }
         }
+    }
+
+    public function view_observacion($id, $tipo){
+        if($tipo == 1){
+            $informe = Informe::find($id);
+            if($informe == null)
+                return $this->getBack();
+            else
+                return view('revision_requerimientos.añadir_observacion', compact('informe'));
+        }elseif($tipo == 2){
+            $archivo = RespuestaRequerimiento::find($id);
+            if($archivo == null)
+                return $this->getBack();
+            else
+                return view('revision_requerimientos.añadir_observacion', compact('archivo'));
+        }else
+            return $this->getBack();
+    }
+
+    private function getBack(){
+        return back()->withErrors('Ocurrio un error, intente de nuevo.');
+    }
+
+    public function guardar_observacion(Request $request){
+        if($request->tipo_requerimiento == 1){
+            $informe = Informe::find($request->id_respuesta);
+            if($informe == null)
+                return $this->getObservacion();
+            else{
+                $informe->update([
+                    'observacion' => $request->observacion
+                ]);
+                return $this->getSuccess($request->id_requerimiento);
+            }
+        }elseif($request->tipo_requerimiento == 2){
+            $archivo = RespuestaRequerimiento::find($request->id_respuesta);
+            if($archivo == null)
+                return $this->getObservacion();
+            else{
+                $archivo->update([
+                    'observacion' => $request->observacion
+                ]);
+                return $this->getSuccess($request->id_requerimiento);
+            }
+        }else
+            return $this->getObservacion();
+    }
+
+    private function getSuccess($id){
+        return redirect()->route('view_detalles_requerimientos', ['id' => $id])->with('success', 'Se agrego la observación');
+    }
+
+    private function getObservacion(){
+        return redirect()->route('listar_rev_requerimientos')->withErrors('No se pudo agregar la observación');
     }
 }

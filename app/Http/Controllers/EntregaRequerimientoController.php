@@ -78,7 +78,7 @@ class EntregaRequerimientoController extends Controller
                         return '<div class="alert alert-success" role="alert">Requerimiento aprobado</div>';
                     }else{
                         $opcion1 = '<a href="/entrega/requerimientos/editar/informe/contractual/'.$tipo_informe->id_informe.'" class="btn btn-versatile_reports">Editar</a>';
-                        $opcion2 = '<a href="#" class="btn btn-gris">Generar informe</a>';
+                        $opcion2 = '<a href="#" class="btn btn-gris">Reporte</a>';
                         return $opcion1 . ' ' . $opcion2;
                     }
                 }
@@ -95,7 +95,27 @@ class EntregaRequerimientoController extends Controller
                     }
                 }
             })
-            ->rawColumns(['Opciones', 'estado'])
+            ->addColumn('observacion', function($requerimiento) use ($contrato){
+                if ($requerimiento->id_tipo_requerimiento == 1) {
+                    $informe = Requerimiento::join('informes', 'informes.id_requerimiento', '=', 'requerimientos.id_requerimiento')
+                            ->where('informes.id_requerimiento', '=', $requerimiento->id_requerimiento)
+                            ->where('informes.id_contrato', '=', $contrato->id_contrato)
+                            ->first();
+                    if($informe == null)
+                        return 'Sin observación';
+                    else
+                        return $informe->observacion != null ? $informe->observacion : 'Sin observación'; 
+                }
+                elseif($requerimiento->id_tipo_requerimiento == 2){
+                    $archivo = RespuestaRequerimiento::select('*')->where('id_requerimiento', '=', $requerimiento->id_requerimiento)
+                        ->where('id_contrato', '=', $contrato->id_contrato)->first();
+                    if($archivo == null)
+                        return 'Sin observación';
+                    else
+                        return $archivo->observacion != null ? $archivo->observacion : 'Sin observación'; 
+                }
+            })
+            ->rawColumns(['Opciones', 'estado', 'observacion'])
             ->make(true);
         }
         return redirect()->route('dashboard');
