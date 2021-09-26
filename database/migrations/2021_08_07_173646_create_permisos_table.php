@@ -179,6 +179,7 @@ class CreatePermisosTable extends Migration
             [   'nombre' => 'Enviar requerimientos de tipo formulario',   'url' => '/entrega/requerimientos/guardar/informe', 'method' => 'POST',  'url_identica' => 1],
             [   'nombre' => 'Ver formulario de actualizar requerimientos de tipo informe',   'url' => '/entrega/requerimientos/editar/informe/contractual/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Actualizar requerimientos de tipo formulario',   'url' => '/entrega/requerimientos/actualizar/informe', 'method' => 'PUT',  'url_identica' => 1],
+            [   'nombre' => 'Generar informe de ejecución contractual (Entrega)',   'url' => '/entrega/requerimientos/generar/informe/', 'method' => 'GET',  'url_identica' => 0],
             //Fin rutas entrega de requerimientos -- 11 rutas
         ]);
     }

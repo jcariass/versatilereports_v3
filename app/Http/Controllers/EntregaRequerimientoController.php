@@ -15,6 +15,7 @@ use App\Models\Obligacion;
 use App\Models\Contrato;
 use App\Models\Informe;
 use App\Models\RespuestaRequerimiento;
+use PDF;
 
 class EntregaRequerimientoController extends Controller
 {
@@ -78,7 +79,7 @@ class EntregaRequerimientoController extends Controller
                         return '<div class="alert alert-success" role="alert">Requerimiento aprobado</div>';
                     }else{
                         $opcion1 = '<a href="/entrega/requerimientos/editar/informe/contractual/'.$tipo_informe->id_informe.'" class="btn btn-versatile_reports">Editar</a>';
-                        $opcion2 = '<a href="#" class="btn btn-gris">Reporte</a>';
+                        $opcion2 = '<a href="/entrega/requerimientos/generar/informe/'.$tipo_informe->id_informe.'" class="btn btn-gris">Reporte</a>';
                         return $opcion1 . ' ' . $opcion2;
                     }
                 }
@@ -279,9 +280,15 @@ class EntregaRequerimientoController extends Controller
         }
     }
 
-    // private function getIdObligacion($id_pregunta){
-    //     return formulario_pregunta::select('id_obligacion')->where('id_pregunta', '=', $id_pregunta)->first();
-    // }
+    public function generar_informe($id){
+        $informe = Informe::find($id);
+        if($informe == null)
+            return redirect()->route('listar_ent_requerimientos')->withErrors('No se encontro el informe');
+        else{
+            $pdf = PDF::loadView('entrega_requerimientos.generar_informe', compact("informe"));
+            return $pdf->stream('archivo.pdf');
+        }
+    }
 
     private function validar_respuesta($id_actividad_evidencia, $actividad, $evidencia){
         $respuesta = actividad_evidencia::find($id_actividad_evidencia);

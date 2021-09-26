@@ -194,6 +194,7 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::post('/entrega/requerimientos/guardar/informe', [EntregaRequerimientoController::class, 'save'])->name('guardar_informe');
     Route::get('/entrega/requerimientos/editar/informe/contractual/{id}', [EntregaRequerimientoController::class, 'view_actualizar_informe']);
     Route::put('/entrega/requerimientos/actualizar/informe', [EntregaRequerimientoController::class, 'update_informe'])->name('actualizar_informe');
+    Route::get('/entrega/requerimientos/generar/informe/{id}', [EntregaRequerimientoController::class, 'generar_informe']);
     /* Fin rutas entrega de requerimientos */
 }); 
 
