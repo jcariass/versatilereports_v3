@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('guardar_parrafos') }}" method="post">
+                            <form id="form_crear_parrafo" class="form" action="{{ route('guardar_parrafos') }}" method="post">
                                 @csrf
                                 <input type="hidden" value="{{ $plantilla->id_plantilla }}" name="id_plantilla">
                                 <div class="row">
@@ -56,7 +56,7 @@
                                                 @error('texto')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
-                                                <p id="error_input"></p>
+                                                <p id="error_uno"></p>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label for="numero_parrafo">Número de párrafo (*)</label>
@@ -64,7 +64,7 @@
                                                 @error('numero_parrafo')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
-                                                <p id="error_input_d"></p>
+                                                <p id="error_dos"></p>
                                             </div>
                                         </div><br>
                                         <button type="button" onclick="agregar_parrafo()" class="btn btn-versatile_reports float-right">Añadir</button>
@@ -85,7 +85,7 @@
                                     </table>
                                 </div>
                                 <div class="form-actions text-center">
-                                    <button type="submit" class="btn btn-primary btn-block">
+                                    <button type="submit" class="btn btn-primary btn-block" id="btn_submit">
                                         <i class="la la-save"></i>
                                         Guardar
                                     </button>
@@ -106,50 +106,100 @@
 @endsection
 
 @section('javascript')
+
+<script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
+
     <script>
         const letras = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
-        let errores = document.querySelector("#error_input");
-        let errores_d = document.querySelector("#error_input_d");
+        const numeros = /^([0-9])*$/;
+        let error_uno = document.querySelector("#error_uno");
+        let error_dos = document.querySelector("#error_dos");
         let contador = 0;
+        let array_parrafo=[];
         function agregar_parrafo(){
             let texto = $('#texto').val();
             let numero_parrafo = $('#numero_parrafo').val();
+            let bandera_uno = false;
+            let bandera_dos = false;
             contador = contador + 1;
-            // if (letras.exec(texto)) {
-            //     $('#parrafos_ingresados').append(`
-            //         <tr id="tr-${contador}">
-            //             <input type="hidden" name="numero_parrafo[]" value="${numero_parrafo}">
-            //             <input type="hidden" name="texto_parrafo[]" value="${texto}">
-            //             <td>${texto}</td>
-            //             <td>${numero_parrafo}</td>
-            //             <td>
-            //                 <button class="btn btn-danger" type="button" onclick="eliminar_parrafo('${contador}')">X</button>
-            //             </td>
-            //         </tr>
-            //     `);
-            //     $('#texto').val('');
-            //     $('#numero_parrafo').val('');
-            // } else {
-            //     errores.textContent = "Este campo es requerido";
-            //     errores_d.textContent = "Este campo es requerido";
-            // }
-            $('#parrafos_ingresados').append(`
-                <tr id="tr-${contador}">
-                    <input type="hidden" name="numero_parrafo[]" value="${numero_parrafo}">
-                    <input type="hidden" name="texto_parrafo[]" value="${texto}">
-                    <td>${texto}</td>
-                    <td>${numero_parrafo}</td>
-                    <td>
-                        <button class="btn btn-danger" type="button" onclick="eliminar_parrafo('${contador}')">X</button>
-                    </td>
-                </tr>
-            `);
-            $('#texto').val('');
-            $('#numero_parrafo').val('');
+
+            if(texto==''){
+                error_uno.textContent = "Este campo es obligatorio";
+                bandera_uno=false;
+            }else{
+                if (!letras.exec(texto)) {
+                    error_uno.textContent = "Solo se admiten letras";
+                    bandera_uno=false;
+                }else{
+                    error_uno.textContent = "";
+                    bandera_uno=true;
+                }
+            }
+
+            if(numero_parrafo==''){
+                error_dos.textContent = "Este campo es obligatorio";
+                bandera_dos = false;
+            }
+            else{
+                if (!numeros.exec(numero_parrafo)) {
+                    error_dos.textContent = "Solo se admiten números";
+                    bandera_dos = false;
+                }else{
+                    error_dos.textContent = "";
+                    bandera_dos = true;
+                }
+            }
+
+            if(bandera_uno==true && bandera_dos==true){
+                array_parrafo.push(texto);
+                $('#parrafos_ingresados').append(`
+                    <tr id="tr-${contador}">
+                        <input type="hidden" name="numero_parrafo[]" value="${numero_parrafo}">
+                        <input type="hidden" name="texto_parrafo[]" value="${texto}">
+                        <td>${texto}</td>
+                        <td>${numero_parrafo}</td>
+                        <td>
+                            <button class="btn btn-danger" type="button" onclick="eliminar_parrafo('${contador}')">X</button>
+                        </td>
+                    </tr>
+                `);
+                $('#texto').val('');
+                $('#numero_parrafo').val('');
+                error_uno.textContent = "";
+                error_dos.textContent = "";
+            }
         }
         
         function eliminar_parrafo(contador){
+            array_parrafo.splice(contador-1,1);
             $('#tr-'+contador).remove();
         }
+
+        /* función para confirmar */
+        $("#btn_submit").click(function(evento){
+            evento.preventDefault()
+            
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+                
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if(array_parrafo.length>0){
+                        $('#form_crear_parrafo').submit()
+                    }else{
+                        alert("malo");
+                    }
+                }
+            })
+
+        })
+
+
     </script>
 @endsection
