@@ -283,30 +283,28 @@ $(document).ready(function(){
                 return true;
             }
 
-            // if (newIndex === 1) {
-            //     if($("#fecha_inicio").val() >= $("#fecha_fin").val()) {
-            //         Swal.fire({
-            //             icon: 'error',
-            //             title: 'Opss...',
-            //             text: 'La fecha de inicio debe ser mayor a la fecha de fin'
-            //         })
-            //         return false;
-            //     }
-            // }
+            if (newIndex === 1) {
+                if($("#fecha_inicio").val() >= $("#fecha_fin").val()) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Opss...',
+                        text: 'La fecha de inicio debe ser mayor a la fecha de fin'
+                    })
+                    return false;
+                }
+            }
 
             if (currentIndex < newIndex) {
                 //Remover estilos cuando se complete un paso del formulario
                 form.find(".body:eq(" + newIndex + ") label.error").remove();
                 form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
             }
-            // form.validate().settings.ignore = ":disabled,:hidden";
-            // return form.valid();
-            return form;
+            form.validate().settings.ignore = ":disabled,:hidden";
+            return form.valid();
         },
         onFinishing: function (event, currentIndex) {
-            // form.validate().settings.ignore = ":disabled";
-            // return form.valid();
-            return form;
+            form.validate().settings.ignore = ":disabled";
+            return form.valid();
         },
         onFinished: function (event, currentIndex) {
             $("#form_crear_contrato").submit()
@@ -314,7 +312,7 @@ $(document).ready(function(){
     });
 
     //Initialize validation
-    /* $("#form_crear_contrato").validate({
+    $("#form_crear_contrato").validate({
         ignore: 'input[type=hidden]', // ignore hidden fields
         errorClass: 'danger',
         successClass: 'success',
@@ -407,7 +405,7 @@ $(document).ready(function(){
                 required: "Debes escoger un municipio"
             }
         }
-    }); */
+    });
 
 </script>
 @endsection
