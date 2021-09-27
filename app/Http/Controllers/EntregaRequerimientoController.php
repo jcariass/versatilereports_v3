@@ -201,6 +201,7 @@ class EntregaRequerimientoController extends Controller
                     'id_informe' => $informe->id_informe,
                     'respuesta_actividad' => $request->actividades[$key],
                     'respuesta_evidencia' => $request->evidencias[$key],
+                    'id_obligacion' => $request->obligaciones[$key],
                 ]);
             }
             DB::commit();
@@ -263,7 +264,8 @@ class EntregaRequerimientoController extends Controller
                             'id_pregunta' => $value,
                             'id_informe' => $informe->id_informe, 
                             'respuesta_actividad' => $actividades[$key], 
-                            'respuesta_evidencia' => $evidencias[$key]
+                            'respuesta_evidencia' => $evidencias[$key],
+                            'id_obligacion' => $request->obligaciones[$key],
                         ]);
                     }else if($validar_respuesta != false){
                         $validar_respuesta->update([
@@ -288,8 +290,23 @@ class EntregaRequerimientoController extends Controller
         else{
             $requerimiento = Requerimiento::select('id_proceso')->where('id_requerimiento', '=', $informe->id_requerimiento)->first();
             $obligaciones = Obligacion::select('id_obligacion', 'detalle')->where('id_proceso', '=', $requerimiento->id_proceso)->get();
-        }}}
-            $pdf = PDF::loadView('entrega_requerimientos.generar_informe', compact("informe", "obligaciones"));
+            $informacion = Contrato::join('informes', 'informes.id_contrato', '=', 'contratos.id_contrato')
+                ->join('objetos', 'objetos.id_objeto', '=', 'contratos.id_objeto')
+                ->join('supervisores', 'supervisores.id_supervisor', '=', 'contratos.id_supervisor')
+                ->join('personas as p2', 'p2.id_persona', '=', 'supervisores.id_persona')
+                ->join('personas as p1', 'p1.id_persona', '=', 'contratos.id_persona')
+                ->join('centros', 'centros.id_centro', '=', 'contratos.id_centro')
+                ->select(
+                    'objetos.nombre as nombre_objeto', 'objetos.detalle as detalle_objeto',
+                    'p2.nombre as nombre_supervisor', 'p2.primer_apellido as primer_apellido_supervisor', 'p2.segundo_apellido as segundo_apellido_supervisor',
+                    'p1.nombre as nombre_contratista', 'p1.primer_apellido as primer_apellido_contratista', 'p1.tipo_documento as tipo_documento_contratista',
+                    'p1.segundo_apellido as segundo_apellido_contratista', 'p1.documento as documento_contratista',
+                    'centros.nombre as nombre_centro', 'contratos.forma_pago as forma_pago_contrato',
+                    'contratos.numero_contrato'
+                )->where('contratos.id_contrato', '=', $informe->id_contrato)->first();
+            setlocale(LC_TIME, "spanish");
+            $fecha_generacion = strftime("%d de %B de %Y");
+            $pdf = PDF::loadView('entrega_requerimientos.generar_informe', compact("informe", "obligaciones", "informacion", "fecha_generacion"));
             return $pdf->stream('archivo.pdf');
         }
     }
