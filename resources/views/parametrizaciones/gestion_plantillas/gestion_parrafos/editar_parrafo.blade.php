@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('editar_parrafo') }}" method="post">
+                            <form id="form_edit_parrafo" class="form" action="{{ route('editar_parrafo') }}" method="post">
                                 @csrf
                                 @method('put')
                                 <input type="hidden" name="id_parrafo" value="{{ $parrafo->id_parrafo }}">
@@ -50,6 +50,7 @@
                                             @error('texto')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
+                                            <p id="error_uno"></p>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
@@ -59,11 +60,12 @@
                                             @error('numero_parrafo')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
+                                            <p id="error_dos"></p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-actions text-center">
-                                    <button type="submit" class="btn btn-primary btn-block">
+                                    <button type="submit" class="btn btn-primary btn-block" id="btn_submit">
                                         <i class="la la-save"></i>
                                         Guardar
                                     </button>
@@ -81,4 +83,74 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('javascript')
+
+<script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
+
+<!-- Inicio de validación/////////////////////////////////////////////////////////////////////////////////////-->
+<script>
+    $(document).ready(function() {
+
+        /* Método para letras con acentos */
+        jQuery.validator.addMethod("letras", function(value, element) {
+            return this.optional(element) || /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/.test(value);
+        });
+
+        $("#form_edit_parrafo").validate({
+
+            // onfocusin: function(element) { $(element).valid(); },
+            onfocusout: function(element) { $(element).valid(); },
+            // onclick: function(element) { $(element).valid(); },
+            // onkeyup: function(element) { $(element).valid(); },
+
+            rules: {
+                texto: {
+                    required: true,
+                    letras: true
+                },
+
+                numero_parrafo: {
+                    required: true,
+                    number: true
+                }
+            },
+            messages: {
+                texto: {
+                    required: "Este campo es obligatorio",
+                    letras: "Solo se admiten letras"
+                },
+
+                numero_parrafo: {
+                    required: "Este campo es obligatorio",
+                    number: "Solo se admiten números"
+                }
+            }
+        });
+
+        /* función para confirmar */
+        $("#btn_submit").click(function(evento){
+            evento.preventDefault()
+            
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+                
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#form_edit_parrafo').submit()
+                }
+            })
+
+        })
+
+    });
+</script>
+<!-- Fin de validación/////////////////////////////////////////////////////////////////////////////////////-->
 @endsection

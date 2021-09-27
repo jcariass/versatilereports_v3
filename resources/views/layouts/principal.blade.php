@@ -60,7 +60,7 @@
             border: 1px solid #666ee8 !important;
         }
 
-        label.error {
+        label.error, .invalid-feedback, #error_uno, #error_dos, #error_tres {
             font-weight: bolder;
             font-size: 80%;
             color: #ff4961;
@@ -68,12 +68,6 @@
 
         input.error, textarea.error {
             border: 1px solid red !important;
-        }
-
-        .invalid-feedback {
-            font-weight: bolder;
-            font-size: 80%;
-            color: #ff4961;
         }
     </style>
 

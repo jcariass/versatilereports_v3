@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('registrar_preguntas') }}" method="post">
+                            <form id="form_crear_pregunta" class="form" action="{{ route('registrar_preguntas') }}" method="post">
                                 @csrf
                                 <input type="hidden" value="{{ $formulario->id_formulario }}" name="id_formulario">
                                 <div class="row">
@@ -58,6 +58,7 @@
                                                         <option value="{{ $obligacion->id_obligacion }}">{{ $obligacion->detalle }}</option>
                                                     @endforeach
                                                 </select>
+                                                <p id="error_uno"></p>
                                             </div>
                                         </div><br>
                                         <div class="row">
@@ -67,6 +68,7 @@
                                                 @error('pregunta_actividad')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
+                                                <p id="error_dos"></p>
                                             </div>
                                             <div class="col-sm-6">
                                                 <label for="pregunta_evidencia">Pregunta evidencia (*)</label>
@@ -74,6 +76,7 @@
                                                 @error('pregunta_evidencia')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
+                                                <p id="error_tres"></p>
                                             </div>
                                         </div><br>
                                         <button type="button" onclick="agregar_pregunta()" class="btn btn-versatile_reports float-right">Añadir</button>
@@ -95,7 +98,7 @@
                                     </table>
                                 </div>
                                 <div class="form-actions text-center">
-                                    <button type="submit" class="btn btn-primary btn-block">
+                                    <button type="submit" class="btn btn-primary btn-block" id="btn_submit">
                                         <i class="la la-save"></i>
                                         Guardar
                                     </button>
@@ -116,34 +119,114 @@
 @endsection
 
 @section('javascript')
+
+<script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
+
     <script>
+        // const letras = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
+        // const numeros = /^([0-9])*$/;
+        let error_uno = document.querySelector("#error_uno");
+        let error_dos = document.querySelector("#error_dos");
+        let error_tres = document.querySelector("#error_tres");
+        // let error_input_uno = document.querySelector("#id_obligacion");
+        let error_input_dos = document.querySelector("#pregunta_actividad");
+        let error_input_tres = document.querySelector("#pregunta_evidencia");
         let contador = 0;
+        let array_pregunta=[];
         function agregar_pregunta(){
             let id_obligacion = $('#id_obligacion option:selected').val();
             let pregunta_actividad = $('#pregunta_actividad').val();
             let pregunta_evidencia = $('#pregunta_evidencia').val();
+            let bandera_uno = false;
+            let bandera_dos = false;
+            let bandera_tres = false;
             contador = contador + 1;
 
-            $('#preguntas_ingresadas').append(`
-                <tr id="tr-${contador}">
-                    <input type="hidden" name="identificaciones_obligacion[]" value="${id_obligacion}">
-                    <input type="hidden" name="preguntas_actividad[]" value="${pregunta_actividad}">
-                    <input type="hidden" name="preguntas_evidencia[]" value="${pregunta_evidencia}">
-                    <td>${contador}</td>
-                    <td>${pregunta_actividad}</td>
-                    <td>${pregunta_evidencia}</td>
-                    <td>
-                        <button class="btn btn-danger" type="button" onclick="eliminar_pregunta('${contador}')">X</button>
-                    </td>
-                </tr>
-            `);
+            if(id_obligacion==''){
+                error_uno.textContent = "Debe seleccionar una obligación";
+                // error_input_uno.setAttribute("style", "border: 1px solid red !important;");
+                bandera_uno=false;
+            }else{
+                error_uno.textContent = "";
+                // error_input_uno.removeAttribute("style");
+                bandera_uno=true;
+            }
 
-            $('#pregunta_actividad').val('');
-            $('#pregunta_evidencia').val('');
+            if(pregunta_actividad==''){
+                error_dos.textContent = "Este campo es obligatorio";
+                error_input_dos.setAttribute("style", "border: 1px solid red !important;");
+                bandera_dos=false;
+            }else{
+                error_dos.textContent = "";
+                error_input_dos.removeAttribute("style");
+                bandera_dos=true;
+            }
+
+            if(pregunta_evidencia==''){
+                error_tres.textContent = "Este campo es obligatorio";
+                error_input_tres.setAttribute("style", "border: 1px solid red !important;");
+                bandera_tres = false;
+            }
+            else{ 
+                error_tres.textContent = "";
+                error_input_tres.removeAttribute("style");
+                bandera_tres = true;
+            }
+
+            if(bandera_uno==true && bandera_dos==true && bandera_tres==true){
+                array_pregunta.push(pregunta_actividad);
+                $('#preguntas_ingresadas').append(`
+                    <tr id="tr-${contador}">
+                        <input type="hidden" name="identificaciones_obligacion[]" value="${id_obligacion}">
+                        <input type="hidden" name="preguntas_actividad[]" value="${pregunta_actividad}">
+                        <input type="hidden" name="preguntas_evidencia[]" value="${pregunta_evidencia}">
+                        <td>${contador}</td>
+                        <td>${pregunta_actividad}</td>
+                        <td>${pregunta_evidencia}</td>
+                        <td>
+                            <button class="btn btn-danger" type="button" onclick="eliminar_pregunta('${contador}')">X</button>
+                        </td>
+                    </tr>
+                `);
+                $('#pregunta_actividad').val('');
+                $('#pregunta_evidencia').val('');
+            }
+
         }
         
         function eliminar_pregunta(contador){
+            array_pregunta.splice(contador-1,1);
             $('#tr-'+contador).remove();
         }
+
+        /* función para confirmar */
+        $("#btn_submit").click(function(evento){
+            evento.preventDefault()
+            
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+                
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if(array_pregunta.length>0){
+                        $('#form_crear_pregunta').submit()
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Advertencia!',
+                            text: 'No hay preguntas creadas.'
+                        });
+                    }
+                }
+            })
+
+        })
+
     </script>
 @endsection

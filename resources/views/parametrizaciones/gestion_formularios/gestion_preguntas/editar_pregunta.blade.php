@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('actualizar_pregunta') }}" method="post">
+                            <form id="form_edit_pregunta" class="form" action="{{ route('actualizar_pregunta') }}" method="post">
                                 @csrf
                                 @method('put')
                                 <input type="hidden" value="{{ $pregunta[0]->id_pregunta }}" name="id_pregunta">
@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                                 <div class="form-actions text-center">
-                                    <button type="submit" class="btn btn-primary btn-block">
+                                    <button type="submit" class="btn btn-primary btn-block" id="btn_submit">
                                         <i class="la la-save"></i>
                                         Guardar
                                     </button>
@@ -95,4 +95,73 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('javascript')
+
+<script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
+
+<!-- Inicio de validación/////////////////////////////////////////////////////////////////////////////////////-->
+<script>
+    $(document).ready(function() {
+
+        $("#form_edit_pregunta").validate({
+
+            // onfocusin: function(element) { $(element).valid(); },
+            onfocusout: function(element) { $(element).valid(); },
+            // onclick: function(element) { $(element).valid(); },
+            // onkeyup: function(element) { $(element).valid(); },
+
+            rules: {
+                id_obligacion: {
+                    required: true
+                },
+
+                pregunta_actividad: {
+                    required: true
+                },
+
+                pregunta_evidencia: {
+                    required: true
+                }
+            },
+            messages: {
+                id_obligacion: {
+                    required: "Debe seleccionar una obligación"
+                },
+
+                pregunta_actividad: {
+                    required: "Este campo es obligatorio"
+                },
+
+                pregunta_evidencia: {
+                    required: "Este campo es obligatorio"
+                }
+            }
+        });
+
+        /* función para confirmar */
+        $("#btn_submit").click(function(evento){
+            evento.preventDefault()
+            
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+                
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#form_edit_pregunta').submit()
+                }
+            })
+
+        })
+
+    });
+</script>
+<!-- Fin de validación/////////////////////////////////////////////////////////////////////////////////////-->
 @endsection

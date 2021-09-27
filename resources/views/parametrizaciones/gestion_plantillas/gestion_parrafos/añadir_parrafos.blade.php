@@ -114,6 +114,8 @@
         const numeros = /^([0-9])*$/;
         let error_uno = document.querySelector("#error_uno");
         let error_dos = document.querySelector("#error_dos");
+        let error_input_uno = document.querySelector("#texto");
+        let error_input_dos = document.querySelector("#numero_parrafo");
         let contador = 0;
         let array_parrafo=[];
         function agregar_parrafo(){
@@ -125,27 +127,33 @@
 
             if(texto==''){
                 error_uno.textContent = "Este campo es obligatorio";
+                error_input_uno.setAttribute("style", "border: 1px solid red !important;");
                 bandera_uno=false;
             }else{
                 if (!letras.exec(texto)) {
                     error_uno.textContent = "Solo se admiten letras";
+                    error_input_uno.setAttribute("style", "border: 1px solid red !important;");
                     bandera_uno=false;
                 }else{
                     error_uno.textContent = "";
+                    error_input_uno.removeAttribute("style");
                     bandera_uno=true;
                 }
             }
 
             if(numero_parrafo==''){
                 error_dos.textContent = "Este campo es obligatorio";
+                error_input_dos.setAttribute("style", "border: 1px solid red !important;");
                 bandera_dos = false;
             }
             else{
                 if (!numeros.exec(numero_parrafo)) {
                     error_dos.textContent = "Solo se admiten números";
+                    error_input_dos.setAttribute("style", "border: 1px solid red !important;");
                     bandera_dos = false;
                 }else{
                     error_dos.textContent = "";
+                    error_input_dos.removeAttribute("style");
                     bandera_dos = true;
                 }
             }
@@ -165,8 +173,8 @@
                 `);
                 $('#texto').val('');
                 $('#numero_parrafo').val('');
-                error_uno.textContent = "";
-                error_dos.textContent = "";
+                // error_uno.textContent = "";
+                // error_dos.textContent = "";
             }
         }
         
@@ -193,13 +201,16 @@
                     if(array_parrafo.length>0){
                         $('#form_crear_parrafo').submit()
                     }else{
-                        alert("malo");
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Advertencia!',
+                            text: 'No hay párrafos creados.'
+                        });
                     }
                 }
             })
 
         })
-
-
+        
     </script>
 @endsection
