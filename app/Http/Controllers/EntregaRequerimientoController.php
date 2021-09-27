@@ -16,6 +16,7 @@ use App\Models\Contrato;
 use App\Models\Informe;
 use App\Models\RespuestaRequerimiento;
 use PDF;
+use PhpParser\Node\Expr\FuncCall;
 
 class EntregaRequerimientoController extends Controller
 {
@@ -285,7 +286,10 @@ class EntregaRequerimientoController extends Controller
         if($informe == null)
             return redirect()->route('listar_ent_requerimientos')->withErrors('No se encontro el informe');
         else{
-            $pdf = PDF::loadView('entrega_requerimientos.generar_informe', compact("informe"));
+            $requerimiento = Requerimiento::select('id_proceso')->where('id_requerimiento', '=', $informe->id_requerimiento)->first();
+            $obligaciones = Obligacion::select('id_obligacion', 'detalle')->where('id_proceso', '=', $requerimiento->id_proceso)->get();
+        }}}
+            $pdf = PDF::loadView('entrega_requerimientos.generar_informe', compact("informe", "obligaciones"));
             return $pdf->stream('archivo.pdf');
         }
     }
@@ -300,6 +304,14 @@ class EntregaRequerimientoController extends Controller
             else
                 return $respuesta;
         }
+    }
+
+    public static function getRespuesta($id_informe, $id_obligacion){
+        $respuestas = actividad_evidencia::select('*')
+            ->where('id_informe', '=', $id_informe)
+            ->where('id_obligacion', '=', $id_obligacion)
+            ->get();
+        return $respuestas;
     }
 
     private function validations(Request $request){

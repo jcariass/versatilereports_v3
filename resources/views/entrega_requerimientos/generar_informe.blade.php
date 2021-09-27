@@ -80,30 +80,39 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>No</td>
-                    <td>Obligaciones</td>
-                    <td>Acciones realizadas</td>
-                    <td>Evidencias</td>
-                </tr>
-                <tr>
-                    <td>No</td>
-                    <td>Obligaciones</td>
-                    <td>Acciones realizadas</td>
-                    <td>Evidencias</td>
-                </tr>
-                <tr>
-                    <td>No</td>
-                    <td>Obligaciones</td>
-                    <td>Acciones realizadas</td>
-                    <td>Evidencias</td>
-                </tr>
-                <tr>
-                    <td>No</td>
-                    <td>Obligaciones</td>
-                    <td>Acciones realizadas</td>
-                    <td>Evidencias</td>
-                </tr>
+                @foreach ($obligaciones as $obligacion)
+                    @php
+                        $contador = 0;
+                        $respuestas = \App\Http\Controllers\EntregaRequerimientoController::getRespuesta($informe->id_informe, $obligacion->id_obligacion);
+                    @endphp
+                    @if (count($respuestas) > 0)
+                        @php
+                            $contador += 1;
+                        @endphp
+                        <tr>
+                            <th>{{ $contador }}</th>
+                            <th>{{ $obligacion->detalle }}</th>
+                            <th>
+                                @foreach ($respuestas as $actividad)
+                                    @if (count($respuestas) == 1)
+                                        $actividad->respuesta_actividad
+                                    @else
+                                        <th>$actividad->respuesta_actividad</th>
+                                    @endif
+                                @endforeach
+                            </th>
+                            <th>
+                                @foreach ($respuestas as $actividad)
+                                    @if (count($respuestas) == 1)
+                                        $actividad->respuesta_evidencia
+                                    @else
+                                        <th>$actividad->respuesta_evidencia</th>
+                                    @endif
+                                @endforeach
+                            </th>
+                        </tr>
+                    @endif
+                @endforeach
             </tbody>
         </table>
     </div>

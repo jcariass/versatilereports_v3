@@ -17,6 +17,7 @@ class CreateActividadEvidenciaTable extends Migration
             $table->id('id_actividad_evidencia');
             $table->text('respuesta_actividad', 2000);
             $table->text('respuesta_evidencia', 2000);
+            // $table->foreignId('id_obligacion')->references('id_obligacion')->on('obligaciones')->onUpdate('cascade');
             $table->foreignId('id_pregunta')->references('id_formulario_pregunta')->on('formulario_pregunta')->onUpdate('cascade');
             $table->foreignId('id_informe')->references('id_informe')->on('informes')->onUpdate('cascade');
             $table->timestamps();
