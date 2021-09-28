@@ -11,6 +11,6 @@ class actividad_evidencia extends Model
     protected $primaryKey = "id_actividad_evidencia";
     protected $table = "actividad_evidencia";
     protected $fillable = [
-        'id_pregunta', 'id_informe', 'respuesta_actividad', 'respuesta_evidencia'
+        'id_pregunta', 'id_informe', 'id_obligacion','respuesta_actividad', 'respuesta_evidencia'
     ];
 }

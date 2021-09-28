@@ -65,6 +65,7 @@
                                                     </div>
                                                 </div>
                                                 @foreach ($preguntas as $pregunta)
+                                                    <input type="hidden" value="{{ $obligacion->id_obligacion }}" name="obligaciones[]">
                                                     <input type="hidden" value="{{ $pregunta['id_pregunta'] }}" name="preguntas[]">
                                                     @php
                                                         $respuesta = \App\Http\Controllers\EntregaRequerimientoController::buscar_respuesta($pregunta['id_pregunta'], $informe->id_informe);

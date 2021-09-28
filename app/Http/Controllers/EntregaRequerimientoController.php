@@ -13,8 +13,11 @@ use App\Models\formulario_pregunta;
 use App\Models\Requerimiento;
 use App\Models\Obligacion;
 use App\Models\Contrato;
+use App\Models\Desplazamiento;
 use App\Models\Informe;
 use App\Models\RespuestaRequerimiento;
+use PDF;
+use PhpParser\Node\Expr\FuncCall;
 
 class EntregaRequerimientoController extends Controller
 {
@@ -31,7 +34,7 @@ class EntregaRequerimientoController extends Controller
         $respuesta = RespuestaRequerimiento::findOrFail($id);
         return view('entrega_requerimientos.editar_archivo', compact("respuesta"));
     }
-    
+
     public function view_insert_informe($id){
         $requerimiento = Requerimiento::findOrFail($id);
         if ($requerimiento->id_formulario ==  null) {
@@ -78,7 +81,7 @@ class EntregaRequerimientoController extends Controller
                         return '<div class="alert alert-success" role="alert">Requerimiento aprobado</div>';
                     }else{
                         $opcion1 = '<a href="/entrega/requerimientos/editar/informe/contractual/'.$tipo_informe->id_informe.'" class="btn btn-versatile_reports">Editar</a>';
-                        $opcion2 = '<a href="#" class="btn btn-gris">Reporte</a>';
+                        $opcion2 = '<a href="/entrega/requerimientos/generar/informe/'.$tipo_informe->id_informe.'" class="btn btn-gris">Reporte</a>';
                         return $opcion1 . ' ' . $opcion2;
                     }
                 }
@@ -138,7 +141,7 @@ class EntregaRequerimientoController extends Controller
         }
         return $informe;
     }
-    
+
     private function requerimiento_archivo($id_requerimiento, $id_contrato){
         $archivo = RespuestaRequerimiento::select('*')->where('id_requerimiento', '=', $id_requerimiento)
                     ->where('id_contrato', '=', $id_contrato)->first();
@@ -183,29 +186,42 @@ class EntregaRequerimientoController extends Controller
                 ->where('id_persona', '=', ''.Auth::user()->id_persona.'')
                 ->where('estado', '=', '1')
                 ->first();
-        if ($contrato == null) {
+        if ($contrato == null)
             return redirect()->route('listar_ent_requerimientos')->withErrors('Usted no cuenta con un contrato disponible, por lo tanto no puedes presentar este informe');
-        }
-        try {
-            DB::beginTransaction();
-            $informe = Informe::create([
-                'fecha_carga' => Carbon::now()->toDateTimeString('minute'),
-                'id_contrato' => $contrato->id_contrato,
-                'id_requerimiento' => $request->id_requerimiento,
-            ]);
-            foreach ($request->preguntas as $key => $value) {
-                actividad_evidencia::create([
-                    'id_pregunta' => $value,
-                    'id_informe' => $informe->id_informe,
-                    'respuesta_actividad' => $request->actividades[$key],
-                    'respuesta_evidencia' => $request->evidencias[$key],
+        else{
+            try {
+                DB::beginTransaction();
+                $informe = Informe::create([
+                    'fecha_carga' => Carbon::now()->toDateTimeString('minute'),
+                    'id_contrato' => $contrato->id_contrato,
+                    'id_requerimiento' => $request->id_requerimiento,
                 ]);
+                foreach ($request->preguntas as $key => $value) {
+                    actividad_evidencia::create([
+                        'id_pregunta' => $value,
+                        'id_informe' => $informe->id_informe,
+                        'respuesta_actividad' => $request->actividades[$key],
+                        'respuesta_evidencia' => $request->evidencias[$key],
+                        'id_obligacion' => $request->obligaciones[$key],
+                    ]);
+                }
+                if(count($request->numeros_orden) > 0){
+                    foreach ($request->numero_orden as $key => $value) {
+                        Desplazamiento::create([
+                            'numero_orden' => $value,
+                            'lugar' => $request->lugar[$key],
+                            'fecha_inicio' => $request->fecha_inicio[$key],
+                            'fecha_fin' => $request->fecha_fin[$key],
+                            'id_informe' => $informe->id_informe
+                        ]);
+                    }
+                }
+                DB::commit();
+                return redirect()->route('listar_ent_requerimientos')->with('success', 'Se envió el informe con éxito');
+            } catch (Exception $e) {
+                DB::rollBack();
+                return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrió un error: '.$e->getMessage());
             }
-            DB::commit();
-            return redirect()->route('listar_ent_requerimientos')->with('success', 'Se envió el informe con éxito');
-        } catch (Exception $e) {
-            DB::rollBack();
-            return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
@@ -261,7 +277,8 @@ class EntregaRequerimientoController extends Controller
                             'id_pregunta' => $value,
                             'id_informe' => $informe->id_informe, 
                             'respuesta_actividad' => $actividades[$key], 
-                            'respuesta_evidencia' => $evidencias[$key]
+                            'respuesta_evidencia' => $evidencias[$key],
+                            'id_obligacion' => $request->obligaciones[$key],
                         ]);
                     }else if($validar_respuesta != false){
                         $validar_respuesta->update([
@@ -279,9 +296,33 @@ class EntregaRequerimientoController extends Controller
         }
     }
 
-    // private function getIdObligacion($id_pregunta){
-    //     return formulario_pregunta::select('id_obligacion')->where('id_pregunta', '=', $id_pregunta)->first();
-    // }
+    public function generar_informe($id){
+        $informe = Informe::find($id);
+        if($informe == null)
+            return redirect()->route('listar_ent_requerimientos')->withErrors('No se encontro el informe');
+        else{
+            $requerimiento = Requerimiento::select('id_proceso')->where('id_requerimiento', '=', $informe->id_requerimiento)->first();
+            $obligaciones = Obligacion::select('id_obligacion', 'detalle')->where('id_proceso', '=', $requerimiento->id_proceso)->get();
+            $informacion = Contrato::join('informes', 'informes.id_contrato', '=', 'contratos.id_contrato')
+                ->join('objetos', 'objetos.id_objeto', '=', 'contratos.id_objeto')
+                ->join('supervisores', 'supervisores.id_supervisor', '=', 'contratos.id_supervisor')
+                ->join('personas as p2', 'p2.id_persona', '=', 'supervisores.id_persona')
+                ->join('personas as p1', 'p1.id_persona', '=', 'contratos.id_persona')
+                ->join('centros', 'centros.id_centro', '=', 'contratos.id_centro')
+                ->select(
+                    'objetos.nombre as nombre_objeto', 'objetos.detalle as detalle_objeto',
+                    'p2.nombre as nombre_supervisor', 'p2.primer_apellido as primer_apellido_supervisor', 'p2.segundo_apellido as segundo_apellido_supervisor',
+                    'p1.nombre as nombre_contratista', 'p1.primer_apellido as primer_apellido_contratista', 'p1.tipo_documento as tipo_documento_contratista',
+                    'p1.segundo_apellido as segundo_apellido_contratista', 'p1.documento as documento_contratista',
+                    'centros.nombre as nombre_centro', 'contratos.forma_pago as forma_pago_contrato',
+                    'contratos.numero_contrato'
+                )->where('contratos.id_contrato', '=', $informe->id_contrato)->first();
+            setlocale(LC_TIME, "spanish");
+            $fecha_generacion = strftime("%d de %B de %Y");
+            $pdf = PDF::loadView('entrega_requerimientos.generar_informe', compact("informe", "obligaciones", "informacion", "fecha_generacion"));
+            return $pdf->stream('archivo.pdf');
+        }
+    }
 
     private function validar_respuesta($id_actividad_evidencia, $actividad, $evidencia){
         $respuesta = actividad_evidencia::find($id_actividad_evidencia);
@@ -293,6 +334,14 @@ class EntregaRequerimientoController extends Controller
             else
                 return $respuesta;
         }
+    }
+
+    public static function getRespuesta($id_informe, $id_obligacion){
+        $respuestas = actividad_evidencia::select('*')
+            ->where('id_informe', '=', $id_informe)
+            ->where('id_obligacion', '=', $id_obligacion)
+            ->get();
+        return $respuestas;
     }
 
     private function validations(Request $request){
