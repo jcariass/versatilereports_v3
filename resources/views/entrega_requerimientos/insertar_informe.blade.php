@@ -90,6 +90,80 @@
                                             </fieldset>
                                         @endif
                                     @endforeach
+                                    <h6></h6>
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group d-flex justify-content-center">
+                                                    <h3>Desplazamientos</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h2>Agrege los desplazamientos que realizo durante este mes</h2>
+                                            </div>
+                                            <div class="card-body border border-primary">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Numero de orden</label>
+                                                            <input type="text" class="form-control border-primary" id="numero_orden">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Lugar</label>
+                                                            <input type="text" class="form-control border-primary" id="lugar">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Fecha inicio</label>
+                                                            <input type="date" class="form-control border-primary" id="fecha_inicio">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Fecha fin</label>
+                                                            <input type="date" class="form-control border-primary" id="fecha_fin">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <button type="button" id="añadir_desplazamiento" class="btn btn-versatile_reports col-md-12">Añadir</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-body border border-primary">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-hovered">
+                                                                <thead>
+                                                                    <tr>0.
+                                                                        <th>Numero orden</th>
+                                                                        <th>Lugar</th>
+                                                                        <th>Fecha inicio</th>
+                                                                        <th>Fecha fin</th>
+                                                                        <th>Opción</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="caja_desplazamientos">
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
                                 </form>
                             </div>
                         </div>
@@ -158,6 +232,30 @@
             
     //     }
     // });
-
+    let contadorDesplazamientos = 0;
+    $("#añadir_desplazamiento").on("click", function(){
+        let numero_orden = $("#numero_orden").val();
+        let lugar = $("#lugar").val();
+        let fecha_inicio = $("#fecha_inicio").val();
+        let fecha_fin = $("#fecha_fin").val();
+        alert(numero_orden + ' ' + lugar + ' ' + fecha_inicio + ' ' + fecha_fin);
+        contadorDesplazamientos += 1;
+        $("#caja_desplazamientos").append(`
+            <tr id="tr-${contadorDesplazamientos}">
+                <input type="hidden" name="numeros_orden[]" value="${numero_orden}">
+                <input type="hidden" name="lugares[]" value="${lugar}">
+                <input type="hidden" name="fechas_inicio[]" value="${fecha_inicio}">
+                <input type="hidden" name="fechas_fin[]" value="${fecha_fin}">
+                <td>${numero_orden}</td>
+                <td>${lugar}</td>
+                <td>${fecha_inicio}</td>
+                <td>${fecha_fin}</td>
+            </tr>
+        `);
+        $("#numero_orden").val('');
+        $("#lugar").val('');
+        $("#fecha_inicio").val('');
+        $("#fecha_fin").val('');
+    });
 </script>
 @endsection

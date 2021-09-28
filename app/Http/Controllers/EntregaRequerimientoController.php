@@ -13,6 +13,7 @@ use App\Models\formulario_pregunta;
 use App\Models\Requerimiento;
 use App\Models\Obligacion;
 use App\Models\Contrato;
+use App\Models\Desplazamiento;
 use App\Models\Informe;
 use App\Models\RespuestaRequerimiento;
 use PDF;
@@ -33,7 +34,7 @@ class EntregaRequerimientoController extends Controller
         $respuesta = RespuestaRequerimiento::findOrFail($id);
         return view('entrega_requerimientos.editar_archivo', compact("respuesta"));
     }
-    
+
     public function view_insert_informe($id){
         $requerimiento = Requerimiento::findOrFail($id);
         if ($requerimiento->id_formulario ==  null) {
@@ -140,7 +141,7 @@ class EntregaRequerimientoController extends Controller
         }
         return $informe;
     }
-    
+
     private function requerimiento_archivo($id_requerimiento, $id_contrato){
         $archivo = RespuestaRequerimiento::select('*')->where('id_requerimiento', '=', $id_requerimiento)
                     ->where('id_contrato', '=', $id_contrato)->first();
@@ -185,30 +186,42 @@ class EntregaRequerimientoController extends Controller
                 ->where('id_persona', '=', ''.Auth::user()->id_persona.'')
                 ->where('estado', '=', '1')
                 ->first();
-        if ($contrato == null) {
+        if ($contrato == null)
             return redirect()->route('listar_ent_requerimientos')->withErrors('Usted no cuenta con un contrato disponible, por lo tanto no puedes presentar este informe');
-        }
-        try {
-            DB::beginTransaction();
-            $informe = Informe::create([
-                'fecha_carga' => Carbon::now()->toDateTimeString('minute'),
-                'id_contrato' => $contrato->id_contrato,
-                'id_requerimiento' => $request->id_requerimiento,
-            ]);
-            foreach ($request->preguntas as $key => $value) {
-                actividad_evidencia::create([
-                    'id_pregunta' => $value,
-                    'id_informe' => $informe->id_informe,
-                    'respuesta_actividad' => $request->actividades[$key],
-                    'respuesta_evidencia' => $request->evidencias[$key],
-                    'id_obligacion' => $request->obligaciones[$key],
+        else{
+            try {
+                DB::beginTransaction();
+                $informe = Informe::create([
+                    'fecha_carga' => Carbon::now()->toDateTimeString('minute'),
+                    'id_contrato' => $contrato->id_contrato,
+                    'id_requerimiento' => $request->id_requerimiento,
                 ]);
+                foreach ($request->preguntas as $key => $value) {
+                    actividad_evidencia::create([
+                        'id_pregunta' => $value,
+                        'id_informe' => $informe->id_informe,
+                        'respuesta_actividad' => $request->actividades[$key],
+                        'respuesta_evidencia' => $request->evidencias[$key],
+                        'id_obligacion' => $request->obligaciones[$key],
+                    ]);
+                }
+                if(count($request->numeros_orden) > 0){
+                    foreach ($request->numero_orden as $key => $value) {
+                        Desplazamiento::create([
+                            'numero_orden' => $value,
+                            'lugar' => $request->lugar[$key],
+                            'fecha_inicio' => $request->fecha_inicio[$key],
+                            'fecha_fin' => $request->fecha_fin[$key],
+                            'id_informe' => $informe->id_informe
+                        ]);
+                    }
+                }
+                DB::commit();
+                return redirect()->route('listar_ent_requerimientos')->with('success', 'Se envió el informe con éxito');
+            } catch (Exception $e) {
+                DB::rollBack();
+                return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrió un error: '.$e->getMessage());
             }
-            DB::commit();
-            return redirect()->route('listar_ent_requerimientos')->with('success', 'Se envió el informe con éxito');
-        } catch (Exception $e) {
-            DB::rollBack();
-            return redirect()->route('listar_ent_requerimientos')->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 
