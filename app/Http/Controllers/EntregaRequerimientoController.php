@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DataTables;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use PDF;
 use App\Models\actividad_evidencia;
 use App\Models\formulario_pregunta;
 use App\Models\Requerimiento;
@@ -16,11 +17,10 @@ use App\Models\Contrato;
 use App\Models\Desplazamiento;
 use App\Models\Informe;
 use App\Models\RespuestaRequerimiento;
-use PDF;
-use PhpParser\Node\Expr\FuncCall;
 
 class EntregaRequerimientoController extends Controller
 {
+
     public function view_list(){
         return view('entrega_requerimientos.listar_ent_requerimientos');
     }   
@@ -196,22 +196,24 @@ class EntregaRequerimientoController extends Controller
                     'id_contrato' => $contrato->id_contrato,
                     'id_requerimiento' => $request->id_requerimiento,
                 ]);
-                foreach ($request->preguntas as $key => $value) {
-                    actividad_evidencia::create([
-                        'id_pregunta' => $value,
-                        'id_informe' => $informe->id_informe,
-                        'respuesta_actividad' => $request->actividades[$key],
-                        'respuesta_evidencia' => $request->evidencias[$key],
-                        'id_obligacion' => $request->obligaciones[$key],
-                    ]);
+                if(count($request->preguntas) > 0){
+                    foreach ($request->preguntas as $key => $value) {
+                        actividad_evidencia::create([
+                            'id_pregunta' => $value,
+                            'id_informe' => $informe->id_informe,
+                            'respuesta_actividad' => $request->actividades[$key],
+                            'respuesta_evidencia' => $request->evidencias[$key],
+                            'id_obligacion' => $request->obligaciones[$key],
+                        ]);
+                    }
                 }
                 if(count($request->numeros_orden) > 0){
-                    foreach ($request->numero_orden as $key => $value) {
+                    foreach ($request->numeros_orden as $key => $value) {
                         Desplazamiento::create([
                             'numero_orden' => $value,
-                            'lugar' => $request->lugar[$key],
-                            'fecha_inicio' => $request->fecha_inicio[$key],
-                            'fecha_fin' => $request->fecha_fin[$key],
+                            'lugar' => $request->lugares[$key],
+                            'fecha_inicio' => $request->fechas_inicio[$key],
+                            'fecha_fin' => $request->fechas_fin[$key],
                             'id_informe' => $informe->id_informe
                         ]);
                     }
@@ -249,7 +251,9 @@ class EntregaRequerimientoController extends Controller
         $obligaciones = Obligacion::select('id_obligacion', 'detalle')
                 ->where('fecha_vencimiento', '>', Carbon::now()->toDateString())
                 ->where('id_proceso', '=', $requerimiento->id_proceso)->get();
-        return view('entrega_requerimientos.editar_informe', compact('informe', 'requerimiento', 'obligaciones'));
+        $desplazamientos = Desplazamiento::select('*')
+                ->where('id_informe', '=', $informe->id_informe)->get();
+        return view('entrega_requerimientos.editar_informe', compact('informe', 'requerimiento', 'obligaciones', 'desplazamientos'));
     }
 
     public static function buscar_respuesta($id_pregunta, $id_informe){
@@ -265,26 +269,47 @@ class EntregaRequerimientoController extends Controller
         $id_respuestas = $request->id_respuestas;
         $actividades = $request->actividades;
         $evidencias = $request->evidencias;
+        $desplazamientos = Desplazamiento::select('*')->where('id_informe', '=', $informe->id_informe)->get();
         if($informe == null)
             return redirect()->route('listar_ent_requerimientos')->withErrors('No se pudo actualizar el informe.');
         else{
             try {
                 DB::beginTransaction();
-                foreach ($preguntas as $key => $value) {
-                    $validar_respuesta = $this->validar_respuesta($id_respuestas[$key], $actividades[$key], $evidencias[$key]);
-                    if($validar_respuesta == null){
-                        actividad_evidencia::create([
-                            'id_pregunta' => $value,
-                            'id_informe' => $informe->id_informe, 
-                            'respuesta_actividad' => $actividades[$key], 
-                            'respuesta_evidencia' => $evidencias[$key],
-                            'id_obligacion' => $request->obligaciones[$key],
-                        ]);
-                    }else if($validar_respuesta != false){
-                        $validar_respuesta->update([
-                            'respuesta_actividad' => $actividades[$key], 
-                            'respuesta_evidencia' => $evidencias[$key]
-                        ]);
+                if(count($preguntas) > 0){
+                    foreach ($preguntas as $key => $value) {
+                        $validar_respuesta = $this->validar_respuesta($id_respuestas[$key], $actividades[$key], $evidencias[$key]);
+                        if($validar_respuesta == null){
+                            actividad_evidencia::create([
+                                'id_pregunta' => $value,
+                                'id_informe' => $informe->id_informe, 
+                                'respuesta_actividad' => $actividades[$key], 
+                                'respuesta_evidencia' => $evidencias[$key],
+                                'id_obligacion' => $request->obligaciones[$key],
+                            ]);
+                        }else if($validar_respuesta != false){
+                            $validar_respuesta->update([
+                                'respuesta_actividad' => $actividades[$key], 
+                                'respuesta_evidencia' => $evidencias[$key]
+                            ]);
+                        }
+                    }
+                }
+                if(count($desplazamientos) > 0){
+                    foreach($desplazamientos as $desplazamiento){
+                        $desplazamiento->delete();
+                    }
+                }
+                if(isset($request->numeros_orden)){
+                    if(count($request->numeros_orden) > 0){
+                        foreach ($request->numeros_orden as $key => $value) {
+                            Desplazamiento::create([
+                                'numero_orden' => $value,
+                                'lugar' => $request->lugares[$key],
+                                'fecha_inicio' => $request->fechas_inicio[$key],
+                                'fecha_fin' => $request->fechas_fin[$key],
+                                'id_informe' => $informe->id_informe
+                            ]);
+                        }
                     }
                 }
                 DB::commit();
@@ -317,9 +342,10 @@ class EntregaRequerimientoController extends Controller
                     'centros.nombre as nombre_centro', 'contratos.forma_pago as forma_pago_contrato',
                     'contratos.numero_contrato'
                 )->where('contratos.id_contrato', '=', $informe->id_contrato)->first();
+            $desplazamientos = Desplazamiento::select('*')->where('id_informe', '=', $informe->id_informe)->get();
             setlocale(LC_TIME, "spanish");
             $fecha_generacion = strftime("%d de %B de %Y");
-            $pdf = PDF::loadView('entrega_requerimientos.generar_informe', compact("informe", "obligaciones", "informacion", "fecha_generacion"));
+            $pdf = PDF::loadView('entrega_requerimientos.generar_informe', compact("informe", "obligaciones", "informacion", "fecha_generacion", "desplazamientos"));
             return $pdf->stream('archivo.pdf');
         }
     }

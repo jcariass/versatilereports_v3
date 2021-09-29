@@ -102,15 +102,14 @@ class ContratoController extends Controller
                     return '<div style="padding: 6px; font-size: 13px;" class="badge badge-danger">Contrato vencido</div>';
                 })
                 ->addColumn('Opciones', function ($contrato) {
+                    $btn_detalles = '<a href="/contratistas/ver/contrato/'.$contrato->id_contrato.'" class="btn btn-gris">Ver</a>';
+                    $btn_editar = '<a href="/contratistas/contratos/editar/'.$contrato->id_contrato.'" class="btn btn-versatile_reports">Editar</a>';
                     if ($contrato->estado == 0) {
-                        $btn_detalles = '<a href="/contratistas/ver/contrato/'.$contrato->id_contrato.'" class="btn btn-gris">Ver</a>';
-                        $btn_editar = '<a href="/contratistas/contratos/editar/'.$contrato->id_contrato.'" class="btn btn-versatile_reports">Editar</a>';
                         $btn_estado = '<a href="/contratistas/contratos/cambiar/estado/'.$contrato->id_contrato.'/1" class="btn btn-success btn-estados">Asignar</a>';
                         return $btn_editar . ' ' . $btn_detalles . ' ' . $btn_estado;
                     }elseif($contrato->estado == 1){
-                        $btn_detalles = '<a href="/contratistas/ver/contrato/'.$contrato->id_contrato.'" class="btn btn-gris">Ver</a>';
                         $btn_estado = '<a href="/contratistas/contratos/cambiar/estado/'.$contrato->id_contrato.'/2" class="btn btn-danger btn-estados">Finalizar</a>';
-                        return $btn_detalles . ' ' . $btn_estado;
+                        return $btn_editar . ' ' . $btn_detalles . ' ' . $btn_estado;
                     }else{
                         $btn_detalles = '<a href="/contratistas/ver/contrato/'.$contrato->id_contrato.'" class="btn btn-gris">Ver</a>';
                         return $btn_detalles;

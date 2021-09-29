@@ -163,12 +163,22 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>No aplica</td>
-                    <td>No aplica</td>
-                    <td>No aplica</td>
-                </tr>
+                @if (count($desplazamientos) > 0)
+                    @php
+                        $contador = 0;
+                    @endphp
+                    @foreach ($desplazamientos as $desplazamiento)
+                        @php
+                            $contador += 1;
+                        @endphp
+                        <tr>
+                            <td>{{ $contador }}</td>
+                            <td class="text-center">{{ $desplazamiento->numero_orden }}</td>
+                            <td class="text-center">{{ $desplazamiento->lugar }}</td>
+                            <td class="text-center">{{ date('d-m-Y', strtotime($desplazamiento->fecha_inicio)) . '  /  ' . date('d-m-Y', strtotime($desplazamiento->fecha_fin)) }}</td>
+                        </tr>
+                    @endforeach
+                @endif
             </tbody>
         </table>
     </div>
