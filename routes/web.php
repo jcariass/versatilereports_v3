@@ -54,6 +54,8 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::post('/usuarios/registrar', [UsuarioController::class, 'save'])->name('registrar_usuario');
     Route::get('/usuarios/cambiar/estado/{id}/{estado}', [UsuarioController::class, 'cambiar_estado']);
     Route::put('/usuarios/actualizar', [UsuarioController::class, 'update'])->name('actualizar_usuario');
+    Route::get('/perfil/usuario', [UsuarioController::class, 'view_perfil'])->name('view_ajustes');
+    Route::put('/perfil/usuario/editar', [UsuarioController::class, 'update_perfil'])->name('update_perfil');
     /* Fin rutas gestión de usuarios */
 
     /* Inicio rutas gestión de roles */

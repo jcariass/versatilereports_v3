@@ -31,7 +31,7 @@
                             <span class="ft-power text-bold-700"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            {{-- <a class="dropdown-item" href="{{ route('view_ajustes', ['id' => Auth::user()->id_usuario]) }}"><i class="ft-settings"></i> Ajustes</a> --}}
+                            <a class="dropdown-item" href="{{ route('view_ajustes') }}"><i class="ft-settings"></i> Perfil</a>
 
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();

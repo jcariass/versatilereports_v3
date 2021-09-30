@@ -39,6 +39,8 @@ class CreatePermisosTable extends Migration
             [   'nombre' => 'Registrar usuarios',   'url' => '/usuarios/registrar', 'method' => 'POST',  'url_identica' => 1 ],
             [   'nombre' => 'Cambiar estado de usuarios',   'url' => '/usuarios/cambiar/estado/', 'method' => 'GET',  'url_identica' => 0 ],
             [   'nombre' => 'Actualizar usuarios',   'url' => '/usuarios/actualizar', 'method' => 'PUT',  'url_identica' => 1],
+            [   'nombre' => 'Ver formulario con información del perfil',   'url' => '/perfil/usuario', 'method' => 'GET',  'url_identica' => 1 ],
+            [   'nombre' => 'Actualizar su perfil',   'url' => '/perfil/usuario/editar', 'method' => 'PUT',  'url_identica' => 1],
             //Fin rutas gestión de usuarios  -- 7 rutas
 
             //Rutas gestión de roles
