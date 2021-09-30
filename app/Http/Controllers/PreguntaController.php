@@ -30,11 +30,13 @@ class PreguntaController extends Controller
         $results = Obligacion::select('obligaciones.id_obligacion')
                     ->join('formulario_pregunta', 'formulario_pregunta.id_obligacion', '=', 'obligaciones.id_obligacion')
                     ->where('formulario_pregunta.id_formulario', '=', $formulario->id_formulario)->get();
-        foreach ($results as $value) {
-            if(!in_array($value['id_obligacion'], $id_obligaciones)){
-                $obligacion = Obligacion::find($value['id_obligacion']);
-                array_push($obligaciones, $obligacion);
-                array_push($id_obligaciones, $value['id_obligacion']);
+        if(count($results) > 0){
+            foreach ($results as $value) {
+                if(!in_array($value['id_obligacion'], $id_obligaciones)){
+                    $obligacion = Obligacion::find($value['id_obligacion']);
+                    array_push($obligaciones, $obligacion);
+                    array_push($id_obligaciones, $value['id_obligacion']);
+                }
             }
         }
         return DataTables::of($obligaciones)
@@ -123,7 +125,7 @@ class PreguntaController extends Controller
         $obligacion = Pregunta::join('formulario_pregunta', 'formulario_pregunta.id_pregunta', '=', 'preguntas.id_pregunta')
                 ->select('formulario_pregunta.id_obligacion')
                 ->where('formulario_pregunta.id_pregunta', '=', $pregunta->id_pregunta)->first();
-        if ($pregunta == null) if($pregunta == null) return redirect()->route('preguntas_formulario', ['id' => $obligacion->id_obligacion])->withErrors('Ocurrió un error al eliminar la pregunta');
+        if($pregunta == null) return redirect()->route('preguntas_formulario', ['id' => $obligacion->id_obligacion])->withErrors('Ocurrió un error al eliminar la pregunta');
         try {
             $pregunta->update([
                 'id_obligacion' => $request->id_obligacion,
@@ -141,15 +143,16 @@ class PreguntaController extends Controller
         if($obligacion == null) return redirect()->route('listar_formularios')->withErrors('Ocurrió un error al eliminar la pregunta');
         
         $pregunta = Pregunta::findOrFail($id_pregunta);
-        if($pregunta == null) return redirect()->route('preguntas_formulario', ['id' => $obligacion->id_obligacion])->withErrors('Ocurrió un error al eliminar la pregunta');
+        if($pregunta == null) return redirect()->route('listar_formularios')->withErrors('Ocurrió un error al eliminar la pregunta');
 
+        $formulario = formulario_pregunta::select('id_formulario')->where('id_pregunta', '=', $pregunta->id_pregunta)->first();
         try {
             $pregunta->update([
                 'estado' => '0'
             ]);
-            return redirect()->route('preguntas_formulario', ['id' => $obligacion->id_obligacion])->with('success', 'Se eliminó con exito');
+            return redirect()->route('preguntas_formulario', ['id_obligacion' => $obligacion->id_obligacion, 'id_formulario' => $formulario->id_formulario])->with('success', 'Se eliminó con exito');
         } catch (Exception $e) {
-            return redirect()->route('listar_formularios')->withErrors('Ocurrió un error: '.$e->getMessage());
+            return redirect()->route('preguntas_formulario', ['id_obligacion' => $obligacion->id_obligacion, 'id_formulario' => $formulario->id_formulario])->withErrors('Ocurrió un error: '.$e->getMessage());
         }
     }
 }

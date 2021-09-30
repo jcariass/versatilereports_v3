@@ -238,4 +238,64 @@ class UsuarioController extends Controller
             ]);
         }
     }
+
+    public function view_perfil(){
+        $usuario = User::join('personas as p', 'p.id_persona', '=', 'usuarios.id_persona')
+            ->select(
+                'p.correo', 'p.correo_sena', 'p.firma', 
+                'p.celular_uno', 'p.celular_dos'
+            )->where('usuarios.id_usuario', '=', Auth::user()->id_usuario)
+            ->first();
+        return view('gestion_usuarios.perfil_usuario', compact("usuario"));
+    }
+
+    public function update_perfil(Request $request){
+        $usuario = User::find(Auth::user()->id_usuario);
+        $persona = Persona::find(Auth::user()->id_persona);
+        if ($usuario == null || $persona == null)
+            return redirect()->route('view_ajustes')->withErrors('Ocurrio un error, intente de nuevo');
+        else{
+            try{
+                DB::beginTransaction();
+                $usuario->update([
+                    'correo' => $request->correo
+                ]);
+                $persona->update([
+                    'correo' => $request->correo,
+                    'correo_sena' => $request->correo_sena,
+                    'celular_uno' => $request->celular_uno,
+                    'celular_dos' => $request->celular_dos,
+                ]);
+                if($persona->firma == null && $request->firma != null){
+                    $firma = $request->celular_uno.'_'.time().'.'.$request->firma->extension();
+                    $request->firma->move(public_path('uploads/firmas'), $firma);
+                    $persona->update([
+                        'firma' => $firma
+                    ]);
+                }else if($request->firma != null){
+                    $firma = $request->celular_uno.'_'.time().'.'.$request->firma->extension();
+                    $request->firma->move(public_path('uploads/firmas'), $firma);
+                    unlink("uploads/firmas/".$persona->firma);
+                    $persona->update([
+                        'firma' => $firma
+                    ]);
+                }
+
+                if($request->password != null){
+                    if($request->password === $request->password_confirmation){
+                        $usuario->update([
+                            'password' => Hash::make($request->password)
+                        ]);
+                    }else{
+                        return redirect()->route('view_ajustes')->withErrors('Ocurrio un error, las contraseñas deben coincidir, intente de nuevo.');
+                    }
+                }
+                DB::commit();
+                return redirect()->route('view_ajustes')->with('success', 'Se actualizo la información.');
+            }catch(Exception $e){
+                DB::rollBack();
+                return redirect()->route('view_ajustes')->withErrors('Ocurrio un error, intente de nuevo');
+            }
+        }
+    }
 }

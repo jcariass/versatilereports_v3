@@ -16,15 +16,15 @@
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="content-header-left col-md-6 col-12 mb-2">
-                <h3 class="content-header-title mb-0">Entrega de requerimientos - Informe Ejecución Contractual</h3>
+                <h3 class="content-header-title mb-0">Revisión de requerimientos - Informe Ejecución Contractual</h3>
                 <div class="row breadcrumbs-top">
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item"><a href="{{ route('listar_ent_requerimientos') }}">Listar requerimientos</a>
+                            <li class="breadcrumb-item"><a href="{{ route('view_detalles_requerimientos', ['id' => $requerimiento->id_requerimiento]) }}">Listar requerimientos</a>
                             </li>
-                            <li class="breadcrumb-item active">Editar informe de ejecución contractual
+                            <li class="breadcrumb-item active">Ver informe de ejecución contractual
                             </li>
                         </ol>
                     </div>
@@ -36,7 +36,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Editar informe de ejecución contractual</h4>
+                            <h4 class="card-title">Ver informe de ejecución contractual</h4>
                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">
@@ -46,13 +46,13 @@
                         </div>
                         <div class="card-body">
                             <div class="card-content collapse show">
-                                <form id="form_editar_informe" action="{{ route('actualizar_informe') }}" class="number-tab-steps wizard-circle" method="POST" >
+                                <form id="form_editar_informe" action="{{ route('editar_informe_rev') }}" class="number-tab-steps wizard-circle" method="POST" >
                                     @csrf
                                     @method('put')
                                     <input type="hidden" name="id_informe" id="id_informe" value="{{ $informe->id_informe }}">
                                     @foreach ($obligaciones as $obligacion)
                                         @php
-                                            $preguntas = \App\Http\Controllers\EntregaRequerimientoController::preguntas_informe($obligacion->id_obligacion, $requerimiento->id_formulario);
+                                            $preguntas = \App\Http\Controllers\RevisionRequerimientoController::preguntas_informe($obligacion->id_obligacion, $requerimiento->id_formulario);
                                         @endphp
                                         @if (count($preguntas) > 0)
                                             <h6></h6>
@@ -216,7 +216,7 @@
         labels: {
             previous: "Anterior",
             next: "Siguiente",
-            finish: 'Finalizar'
+            finish: 'Editar'
         },
         onStepChanging: function (event, currentIndex, newIndex) {
             if (currentIndex > newIndex) {

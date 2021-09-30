@@ -114,7 +114,7 @@
                 @endphp
                 @foreach ($obligaciones as $obligacion)
                     @php
-                        $respuestas = \App\Http\Controllers\EntregaRequerimientoController::getRespuesta($informe->id_informe, $obligacion->id_obligacion);
+                        $respuestas = \App\Http\Controllers\RevisionRequerimientoController::getRespuesta($informe->id_informe, $obligacion->id_obligacion);
                     @endphp
                     @if (count($respuestas) > 0)
                         @php

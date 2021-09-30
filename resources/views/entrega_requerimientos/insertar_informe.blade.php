@@ -146,7 +146,7 @@
                                                         <div class="table-responsive">
                                                             <table class="table table-hovered">
                                                                 <thead>
-                                                                    <tr>0.
+                                                                    <tr>
                                                                         <th>Numero orden</th>
                                                                         <th>Lugar</th>
                                                                         <th>Fecha inicio</th>
@@ -211,34 +211,13 @@
         }
     });
 
-    // Initialize validation
-    // $("#form_insert_report").validate({
-    //     ignore: 'input[type=hidden]', // ignore hidden fields
-    //     errorClass: 'danger',
-    //     successClass: 'success',
-    //     highlight: function (element, errorClass) {
-    //         $(element).removeClass(errorClass);
-    //     },
-    //     unhighlight: function (element, errorClass) {
-    //         $(element).removeClass(errorClass);
-    //     },
-    //     errorPlacement: function (error, element) {
-    //         error.insertAfter(element);
-    //     },
-    //     rules: {
-
-    //     },
-    //     messages : {
-            
-    //     }
-    // });
     let contadorDesplazamientos = 0;
     $("#añadir_desplazamiento").on("click", function(){
         let numero_orden = $("#numero_orden").val();
         let lugar = $("#lugar").val();
         let fecha_inicio = $("#fecha_inicio").val();
         let fecha_fin = $("#fecha_fin").val();
-        alert(numero_orden + ' ' + lugar + ' ' + fecha_inicio + ' ' + fecha_fin);
+
         contadorDesplazamientos += 1;
         $("#caja_desplazamientos").append(`
             <tr id="tr-${contadorDesplazamientos}">
@@ -250,6 +229,9 @@
                 <td>${lugar}</td>
                 <td>${fecha_inicio}</td>
                 <td>${fecha_fin}</td>
+                <td>
+                    <button type="button" onclick="eliminarDesplazamiento(${contadorDesplazamientos})" class="btn btn-danger">X</button>
+                </td>
             </tr>
         `);
         $("#numero_orden").val('');
@@ -257,5 +239,9 @@
         $("#fecha_inicio").val('');
         $("#fecha_fin").val('');
     });
+
+    function eliminarDesplazamiento(id){
+        $("#tr-"+id).remove()
+    }
 </script>
 @endsection
