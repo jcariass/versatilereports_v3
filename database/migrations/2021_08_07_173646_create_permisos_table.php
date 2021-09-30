@@ -164,8 +164,11 @@ class CreatePermisosTable extends Migration
             [   'nombre' => 'Cambiar estado uno de requerimientos de tipo informe enviados (Aprobrar o desaprobrar)',   'url' => '/revision/requerimientos/estado/uno/informe/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Cambiar estado dos de requerimientos de tipo informe enviados (Aprobrar o desaprobrar)',   'url' => '/revision/requerimientos/estado/dos/informe/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Ver formulario de agregar observaciones a un requerimiento',   'url' => '/revision/requerimientos/agregar/observacion/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Ver formulario con respuestas del informe de ejecución contractual',   'url' => '/revision/requerimientos/ver/informe/', 'method' => 'GET',  'url_identica' => 0],
+            [   'nombre' => 'Actualizar respuestas del informe de ejecución contractual',   'url' => '/revision/requerimientos/editar/informe', 'method' => 'PUT',  'url_identica' => 1],
+            [   'nombre' => 'Generar reporte de informe de ejecución contractual',   'url' => '/revision/requerimientos/generar/informe/', 'method' => 'GET',  'url_identica' => 0],
             [   'nombre' => 'Guardar y enviar observaciones a un requerimiento',   'url' => '/revision/requerimientos/guardar/observacion', 'method' => 'PUT',  'url_identica' => 1],
-            //Fin rutas revisión de requerimientos -- 8 rutas
+            //Fin rutas revisión de requerimientos -- 11 rutas
 
             //Rutas entrega de requerimientos
             [   'nombre' => 'Modulo entrega de requerimientos',   'url' => '/entrega/requerimientos', 'method' => 'GET',  'url_identica' => 1],

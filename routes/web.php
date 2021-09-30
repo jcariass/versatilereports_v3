@@ -179,6 +179,9 @@ Route::middleware(['auth', 'ValidarPermisos'])->group(function(){
     Route::get('/revision/requerimientos/estado/uno/informe/{id}/{estado}', [RevisionRequerimientoController::class, 'estado_uno_informe']);
     Route::get('/revision/requerimientos/estado/dos/informe/{id}/{estado}', [RevisionRequerimientoController::class, 'estado_dos_informe']);
     Route::get('/revision/requerimientos/agregar/observacion/{id}/{tipo}', [RevisionRequerimientoController::class, 'view_observacion']);
+    Route::get('/revision/requerimientos/generar/informe/{id}', [RevisionRequerimientoController::class, 'generar_informe']);
+    Route::get('/revision/requerimientos/ver/informe/{id}', [RevisionRequerimientoController::class, 'view_ver_informe']);
+    Route::put('/revision/requerimientos/editar/informe', [RevisionRequerimientoController::class, 'update_informe'])->name('editar_informe_rev');
     Route::put('/revision/requerimientos/guardar/observacion', [RevisionRequerimientoController::class, 'guardar_observacion'])->name('guardar_observacion');
     /* Fin rutas revisión de requerimientos */
 
