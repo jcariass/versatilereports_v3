@@ -78,3 +78,57 @@
     </div>
 </div>
 @endsection
+
+
+@section('javascript')
+
+<script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
+
+<!-- Inicio de validación/////////////////////////////////////////////////////////////////////////////////////-->
+<script>
+    $(document).ready(function() {
+
+        $("#agregar_observacion").validate({
+
+            // onfocusin: function(element) { $(element).valid(); },
+            onfocusout: function(element) { $(element).valid(); },
+            // onclick: function(element) { $(element).valid(); },
+            // onkeyup: function(element) { $(element).valid(); },
+
+            rules: {
+                observacion: {
+                    required: true
+                }
+            },
+            messages: {
+                observacion: {
+                    required: "Este campo es obligatorio"
+                }
+            },
+        });
+
+        /* función para confirmar */
+        $("#btn_submit").click(function(evento){
+            evento.preventDefault()
+            
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+                
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#agregar_observacion').submit()
+                }
+            })
+
+        })
+
+    });
+</script>
+<!-- Fin de validación/////////////////////////////////////////////////////////////////////////////////////-->
+@endsection
