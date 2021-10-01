@@ -5,39 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Informe ejecución contractual</title>
-    <style>
-        .w100{
-            width: 100%;
-        }
-
-        .bold{
-            font-weight: bold;
-        }
-
-        .text-center{
-            text-align: center;
-        }
-
-        .text-left{
-            text-align: left;
-        }
-
-        .text-right{
-            text-align: right;
-        }
-
-        .mb-25{
-            margin-bottom: 25px;
-        }
-
-        .mt-25{
-            margin-top: 25px;
-        }
-
-        .page-break{
-            page-break-after:always;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('dashboard/assets/css/informe.css') }}">
 </head>
 <body>
     <div class="header">
