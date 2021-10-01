@@ -84,6 +84,7 @@
 @endsection
 
 @section('javascript')
+<script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
     <script>
         let id_obligacion = {{ $obligacion->id_obligacion }}
         let id_formulario = {{ $formulario->id_formulario }}
@@ -121,5 +122,46 @@
                             "</select> registros"
             }
         });
+
+        /* función para eliminar pregunta */
+    function eliminar(id_pregunta, id_obligacion) {
+        Swal.fire({
+            title: '¿Estás seguro de eliminar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed){
+                $.ajax({
+                    url: "/formularios/eliminar/pregunta/"+id_pregunta+"/"+id_obligacion,
+                    type: 'GET',
+                    success: function(result) {
+                        if(result){
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: '¡Se eliminó la pregunta!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(() => {  
+                                location.reload();
+                            }, 1500);
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: '¡Ocurrió un error inesperado!'
+                            });
+                        }
+                    }
+                });
+            }
+        })
+    }
+
     </script>
 @endsection

@@ -253,7 +253,7 @@ class UsuarioController extends Controller
         $usuario = User::find(Auth::user()->id_usuario);
         $persona = Persona::find(Auth::user()->id_persona);
         if ($usuario == null || $persona == null)
-            return redirect()->route('view_ajustes')->withErrors('Ocurrio un error, intente de nuevo');
+            return redirect()->route('view_ajustes')->withErrors('Ocurrió un error, intente de nuevo');
         else{
             try{
                 DB::beginTransaction();
@@ -287,14 +287,14 @@ class UsuarioController extends Controller
                             'password' => Hash::make($request->password)
                         ]);
                     }else{
-                        return redirect()->route('view_ajustes')->withErrors('Ocurrio un error, las contraseñas deben coincidir, intente de nuevo.');
+                        return redirect()->route('view_ajustes')->withErrors('Ocurrió un error, las contraseñas deben coincidir, intente de nuevo');
                     }
                 }
                 DB::commit();
-                return redirect()->route('view_ajustes')->with('success', 'Se actualizo la información.');
+                return redirect()->route('view_ajustes')->with('success', 'Se actualizó la información');
             }catch(Exception $e){
                 DB::rollBack();
-                return redirect()->route('view_ajustes')->withErrors('Ocurrio un error, intente de nuevo');
+                return redirect()->route('view_ajustes')->withErrors('Ocurrió un error, intente de nuevo');
             }
         }
     }

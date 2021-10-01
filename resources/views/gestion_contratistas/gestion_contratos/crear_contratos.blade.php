@@ -283,48 +283,72 @@ $(document).ready(function(){
                 return true;
             }
 
-            if (newIndex === 1) {
-                if($("#fecha_inicio").val() >= $("#fecha_fin").val()) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Opss...',
-                        text: 'La fecha de inicio debe ser mayor a la fecha de fin'
-                    })
-                    return false;
-                }
-            }
+            // if (newIndex === 1) {
+            //     if($("#fecha_inicio").val() >= $("#fecha_fin").val()) {
+            //         Swal.fire({
+            //             icon: 'error',
+            //             title: '¡Fecha incorrecta!',
+            //             text: 'La fecha de inicio debe ser mayor a la fecha de fin.'
+            //         })
+            //         return false;
+            //     }
+            // }
 
             if (currentIndex < newIndex) {
                 //Remover estilos cuando se complete un paso del formulario
                 form.find(".body:eq(" + newIndex + ") label.error").remove();
                 form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
             }
+
             form.validate().settings.ignore = ":disabled,:hidden";
             return form.valid();
+
         },
+
         onFinishing: function (event, currentIndex) {
             form.validate().settings.ignore = ":disabled";
             return form.valid();
         },
+
         onFinished: function (event, currentIndex) {
-            $("#form_crear_contrato").submit()
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#form_crear_contrato').submit()
+                }
+            })
         }
     });
 
+    $.validator.addMethod("minDate", function(value, element) {
+            let fecha_inicio = $('#fecha_inicio').val();
+            let fecha_fin = $('#fecha_fin').val();
+            if (fecha_inicio < fecha_fin)
+                return true;
+            return false;
+        });
+
     //Initialize validation
     $("#form_crear_contrato").validate({
-        ignore: 'input[type=hidden]', // ignore hidden fields
-        errorClass: 'danger',
-        successClass: 'success',
-        highlight: function (element, errorClass) {
-            $(element).removeClass(errorClass);
-        },
-        unhighlight: function (element, errorClass) {
-            $(element).removeClass(errorClass);
-        },
-        errorPlacement: function (error, element) {
-            error.insertAfter(element);
-        },
+        // ignore: 'input[type=hidden]', // ignore hidden fields
+        // errorClass: 'danger',
+        // successClass: 'success',
+        // highlight: function (element, errorClass) {
+        //     $(element).removeClass(errorClass);
+        // },
+        // unhighlight: function (element, errorClass) {
+        //     $(element).removeClass(errorClass);
+        // },
+        // errorPlacement: function (error, element) {
+        //     error.insertAfter(element);
+        // },
         rules: {
             numero_contrato : {
                 required: true,
@@ -336,7 +360,8 @@ $(document).ready(function(){
             },
             fecha_fin : {
                 required: true,
-                date: true
+                date: true,
+                minDate: true
             },
             valor_contrato : {
                 required: true,
@@ -367,42 +392,43 @@ $(document).ready(function(){
         },
         messages : {
             numero_contrato : {
-                required: "Numero de contrato es obligatorio",
-                maxlength: "Numero de contrato no debe superar los 30 caracteres"
+                required: "Este campo es obligatorio",
+                maxlength: "Número de contrato puede tener máximo 30 caracteres"
             },
             fecha_inicio : {
-                required: "Fecha de inicio del contrato es obligatoria",
+                required: "Este campo es obligatorio",
                 date: "El dato ingresado debe ser una fecha"
             },
             fecha_fin : {
-                required: "Fecha de fin del contrato es obligatoria",
-                date: "El dato ingresado debe ser una fecha"
+                required: "Este campo es obligatorio",
+                date: "El dato ingresado debe ser una fecha",
+                minDate: "La fecha final debe ser mayor a la fecha de inicio"
             },
             valor_contrato : {
-                required: "El valor del contrato es obligatorio",
-                number: "El valor debe ser un numero"
+                required: "Este campo es obligatorio",
+                number: "El valor debe ser un número"
             },
             forma_pago_contrato : {
-                required: "La forma de pago es obligatoria",
+                required: "Este campo es obligatorio",
                 maxlength: "Forma de pago no debe superar los 2000 caracteres"
             },
             estado_contrato : {
-                required: "Debes seleccionar un estado para el contrato"
+                required: "Este campo es obligatorio"
             },
             id_proceso : {
-                required: "Debes asignar un proceso al contrato"
+                required: "Este campo es obligatorio"
             },
             id_objeto : {
-                required: "Debes seleccionar un objeto de contrato"
+                required: "Este campo es obligatorio"
             },
             id_supervisor : {
-                required: "Debes asignar un supervisor al contrato"
+                required: "Este campo es obligatorio"
             },
             id_centro : {
-                required: "Debes seleccionar un centro"
+                required: "Este campo es obligatorio"
             },
             id_municipio: {
-                required: "Debes escoger un municipio"
+                required: "Este campo es obligatorio"
             }
         }
     });

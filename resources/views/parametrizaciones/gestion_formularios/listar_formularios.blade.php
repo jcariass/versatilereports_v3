@@ -129,7 +129,7 @@
             }
         });
 
-        /* función para cambiar estado */
+    /* función para cambiar estado */
     function confirm_duplicar(id_formulario) {
         Swal.fire({
             title: '¿Estás seguro de duplicar?',

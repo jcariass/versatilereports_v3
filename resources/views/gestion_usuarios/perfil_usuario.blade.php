@@ -129,7 +129,7 @@
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
-                                                            <label>Contraseña</label>
+                                                            <label>Contraseña nueva</label>
                                                             <input placeholder="Contraseña..." type="password" name="password" class="form-control border-primary @error('password') is-invalid @enderror" id="password">
                                                             @error('password')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -166,4 +166,108 @@
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('javascript')
+
+<script src="{{ asset('sweet_alert2/sweetalert2@11.js') }}"></script>
+
+<!-- Inicio de validación/////////////////////////////////////////////////////////////////////////////////////-->
+<script>
+    $(document).ready(function() {
+
+        $("#form_crear_usuario").validate({
+
+            // onfocusin: function(element) { $(element).valid(); },
+            onfocusout: function(element) { $(element).valid(); },
+            // onclick: function(element) { $(element).valid(); },
+            // onkeyup: function(element) { $(element).valid(); },
+
+            rules: {
+                correo: {
+                    required: true,
+                    email: true
+                },
+                correo_sena: {
+                    email: true
+                },
+                celular_uno: {
+                    required: true,
+                    number: true,
+                    minlength: 7,
+                    maxlength: 10
+                },
+                celular_dos: {
+                    number: true,
+                    minlength: 7,
+                    maxlength: 10
+                },
+                firma: {
+                    extension: "png|jpg|jpeg"
+                },
+                password: {
+                    minlength: 8,
+                    maxlength: 20
+                },
+                password_confirmation: {
+                    equalTo: "#password"
+                }
+            },
+            messages: {
+                correo: {
+                    required: "Este campo es obligatorio",
+                    email: "Ingrese un formato valido: ejemplo@ejemplo.com"
+                },
+                correo_sena: {
+                    email: "Ingrese un formato valido: ejemplo@ejemplo.com"
+                },
+                celular_uno: {
+                    required: "Este campo es obligatorio",
+                    number: "Solo te admiten números",
+                    minlength: "El celular debe tener minimo 7 dígitos",
+                    maxlength: "El celular puede tener máximo 11 dígitos"
+                },
+                celular_dos: {
+                    number: "Solo te admiten números",
+                    minlength: "El celular debe tener minimo 7 dígitos",
+                    maxlength: "El celular puede tener máximo 11 dígitos"
+                },
+                firma: {
+                    extension: "La firma debe estar en formato PNG/JPG/JPEG"
+                },
+                password: {
+                    minlength: "La contraseña debe tener minimo 8 dígitos",
+                    maxlength: "La contraseña puede tener máximo 20 dígitos"
+                },
+                password_confirmation: {
+                    equalTo: "Las contraseñas deben coincidir"
+                }
+            }
+        });
+
+        /* función para confirmar */
+        $("#btn_submit").click(function(evento){
+            evento.preventDefault()
+            
+            Swal.fire({
+                title: '¿Estás seguro de guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
+                
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#form_crear_usuario').submit()
+                }
+            })
+
+        })
+
+    });
+</script>
+<!-- Fin de validación/////////////////////////////////////////////////////////////////////////////////////-->
 @endsection

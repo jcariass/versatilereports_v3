@@ -86,14 +86,18 @@ class RevisionRequerimientoController extends Controller
                     $informe = '<a href="/revision/requerimientos/generar/informe/'.$informes->id_informe.'" class="btn btn-gris">Generar informe</a>';
                     $observacion = '<a href="/revision/requerimientos/agregar/observacion/'.$informes->id_informe.'/1" class="btn btn-info btn-estados">Observación</a>';
                     if ($informes->estado_uno == 0) {
-                        $estado_uno = '<a href="/revision/requerimientos/estado/uno/informe/'.$informes->id_informe.'/1" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
+                        $estado_uno = '<button type="button" class="btn btn-success btn-estados" onclick="confirm_dos('.$informes->id_informe.', 1)"><i class="ft-check"></i></button>';
+                        // $estado_uno = '<a href="/revision/requerimientos/estado/uno/informe/'.$informes->id_informe.'/1" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
                     }else{
-                        $estado_uno = '<a href="/revision/requerimientos/estado/uno/informe/'.$informes->id_informe.'/0" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
+                        $estado_uno = '<button type="button" class="btn btn-danger btn-estados" onclick="confirm_dos('.$informes->id_informe.', 0)"><i class="ft-trash"></i></button>';
+                        // $estado_uno = '<a href="/revision/requerimientos/estado/uno/informe/'.$informes->id_informe.'/0" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
                     }
                     if ($informes->estado_dos == 0) {
-                        $estado_dos = '<a href="/revision/requerimientos/estado/dos/informe/'.$informes->id_informe.'/1" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
+                        $estado_dos = '<button type="button" class="btn btn-success btn-estados" onclick="confirm_tres('.$informes->id_informe.', 1)"><i class="ft-check"></i></button>';
+                        // $estado_dos = '<a href="/revision/requerimientos/estado/dos/informe/'.$informes->id_informe.'/1" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
                     }else{
-                        $estado_dos = '<a href="/revision/requerimientos/estado/dos/informe/'.$informes->id_informe.'/0" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
+                        $estado_dos = '<button type="button" class="btn btn-danger btn-estados" onclick="confirm_tres('.$informes->id_informe.', 0)"><i class="ft-trash"></i></button>';
+                        // $estado_dos = '<a href="/revision/requerimientos/estado/dos/informe/'.$informes->id_informe.'/0" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
                     }
                     return $ver . ' ' . $informe. ' ' . $estado_uno . ' ' . $estado_dos . ' ' . $observacion;
                 })
@@ -118,9 +122,12 @@ class RevisionRequerimientoController extends Controller
                     $observacion = '<a href="/revision/requerimientos/agregar/observacion/'.$respuesta_requerimiento->id_respuesta_requerimiento.'/2" class="btn btn-info btn-estados">Observación</a>';
                     $opcion = '<a href="/revision/requerimientos/descargar/archivo/'.$respuesta_requerimiento->nombre.'" class="btn btn-versatile_reports"><i class="ft-download"></i></a>';
                     if ($respuesta_requerimiento->estado == 0)
-                        $estado = '<a href="/revision/requerimientos/estado/archivo/'.$respuesta_requerimiento->id_respuesta_requerimiento.'/1" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
+                        $estado = '<button type="button" class="btn btn-success btn-estados" onclick="confirm('.$respuesta_requerimiento->id_respuesta_requerimiento.', 1)"><i class="ft-check"></i></button>';
+                        // $estado = '<a href="/revision/requerimientos/estado/archivo/'.$respuesta_requerimiento->id_respuesta_requerimiento.'/1" class="btn btn-estados btn-success"><i class="ft-check"></i></a>';
+
                     else
-                        $estado = '<a href="/revision/requerimientos/estado/archivo/'.$respuesta_requerimiento->id_respuesta_requerimiento.'/0" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
+                        $estado = '<button type="button" class="btn btn-danger btn-estados" onclick="confirm('.$respuesta_requerimiento->id_respuesta_requerimiento.', 0)"><i class="ft-trash"></i></button>';
+                        // $estado = '<a href="/revision/requerimientos/estado/archivo/'.$respuesta_requerimiento->id_respuesta_requerimiento.'/0" class="btn btn-estados btn-danger"><i class="ft-trash"></i></a>';
                     return $opcion . ' ' . $estado . ' ' . $observacion;
                 })
                 ->rawColumns(['Opciones', 'estado'])
@@ -248,7 +255,7 @@ class RevisionRequerimientoController extends Controller
     }
 
     private function getBack(){
-        return back()->withErrors('Ocurrio un error, intente de nuevo.');
+        return back()->withErrors('Ocurrió un error, intente de nuevo.');
     }
 
     public function guardar_observacion(Request $request){

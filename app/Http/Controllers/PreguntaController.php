@@ -81,7 +81,8 @@ class PreguntaController extends Controller
         }
         return DataTables::of($preguntas)
             ->editColumn('Opciones', function($pregunta) use ($obligacion){
-                $btn_eliminar = '<a href="/formularios/eliminar/pregunta/'.$pregunta->id_pregunta.'/'.$obligacion->id_obligacion.'" class="btn btn-gris">Eliminar</a>';
+                $btn_eliminar = '<button type="button" class="btn btn-gris" onclick="eliminar('.$pregunta->id_pregunta.','.$obligacion->id_obligacion.')">Eliminar</button>';
+                // $btn_eliminar = '<a href="/formularios/eliminar/pregunta/'.$pregunta->id_pregunta.'/'.$obligacion->id_obligacion.'" class="btn btn-gris">Eliminar</a>';
                 $btn_editar = '<a href="/formularios/editar/pregunta/'.$pregunta->id_pregunta.'" class="btn btn-versatile_reports">Editar</a>';
                 return $btn_editar . ' ' . $btn_eliminar; 
             })
