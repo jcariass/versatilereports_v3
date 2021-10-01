@@ -105,10 +105,12 @@ class ContratoController extends Controller
                     $btn_detalles = '<a href="/contratistas/ver/contrato/'.$contrato->id_contrato.'" class="btn btn-gris">Ver</a>';
                     $btn_editar = '<a href="/contratistas/contratos/editar/'.$contrato->id_contrato.'" class="btn btn-versatile_reports">Editar</a>';
                     if ($contrato->estado == 0) {
-                        $btn_estado = '<a href="/contratistas/contratos/cambiar/estado/'.$contrato->id_contrato.'/1" class="btn btn-success btn-estados">Asignar</a>';
+                        $btn_estado = '<button type="button" class="btn btn-success btn-estados" onclick="confirm('.$contrato->id_contrato.', 1)">Asignar</button>';
+                        // $btn_estado = '<a href="/contratistas/contratos/cambiar/estado/'.$contrato->id_contrato.'/1" class="btn btn-success btn-estados">Asignar</a>';
                         return $btn_editar . ' ' . $btn_detalles . ' ' . $btn_estado;
                     }elseif($contrato->estado == 1){
-                        $btn_estado = '<a href="/contratistas/contratos/cambiar/estado/'.$contrato->id_contrato.'/2" class="btn btn-danger btn-estados">Finalizar</a>';
+                        $btn_estado = '<button type="button" class="btn btn-danger btn-estados" onclick="confirm('.$contrato->id_contrato.', 2)">Finalizar</button>';
+                        // $btn_estado = '<a href="/contratistas/contratos/cambiar/estado/'.$contrato->id_contrato.'/2" class="btn btn-danger btn-estados">Finalizar</a>';
                         return $btn_editar . ' ' . $btn_detalles . ' ' . $btn_estado;
                     }else{
                         $btn_detalles = '<a href="/contratistas/ver/contrato/'.$contrato->id_contrato.'" class="btn btn-gris">Ver</a>';
@@ -200,7 +202,7 @@ class ContratoController extends Controller
     public function state_update($id, $estado){
         $contrato = Contrato::findOrFail($id);
         if ($contrato == null) {
-            return back()->withErrors('No se encontró el contrato');
+            return false;
         }
         try {
             if ($estado == 1) {
@@ -213,15 +215,15 @@ class ContratoController extends Controller
                 $contrato->update([
                     'estado' => $estado
                 ]);
-                return back()->withSuccess('Contrato asignado');
+                return true;
             }elseif ($estado == 2) {
                 $contrato->update([
                     'estado' => $estado
                 ]);
-                return back()->withSuccess('Contrato finalizado');
+                return true;
             }
         } catch (Exception $e) {
-            return back()->withErrors('Ocurrió un error: '.$e->getMessage());
+            return false;
         }
     }
 }
