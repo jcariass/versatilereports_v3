@@ -1,0 +1,82 @@
+@page {
+    margin-left: 2.5cm;
+    margin-right: 2.5cm;
+    margin-top: 2.5cm;
+    margin-bottom: 2.5cm;
+}
+
+.w100{
+    width: 100%;
+}
+
+.size-14{
+    font-size: 14px;
+}
+
+.size-16{
+    font-size: 16px;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.text-left{
+    text-align: left;
+}
+
+.font-family{
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+}
+
+.text-right{
+    text-align: right;
+}
+
+.mb-25{
+    margin-bottom: 25px;
+}
+
+.mt-asunto{
+    margin-top: -20px;
+}
+
+.mt-25{
+    margin-top: 25px;
+}
+
+.mr-100{
+    margin-right: 100px;
+}
+
+.mr-130{
+    margin-right: 130px;
+}
+
+.page-break{
+    page-break-after:always;
+}
+
+.mb-20{
+    margin-bottom: 20px;
+}
+
+.mt-objeto{
+    margin-top: -15px;
+}
+
+.collapsed{
+    border-collapse: collapse;
+}
+
+.table-border{
+    border: 0.5px solid black;
+}
+
+.table-border-bottom{
+    border-bottom: 1px solid black;
+}
