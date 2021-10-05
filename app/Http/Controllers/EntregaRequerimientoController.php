@@ -196,30 +196,26 @@ class EntregaRequerimientoController extends Controller
                     'id_contrato' => $contrato->id_contrato,
                     'id_requerimiento' => $request->id_requerimiento,
                 ]);
-                if(isset($request->preguntas)){
-                    if(count($request->preguntas) > 0){
-                        foreach ($request->preguntas as $key => $value) {
-                            actividad_evidencia::create([
-                                'id_pregunta' => $value,
-                                'id_informe' => $informe->id_informe,
-                                'respuesta_actividad' => $request->actividades[$key],
-                                'respuesta_evidencia' => $request->evidencias[$key],
-                                'id_obligacion' => $request->obligaciones[$key],
-                            ]);
-                        }
+                if(count($request->preguntas) > 0){
+                    foreach ($request->preguntas as $key => $value) {
+                        actividad_evidencia::create([
+                            'id_pregunta' => $value,
+                            'id_informe' => $informe->id_informe,
+                            'respuesta_actividad' => $request->actividades[$key],
+                            'respuesta_evidencia' => $request->evidencias[$key],
+                            'id_obligacion' => $request->obligaciones[$key],
+                        ]);
                     }
                 }
-                if(isset($request->numeros_orden)){
-                    if(count($request->numeros_orden) > 0){
-                        foreach ($request->numeros_orden as $key => $value) {
-                            Desplazamiento::create([
-                                'numero_orden' => $value,
-                                'lugar' => $request->lugares[$key],
-                                'fecha_inicio' => $request->fechas_inicio[$key],
-                                'fecha_fin' => $request->fechas_fin[$key],
-                                'id_informe' => $informe->id_informe
-                            ]);
-                        }
+                if(count($request->numeros_orden) > 0){
+                    foreach ($request->numeros_orden as $key => $value) {
+                        Desplazamiento::create([
+                            'numero_orden' => $value,
+                            'lugar' => $request->lugares[$key],
+                            'fecha_inicio' => $request->fechas_inicio[$key],
+                            'fecha_fin' => $request->fechas_fin[$key],
+                            'id_informe' => $informe->id_informe
+                        ]);
                     }
                 }
                 DB::commit();
