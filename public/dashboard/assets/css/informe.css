@@ -2,7 +2,44 @@
     margin-left: 2.5cm;
     margin-right: 2.5cm;
     margin-top: 2.5cm;
-    margin-bottom: 2.5cm;
+    margin-bottom: 2cm;
+}
+
+.text-lighter{
+    font-weight: lighter;
+    font-family: "Arial";
+}
+
+body{
+    margin-top: 15px;
+    text-align:justify;
+
+}
+
+.italic{
+    font-style: italic;
+}
+
+.img{
+    width: 70px;
+    height: 70px;
+}
+
+header { 
+    position: fixed; 
+    top: -60px; left: 0px; 
+    right: 0px; 
+    text-align: center;
+    height: 50px;
+}
+
+footer { 
+    position: fixed; 
+    bottom: -60px; 
+    left: 0px; 
+    right: 0px; 
+    text-align: center;
+    height: 50px; 
 }
 
 .w100{
@@ -29,10 +66,6 @@
     text-align: left;
 }
 
-.font-family{
-    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
-}
-
 .text-right{
     text-align: right;
 }
@@ -53,8 +86,8 @@
     margin-right: 100px;
 }
 
-.mr-130{
-    margin-right: 130px;
+.mr-118{
+    margin-right: 118px;
 }
 
 .page-break{
