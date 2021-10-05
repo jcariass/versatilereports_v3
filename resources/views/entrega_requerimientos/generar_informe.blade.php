@@ -7,11 +7,14 @@
     <title>Informe ejecución contractual</title>
     <link rel="stylesheet" href="{{ asset('dashboard/assets/css/informe.css') }}">
 </head>
-<body class="font-family">
+<body>
+    <header>
+        <img src="{{ asset('dashboard/assets/img/logoSena.jpeg') }}" class="img" alt="logo sena">
+    </header>
+    <footer>
+        GTH-F-062 V08
+    </footer>
     <div>
-        <p class="text-center">
-            LOGO
-        </p>
         <h2 class="text-center bold size-16">
             PROCESO GESTIÓN DEL TALENTO HUMANO
         </h2>
@@ -32,7 +35,7 @@
             Ciudad
         </p>
         <div class="text-right mt-asunto">
-            <p><span class="bold">Asunto: </span>Informe mensual de ejecución contractual<br><span class="mr-130">Mes Septiembre del año 2021</span></p>
+            <p><span class="bold">Asunto: </span>Informe mensual de ejecución contractual<br><span class="mr-118">Mes Septiembre del año 2021</span></p>
         </div>
     </div>
     <div class="mt-asunto mb-25 size-14">
@@ -49,7 +52,7 @@
         <span class="bold">Valor y forma de Pago</span>: {{ $informacion->forma_pago_contrato }}
     </div>
     <div class="mb-25 size-14">
-        <span>Plazo: Será hasta el 18 de diciembre de 2021.</span>
+        <span><span class="bold">Plazo:</span> Será hasta el 18 de diciembre de 2021.</span>
     </div>
     <div class="mb-25 size-14 mt-objeto">
         <table class="w100 collapsed" border="1">
@@ -69,7 +72,7 @@
         <table class="w100 collapsed" border="1">
             <thead class="table-border-bottom">
                 <tr>
-                    <th class="bold" colspan="4">Obligaciones Especificas:</th>
+                    <th class="bold" colspan="4" align="left">Obligaciones Especificas:</th>
                 </tr>
                 <tr>
                     <th>No</th>
@@ -91,14 +94,14 @@
                             $contador += 1;
                         @endphp
                         <tr>
-                            <th>{{ $contador }}</th>
-                            <th>{{ $obligacion->detalle }}</th>
-                            <th>
+                            <th class="text-lighter">{{ $contador }}</th>
+                            <th class="text-lighter">{{ $obligacion->detalle }}</th>
+                            <th class="text-lighter">
                                 @foreach ($respuestas as $actividad)
                                     <p>{{ $actividad->respuesta_actividad }}</p>
                                 @endforeach
                             </th>
-                            <th>
+                            <th class="text-lighter">
                                 @foreach ($respuestas as $evidencia)
                                     <p>{{ $evidencia->respuesta_evidencia }}</p>
                                 @endforeach
@@ -151,7 +154,7 @@
         </table>
     </div>
     <div class="mb-25 size-14">
-        <p><span><span>Nota 1:</span> Por cada desplazamiento que haya realizado el contratista, adjuntará el respectivo informe
+        <p><span class="italic"><span class="bold">Nota 1:</span> Por cada desplazamiento que haya realizado el contratista, adjuntará el respectivo informe
             que la soporte. En caso de haber realizado el desplazamiento en fecha posterior a la presentación
             del informe de ejecución contractual, deberá reportarlo en el siguiente informe de ejecución contractual.</span></p>
     </div>
