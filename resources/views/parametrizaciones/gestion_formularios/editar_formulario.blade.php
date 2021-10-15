@@ -98,7 +98,7 @@
                 required: true,
                 letras: true,
                 minlength: 3,
-                maxlength: 30
+                maxlength: 200
                 }
             },
             messages : {
@@ -106,7 +106,7 @@
                     required: "Este campo es obligatorio",
                     letras: "Solo se admiten letras",
                     minlength: "El nombre debe tener minimo 3 caracteres",
-                    maxlength: "El nombre puede tener máximo 30 caracteres"
+                    maxlength: "El nombre puede tener máximo 200 caracteres"
                 }
             }
         });

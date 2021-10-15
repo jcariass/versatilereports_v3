@@ -116,8 +116,8 @@
                 detalle: {
                     required: true,
                     letras: true,
-                    minlength: 20,
-                    maxlength: 600
+                    minlength: 3,
+                    maxlength: 2000
                 }
             },
             messages: {
@@ -131,8 +131,8 @@
                 detalle: {
                     required: "Este campo es obligatorio",
                     letras: "Solo se admiten letras",
-                    minlength: "El detalle debe tener minimo 20 caracteres",
-                    maxlength: "El detalle puede tener máximo 600 caracteres"
+                    minlength: "El detalle debe tener minimo 3 caracteres",
+                    maxlength: "El detalle puede tener máximo 2000 caracteres"
                 }
             },
         });
