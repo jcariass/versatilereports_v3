@@ -104,13 +104,13 @@
             rules: {
                 archivo: {
                     required: true,
-                    extension: "pdf"
+                    extension: "pdf|docx|jpeg|png"
                 }
             },
             messages: {
                 archivo: {
                     required: "Este campo es obligatorio",
-                    extension: "El archivo debe estar en formato PDF"
+                    extension: "Formato de archivo no válido"
                 }
             },
         });
